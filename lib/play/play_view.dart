@@ -104,23 +104,31 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 height: 20.dp,
               ),
               CachedNetworkImage(
-                width: 200.dp,
-                height: 200.dp,
+                // width: 200.dp,
+                // height: 200.dp,
                 imageUrl: url,
-                imageBuilder: (context, image) => CircleAvatar(
-                  backgroundImage: image,
-                  radius: 12.dp,
-                ),
-                placeholder: (context, url) => CircleAvatar(
-                  backgroundColor: Colors.blue.shade300,
-                  radius: 20.dp,
-                ),
+                imageBuilder: (context, image){
+                  return Container(
+                    width: 180.dp,
+                    height: 180.dp,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.dp),
+                      image: DecorationImage(
+                        image: image,
+                      ),
+                    ),
+                  );
+                },
+                // placeholder: (context, url) => CircleAvatar(
+                //   backgroundColor: Colors.blue.shade300,
+                //   radius: 20.dp,
+                // ),
                 errorWidget: (context, url, error) => Container(),
                 fadeOutDuration: const Duration(seconds: 1),
                 fadeInDuration: const Duration(seconds: 1),
               ),
               SizedBox(
-                height: 20.dp,
+                height: 30.dp,
               ),
               Text(
                 name,

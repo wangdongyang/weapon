@@ -15,15 +15,7 @@ class PlayController extends GetxController {
   late PlayerMode mode;
   late AudioPlayer audioPlayer;
 
-  late StreamSubscription durationSubscription;
-  late StreamSubscription positionSubscription;
-  late StreamSubscription playerCompleteSubscription;
-  late StreamSubscription playerErrorSubscription;
-  late StreamSubscription playerStateSubscription;
-
   initState(HistoryPo? historyPo) {
-    print("json = ${historyPo.toString()}");
-    print('initState : ${historyPo?.name}; url = ${historyPo?.playUrl}');
     state.historyPo = historyPo;
     state.lyrics = LyricUtil.formatLyric(historyPo?.lyricUrl ?? "");
     state.lyricWidget = LyricView(state.lyrics, 0);
@@ -78,8 +70,7 @@ class PlayController extends GetxController {
   }
 
   play() async {
-    print('PlayController->play' + (state.historyPo?.playUrl ?? ""));
-
+    print('PlayController->play->url = ' + (state.historyPo?.playUrl ?? ""));
     if (state.historyPo == null) return;
     String url = state.historyPo?.playUrl ?? "";
     if (url.isEmpty) return;

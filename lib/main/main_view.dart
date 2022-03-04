@@ -3,17 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:weapon/base/base_scaffold.dart';
 import 'package:weapon/custom/background_shower.dart';
-import 'package:weapon/home/main_drawer.dart';
-import 'package:weapon/home/main_controller.dart';
-import 'package:weapon/home/main_state.dart';
-import 'package:weapon/home/side_navigation.dart';
+import 'package:weapon/main/main_drawer.dart';
+import 'package:weapon/main/main_controller.dart';
+import 'package:weapon/main/main_state.dart';
+import 'package:weapon/main/side_navigation.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/play/play_view.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 
 class MainView extends StatelessWidget {
   final MainController controller = Get.put(MainController());
-  // final PlayController playController = Get.put(PlayController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,27 +54,7 @@ class MainView extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-            flex: 3,
-            child: PlayView(
-              // name: playController.state.name,
-              // picUrl: playController.state.picUrl,
-              // artist: playController.state.artist,
-              // lyricWidget: playController.state.lyricWidget,
-              // playerState: playController.state.playerState,
-              // lyrics: playController.state.lyrics,
-              // duration: playController.state.duration,
-              // position: playController.state.position,
-              // lyricOffsetYController:
-              //     playController.state.lyricOffsetYController,
-              // dragEndTimer: playController.state.dragEndTimer,
-              // play: (){
-              //   playController.play();
-              // },
-              // previous: () => playController.previous,
-              // next: () => playController.next
-            )
-        ),
+        Expanded(flex: 3, child: PlayView()),
       ]),
     );
   }
@@ -83,26 +62,4 @@ class MainView extends StatelessWidget {
   Widget _buildBackground() {
     return BackgroundShower();
   }
-
-// @override
-// Widget build(BuildContext context) {
-//   return Scaffold(
-//     extendBody: true,
-//     drawer: const HomeDrawer(),
-//     body: Builder(
-//       builder: (context) =>
-//           Center(
-//             child: RaisedButton(
-//               color: Colors.pink,
-//               textColor: Colors.white,
-//               onPressed: (){
-//                 Scaffold.of(context).openDrawer();
-//               },
-//               child: Text('Display SnackBar'),
-//             ),
-//           ),
-//     ),
-//     // bottomNavigationBar: _buildBottomNav(context),
-//   );
-// }
 }

@@ -39,7 +39,7 @@ class LyricView extends CustomPainter with ChangeNotifier {
         _offsetY = value;
       }
     } else {
-      print("offsetY = $offsetY");
+      // print("offsetY = $offsetY");
       _offsetY = value;
     }
     notifyListeners();

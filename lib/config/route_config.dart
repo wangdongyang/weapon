@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:weapon/home/main_controller.dart';
-import 'package:weapon/home/main_state.dart';
-import 'package:weapon/home/main_view.dart';
+import 'package:weapon/main/main_controller.dart';
+import 'package:weapon/main/main_state.dart';
+import 'package:weapon/main/main_view.dart';
 import 'package:weapon/play/play_view.dart';
 
 class RouteConfig {

@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolkit_easy/flutter_toolkit.dart';
 import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/bookmark/bookmark_page.dart';
-import 'package:weapon/favorite/home_view.dart';
+import 'package:weapon/home/home_view.dart';
 import 'package:weapon/model/btn_info.dart';
-// import 'package:flutter_use/module/example/view.dart';
-// import 'package:flutter_use/module/function/view.dart';
-// import 'package:flutter_use/module/setting/view.dart';
 
 class MainState {
   ///选择index
@@ -45,7 +42,7 @@ class MainState {
     itemList = [
       BtnInfo(
         title: "首页",
-        icon: "home",
+        icon: "main",
       ),
       BtnInfo(
         title: "最近",
@@ -53,7 +50,7 @@ class MainState {
       ),
       BtnInfo(
         title: "收藏",
-        icon: "favorite",
+        icon: "home",
       ),
     ];
     //页面控制器

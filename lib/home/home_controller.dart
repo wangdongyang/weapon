@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:leancloud_storage/leancloud.dart';
-import 'package:weapon/favorite/home_state.dart';
+import 'package:weapon/home/home_state.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/utils/leancloud_util.dart';

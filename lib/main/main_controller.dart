@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:weapon/config/init_config.dart';
-import 'package:weapon/home/main_state.dart';
+import 'package:weapon/main/main_state.dart';
 
 class MainController extends GetxController {
   final state = MainState();

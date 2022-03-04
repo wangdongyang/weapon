@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weapon/bookmark/bookmark_state.dart';
 import 'package:weapon/config/init_config.dart';
-import 'package:weapon/home/main_state.dart';
+import 'package:weapon/main/main_state.dart';
 import 'package:weapon/model/bookmark_model.dart';
 
 class BookmarkController extends GetxController {
