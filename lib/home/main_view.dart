@@ -13,7 +13,7 @@ import 'package:weapon/utils/audio_player_util.dart';
 
 class MainView extends StatelessWidget {
   final MainController controller = Get.put(MainController());
-  final PlayController playController = Get.put(PlayController());
+  // final PlayController playController = Get.put(PlayController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,26 +55,27 @@ class MainView extends StatelessWidget {
             ],
           ),
         ),
-        GetBuilder<PlayController>(
-          builder: (controller) {
-            return Expanded(
-                flex: 3,
-                child: PlayView(
-                  name: playController.state.name,
-                  picUrl: playController.state.picUrl,
-                  artist: playController.state.artist,
-                  lyricWidget: playController.state.lyricWidget,
-                  playerState: playController.state.playerState,
-                  lyrics: playController.state.lyrics,
-                  duration: playController.state.duration,
-                  position: playController.state.position,
-                  lyricOffsetYController:
-                  playController.state.lyricOffsetYController,
-                  dragEndTimer: playController.state.dragEndTimer,
-                ));
-          },
+        Expanded(
+            flex: 3,
+            child: PlayView(
+              // name: playController.state.name,
+              // picUrl: playController.state.picUrl,
+              // artist: playController.state.artist,
+              // lyricWidget: playController.state.lyricWidget,
+              // playerState: playController.state.playerState,
+              // lyrics: playController.state.lyrics,
+              // duration: playController.state.duration,
+              // position: playController.state.position,
+              // lyricOffsetYController:
+              //     playController.state.lyricOffsetYController,
+              // dragEndTimer: playController.state.dragEndTimer,
+              // play: (){
+              //   playController.play();
+              // },
+              // previous: () => playController.previous,
+              // next: () => playController.next
+            )
         ),
-
       ]),
     );
   }

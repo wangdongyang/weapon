@@ -13,43 +13,39 @@ import 'package:weapon/utils/audio_player_util.dart';
 import 'package:weapon/utils/lyric_util.dart';
 
 class PlayView extends StatefulWidget {
-  String? picUrl;
-  String? name;
-  String? artist;
-  LyricView? lyricWidget;
-  PlayerState? playerState;
-  List<Lyric> lyrics = [];
-  Duration duration = const Duration();
-  Duration position = const Duration();
-  AnimationController? lyricOffsetYController;
-  Timer? dragEndTimer;
-  Function? previous;
-  Function? play;
-  Function? next;
+  // String? picUrl;
+  // String? name;
+  // String? artist;
+  // LyricView? lyricWidget;
+  // PlayerState? playerState;
+  // List<Lyric> lyrics = [];
+  // Duration duration = const Duration();
+  // Duration position = const Duration();
+  // AnimationController? lyricOffsetYController;
+  // Timer? dragEndTimer;
+  // Function? previous;
+  // Function? play;
+  // Function? next;
 
   // Function? dragEndFunc;
   // Duration? dragEndDuration = const Duration(milliseconds: 1000);
 
-  PlayView(
-      {Key? key,
-      this.name,
-      this.picUrl,
-      this.artist,
-      this.lyricWidget,
-      this.playerState,
-      this.lyrics = const [],
-      this.duration = const Duration(),
-      this.position = const Duration(),
-      this.lyricOffsetYController,
-      this.dragEndTimer})
-      : super(key: key);
-
-  // final PlayController controller = Get.put(PlayController());
-
-  // updatePlayer(HistoryPo data) {
-  // historyPo = data;
-  // controller.initState(data);
-  // }
+  PlayView({
+    Key? key,
+    // this.name,
+    // this.picUrl,
+    // this.artist,
+    // this.lyricWidget,
+    // this.playerState,
+    // this.lyrics = const [],
+    // this.duration = const Duration(),
+    // this.position = const Duration(),
+    // this.lyricOffsetYController,
+    // this.dragEndTimer,
+    // this.play,
+    // this.previous,
+    // this.next
+  }) : super(key: key);
 
   @override
   _PlayViewState createState() {
@@ -58,109 +54,113 @@ class PlayView extends StatefulWidget {
 }
 
 class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
-  // PlayController get controller => widget.controller;
+  final PlayController controller = Get.put(PlayController());
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback((call) {
-      // controller.initState(widget.historyPo);
-    });
+    // WidgetsBinding.instance?.addPostFrameCallback((call) {
+    // controller.initState(widget.historyPo);
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    String url = widget.picUrl ?? "";
-    String name = widget.name ?? "";
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-      decoration: BoxDecoration(color: Colors.white,
-          // borderRadius: const BorderRadius.all(
-          //   Radius.circular(40),
-          // ),
-          boxShadow: [
-            BoxShadow(
-                color: const Color(0xFFF5F5F5).withAlpha(255),
-                offset: const Offset(-4, 0.0),
-                blurRadius: 5.0,
-                spreadRadius: 0)
-          ]
-          // border: Border.all(width: 1,color: Colors.redAccent.withAlpha(100))
-          ),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 10.dp,
-          ),
-          _authorWidget(),
-          SizedBox(
-            height: 10.dp,
-          ),
-          Container(
-            height: 0.2,
-            color: Colors.black26,
-          ),
-          SizedBox(
-            height: 20.dp,
-          ),
-          CachedNetworkImage(
-            width: 200.dp,
-            height: 200.dp,
-            imageUrl: url,
-            imageBuilder: (context, image) => CircleAvatar(
-              backgroundImage: image,
-              radius: 12.dp,
-            ),
-            placeholder: (context, url) => CircleAvatar(
-              backgroundColor: Colors.blue.shade300,
-              radius: 20.dp,
-            ),
-            errorWidget: (context, url, error) => Container(),
-            fadeOutDuration: const Duration(seconds: 1),
-            fadeInDuration: const Duration(seconds: 1),
-          ),
-          SizedBox(
-            height: 20.dp,
-          ),
-          Text(
-            name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(
-            height: 10.dp,
-          ),
-          _progressWidget(),
-          SizedBox(
-            height: 10.dp,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return GetBuilder<PlayController>(
+      builder: (controller) {
+        String url = controller.state.picUrl ?? "";
+        String name = controller.state.name ?? "";
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          decoration: BoxDecoration(color: Colors.white,
+              // borderRadius: const BorderRadius.all(
+              //   Radius.circular(40),
+              // ),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0xFFF5F5F5).withAlpha(255),
+                    offset: const Offset(-4, 0.0),
+                    blurRadius: 5.0,
+                    spreadRadius: 0)
+              ]
+              // border: Border.all(width: 1,color: Colors.redAccent.withAlpha(100))
+              ),
+          child: Column(
             children: [
-              IconButton(
-                  icon: const Icon(Icons.skip_previous_rounded),
-                  onPressed: () => widget.previous),
-              IconButton(
-                  icon: widget.playerState == PlayerState.PLAYING
-                      ? const Icon(Icons.pause_circle_outline_rounded)
-                      : const Icon(Icons.play_arrow_rounded),
-                  onPressed: () => widget.play),
-              IconButton(
-                  icon: const Icon(Icons.skip_next_rounded),
-                  onPressed: () => widget.next),
+              SizedBox(
+                height: 10.dp,
+              ),
+              _authorWidget(),
+              SizedBox(
+                height: 10.dp,
+              ),
+              Container(
+                height: 0.2,
+                color: Colors.black26,
+              ),
+              SizedBox(
+                height: 20.dp,
+              ),
+              CachedNetworkImage(
+                width: 200.dp,
+                height: 200.dp,
+                imageUrl: url,
+                imageBuilder: (context, image) => CircleAvatar(
+                  backgroundImage: image,
+                  radius: 12.dp,
+                ),
+                placeholder: (context, url) => CircleAvatar(
+                  backgroundColor: Colors.blue.shade300,
+                  radius: 20.dp,
+                ),
+                errorWidget: (context, url, error) => Container(),
+                fadeOutDuration: const Duration(seconds: 1),
+                fadeInDuration: const Duration(seconds: 1),
+              ),
+              SizedBox(
+                height: 20.dp,
+              ),
+              Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(
+                height: 10.dp,
+              ),
+              _progressWidget(),
+              SizedBox(
+                height: 10.dp,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                      icon: const Icon(Icons.skip_previous_rounded),
+                      onPressed: () => controller.previous),
+                  IconButton(
+                      icon: controller.state.playerState == PlayerState.PLAYING
+                          ? const Icon(Icons.pause_circle_outline_rounded)
+                          : const Icon(Icons.play_arrow_rounded),
+                      onPressed: controller.play),
+                  IconButton(
+                      icon: const Icon(Icons.skip_next_rounded),
+                      onPressed: controller.next),
+                ],
+              ),
+              _lyricContainerWidget()
             ],
           ),
-          _lyricContainerWidget()
-        ],
-      ),
+        );
+      },
     );
   }
 
   _lyricContainerWidget() {
-    if (widget.lyrics.isEmpty) {
+    if (controller.state.lyrics.isEmpty) {
       return Container(
         alignment: Alignment.center,
         child: Text(
@@ -169,28 +169,30 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
         ),
       );
     }
-    int position = widget.position.inMilliseconds;
-    int duration = widget.duration.inMilliseconds;
+    int position = controller.state.position.inMilliseconds;
+    int duration = controller.state.duration.inMilliseconds;
     var p = position > duration ? duration : position;
-    int curLine = LyricUtil.findLyricIndex(p.toDouble(), widget.lyrics);
+    int curLine =
+        LyricUtil.findLyricIndex(p.toDouble(), controller.state.lyrics);
 
     // print("_lyricContainerWidget curLine = $curLine");
-    bool isDragging = widget.lyricWidget?.isDragging ?? true;
-    if (widget.lyrics.isNotEmpty && widget.lyricWidget != null) {
+    bool isDragging = controller.state.lyricWidget?.isDragging ?? true;
+    if (controller.state.lyricWidget != null) {
       if (!isDragging) {
         startLineAnim(curLine);
       }
-      widget.lyricWidget?.curLine = curLine;
+      controller.state.lyricWidget?.curLine = curLine;
     }
 
-    Size size = widget.lyricWidget?.canvasSize ?? const Size(0, 0);
+    Size size = controller.state.lyricWidget?.canvasSize ?? const Size(0, 0);
 
     return Expanded(
       child: Container(
           child: GestureDetector(
         onTapDown: isDragging
             ? (e) {
-                int dragLineTime = widget.lyricWidget?.dragLineTime ?? 0;
+                int dragLineTime =
+                    controller.state.lyricWidget?.dragLineTime ?? 0;
                 if (e.localPosition.dx > 0 &&
                     e.localPosition.dx < 100.dp &&
                     e.localPosition.dy > size.height / 2 - 100.dp &&
@@ -203,17 +205,17 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
         onVerticalDragUpdate: (e) {
           if (!isDragging) {
             setState(() {
-              widget.lyricWidget?.isDragging = true;
+              controller.state.lyricWidget?.isDragging = true;
             });
           }
-          widget.lyricWidget?.offsetY += e.delta.dy;
+          controller.state.lyricWidget?.offsetY += e.delta.dy;
         },
         onVerticalDragEnd: (e) {
           cancelDragTimer();
         },
         child: CustomPaint(
           // size: Size(50, 50),
-          painter: widget.lyricWidget,
+          painter: controller.state.lyricWidget,
         ),
       )),
     );
@@ -232,10 +234,10 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
   /// 开始下一行动画
   void startLineAnim(int curLine) {
     // 判断当前行和 customPaint 里的当前行是否一致，不一致才做动画
-    if (widget.lyricWidget == null) return;
-    LyricView lyricView = widget.lyricWidget!;
+    if (controller.state.lyricWidget == null) return;
+    LyricView lyricView = controller.state.lyricWidget!;
     if (lyricView.curLine != curLine) {
-      var lyricOffsetYController = widget.lyricOffsetYController;
+      var lyricOffsetYController = controller.state.lyricOffsetYController;
       // 如果动画控制器不是空，那么则证明上次的动画未完成，
       // 未完成的情况下直接 stop 当前动画，做下一次的动画
       if (lyricOffsetYController != null) {
@@ -269,8 +271,8 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
   _progressWidget() {
     double value = 0.0;
 
-    int position = widget.position.inMilliseconds;
-    int duration = widget.duration.inMilliseconds;
+    int position = controller.state.position.inMilliseconds;
+    int duration = controller.state.duration.inMilliseconds;
     if (position > 0 && position < duration) {
       value = position / duration;
     }
@@ -301,10 +303,8 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
   }
 
   _authorWidget() {
-    String url = widget.picUrl ?? "";
-    // String name =
-    //     widget.historyPo?.artist.map((e) => e.name).toList().join(",") ?? "";
-    String name = widget.artist ?? "";
+    String url = controller.state.picUrl ?? "";
+    String name = controller.state.artist ?? "";
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Row(
@@ -346,7 +346,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                   height: 5.dp,
                 ),
                 Text(
-                  "这是谁啊？",
+                  "ta 好像什么也没有留下~",
                   maxLines: 1,
                   style: TextStyle(fontSize: 11.sp, color: Color(0xFF666666)),
                   overflow: TextOverflow.ellipsis,

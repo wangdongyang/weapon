@@ -1,17 +1,10 @@
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leancloud_storage/leancloud.dart';
 import 'package:weapon/auto_ui.dart';
-import 'package:weapon/db/local_db.dart';
-import 'package:weapon/home/main_view.dart';
-import 'package:weapon/play/play_controller.dart';
-import 'package:weapon/play/play_view.dart';
+import 'package:weapon/favorite/home_controller.dart';
 import 'package:weapon/model/history_po.dart';
-import 'package:weapon/utils/audio_player_util.dart';
-import 'package:weapon/utils/leancloud_util.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -21,9 +14,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<HistoryPo> histories = [];
-  HistoryPo? selectedItem;
-  int selectedIndex = 0;
+  final HomeController controller = Get.put(HomeController());
   BoxDecoration selectedDec = const BoxDecoration();
 
   @override
@@ -44,54 +35,35 @@ class _HomeViewState extends State<HomeView> {
         ]
         // border: Border.all(width: 1,color: Colors.redAccent.withAlpha(100))
         );
-    loadData();
-  }
-
-  loadData() async {
-    // LCUser user = LCUser();
-    // user.signUp();
-    // LCUser.loginByMobilePhoneNumber(username, password);
-
-    List<LCObject> results =
-        await LeanCloudUtil.query(LeanCloudUtil.historyCN, 10);
-    List<HistoryPo> histories = [];
-    for (LCObject element in results) {
-      HistoryPo historyPo = HistoryPo.parse(element);
-      histories.add(historyPo);
-    }
-    this.histories = histories;
-    setState(() {});
-  }
-
-  chooseSong(HistoryPo item, int index) {
-    selectedItem = item;
-    selectedIndex = index;
-    Get.find<PlayController>().initState(item);
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     // loadData();
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-      color: const Color(0xffF6F8F9),
-      child: ListView.separated(
-        itemBuilder: (ctx, index) {
-          return _itemWidget(index);
-        },
-        itemCount: histories.length,
-        separatorBuilder: (ctx, index) {
-          return const SizedBox(
-            height: 5,
-          );
-        },
-      ),
+    return GetBuilder<HomeController>(
+      builder: (controller) {
+        return Container(
+          // padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          color: const Color(0xffF6F8F9),
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            itemBuilder: (ctx, index) {
+              return _itemWidget(index);
+            },
+            itemCount: controller.state.histories.length,
+            separatorBuilder: (ctx, index) {
+              return const SizedBox(
+                height: 5,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
   _itemWidget(int index) {
-    HistoryPo item = histories[index];
+    HistoryPo item = controller.state.histories[index];
     String url = item.picUrl;
     int munite = (item.dt / 60).ceil();
     String muniteStr = "$munite";
@@ -105,18 +77,18 @@ class _HomeViewState extends State<HomeView> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
       height: 70.dp,
-      decoration: selectedIndex == index
+      decoration: controller.state.selectedIndex == index
           ? selectedDec
           : const BoxDecoration(color: Color(0xffF6F8F9)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () => chooseSong(item, index),
+            onTap: () => controller.chooseSong(item, index),
             child: Container(
               padding: EdgeInsets.only(left: 15.dp),
               child: Icon(
-                selectedIndex == index
+                controller.state.selectedIndex == index
                     ? Icons.pause_circle_rounded
                     : Icons.play_arrow_rounded,
                 size: 20.sp,

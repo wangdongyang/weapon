@@ -10,9 +10,19 @@ import 'package:weapon/utils/lyric_util.dart';
 import 'lyric/lyric_view.dart';
 
 class PlayController extends GetxController {
-  late PlayState state;
+  PlayState state = PlayState();
+
+  late PlayerMode mode;
+  late AudioPlayer audioPlayer;
+
+  late StreamSubscription durationSubscription;
+  late StreamSubscription positionSubscription;
+  late StreamSubscription playerCompleteSubscription;
+  late StreamSubscription playerErrorSubscription;
+  late StreamSubscription playerStateSubscription;
 
   initState(HistoryPo? historyPo) {
+    print("json = ${historyPo.toString()}");
     print('initState : ${historyPo?.name}; url = ${historyPo?.playUrl}');
     state.historyPo = historyPo;
     state.lyrics = LyricUtil.formatLyric(historyPo?.lyricUrl ?? "");
@@ -20,40 +30,49 @@ class PlayController extends GetxController {
     state.name = historyPo?.name ?? "";
     state.picUrl = historyPo?.picUrl ?? "";
     state.artist = historyPo?.artist.map((e) => e.name).toList().join(",") ?? "";
-    state.playerState = AudioPlayerUtil.instance.playerState;
+
     update();
   }
 
   @override
   void onInit() {
     super.onInit();
-    state = PlayState();
     initAudioPlayer();
   }
 
   initAudioPlayer() {
-    AudioPlayerUtil.instance.durationSubscription.onData((data) {
-      state.duration = data;
+    mode = PlayerMode.MEDIA_PLAYER;
+    audioPlayer = AudioPlayer(mode: mode);
+    state.playerState = audioPlayer.state;
+
+    audioPlayer.onDurationChanged.listen((duration) {
+      state.duration = duration;
       update();
     });
 
-    AudioPlayerUtil.instance.positionSubscription.onData((data) {
-      print("initAudioPlayer positionSubscription = $data");
-      state.position = data;
+    //监听进度
+    audioPlayer.onAudioPositionChanged.listen((position) {
+      state.position = position;
       update();
     });
 
-    AudioPlayerUtil.instance.playerCompleteSubscription.onData((data) {
+    //播放完成
+    audioPlayer.onPlayerCompletion.listen((event) {
       state.position = const Duration();
       update();
     });
 
-    AudioPlayerUtil.instance.playerErrorSubscription.onData((data) {
+    //监听报错
+    audioPlayer.onPlayerError.listen((msg) {
+      print('audioPlayer error : $msg');
       state.duration = const Duration(seconds: 0);
       state.position = const Duration(seconds: 0);
+      update();
     });
 
-    AudioPlayerUtil.instance.playerStateSubscription.onData((data) {
+    //播放状态改变
+    audioPlayer.onPlayerStateChanged.listen((playerState) {
+      state.playerState = playerState;
       update();
     });
   }
@@ -70,8 +89,22 @@ class PlayController extends GetxController {
         ? state.position
         : const Duration();
 
-    AudioPlayerUtil.instance.play(url, playPosition);
-    // state.audioPlayer.setPlaybackRate(1.0);
+    if (url.isEmpty) {
+      print("url 为空");
+      return;
+    }
+    if (audioPlayer.state == PlayerState.PLAYING) {
+      final result = await audioPlayer.pause();
+      if (result == 1) {
+        print('pause succes');
+      }
+      return;
+    }
+    final result =
+    await audioPlayer.play(url, position: playPosition);
+    if (result == 1) {
+      print('play succes');
+    }
   }
 
   previous() {}
