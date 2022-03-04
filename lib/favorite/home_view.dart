@@ -6,21 +6,21 @@ import 'package:get/get.dart';
 import 'package:leancloud_storage/leancloud.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/db/local_db.dart';
-import 'package:weapon/home/home_view.dart';
+import 'package:weapon/home/main_view.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/play/play_view.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 import 'package:weapon/utils/leancloud_util.dart';
 
-class FavoritePage extends StatefulWidget {
-  const FavoritePage({Key? key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
-  _FavoritePageState createState() => _FavoritePageState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _HomeViewState extends State<HomeView> {
   List<HistoryPo> histories = [];
   HistoryPo? selectedItem;
   int selectedIndex = 0;
@@ -67,7 +67,6 @@ class _FavoritePageState extends State<FavoritePage> {
     selectedItem = item;
     selectedIndex = index;
     Get.find<PlayController>().initState(item);
-    // playView.updatePlayer(item);
     setState(() {});
   }
 

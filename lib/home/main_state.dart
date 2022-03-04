@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolkit_easy/flutter_toolkit.dart';
 import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/bookmark/bookmark_page.dart';
-import 'package:weapon/favorite/favorite_page.dart';
+import 'package:weapon/favorite/home_view.dart';
 import 'package:weapon/model/btn_info.dart';
 // import 'package:flutter_use/module/example/view.dart';
 // import 'package:flutter_use/module/function/view.dart';
 // import 'package:flutter_use/module/setting/view.dart';
 
-class HomeState {
+class MainState {
   ///选择index
   late int selectedIndex;
 
@@ -28,7 +28,7 @@ class HomeState {
   late List<Widget> pageList;
   late PageController pageController;
 
-  HomeState() {
+  MainState() {
     //初始化index
     selectedIndex = 0;
     //默认不展开
@@ -37,7 +37,7 @@ class HomeState {
     isScale = false;
     //PageView页面
     pageList = [
-      KeepAlivePage(const FavoritePage()),
+      KeepAlivePage(const HomeView()),
       KeepAlivePage(const BookMarkPage()),
       KeepAlivePage(const AudioPlayPage()),
     ];

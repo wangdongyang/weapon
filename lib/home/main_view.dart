@@ -3,26 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:weapon/base/base_scaffold.dart';
 import 'package:weapon/custom/background_shower.dart';
-import 'package:weapon/home/home_drawer.dart';
-import 'package:weapon/home/home_controller.dart';
-import 'package:weapon/home/home_state.dart';
+import 'package:weapon/home/main_drawer.dart';
+import 'package:weapon/home/main_controller.dart';
+import 'package:weapon/home/main_state.dart';
 import 'package:weapon/home/side_navigation.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/play/play_view.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 
-class HomePage extends StatelessWidget {
-  final HomeController controller = Get.put(HomeController());
+class MainView extends StatelessWidget {
+  final MainController controller = Get.put(MainController());
   final PlayController playController = Get.put(PlayController());
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       backgroundColor: Colors.white,
-      drawer: const HomeDrawer(),
+      drawer: const MainDrawer(),
       body: Row(children: [
         ///侧边栏区域
-        GetBuilder<HomeController>(
+        GetBuilder<MainController>(
           builder: (logic) {
             return Expanded(
               flex: 3,

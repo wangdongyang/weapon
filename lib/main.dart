@@ -13,7 +13,7 @@ import 'package:weapon/custom/custom_loading_widget.dart';
 import 'package:weapon/custom/custom_toast_widget.dart';
 import 'package:weapon/db/local_db.dart';
 import 'package:weapon/db/local_storage.dart';
-import 'package:weapon/home/home_view.dart';
+import 'package:weapon/home/main_view.dart';
 
 import 'package:weapon/utils/leancloud_util.dart';
 

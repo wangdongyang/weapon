@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:weapon/home/home_controller.dart';
-import 'package:weapon/home/home_state.dart';
-import 'package:weapon/home/home_view.dart';
+import 'package:weapon/home/main_controller.dart';
+import 'package:weapon/home/main_state.dart';
+import 'package:weapon/home/main_view.dart';
 import 'package:weapon/play/play_view.dart';
 
 class RouteConfig {
@@ -14,7 +14,7 @@ class RouteConfig {
   static final List<GetPage> getPages = [
     GetPage(
       name: main,
-      page: () => HomePage(),
+      page: () => MainView(),
     ),
     GetPage(
       name: play,

@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:weapon/config/init_config.dart';
-import 'package:weapon/home/home_state.dart';
+import 'package:weapon/home/main_state.dart';
 
-class HomeController extends GetxController {
-  final state = HomeState();
+class MainController extends GetxController {
+  final state = MainState();
 
   @override
   void onInit() {
