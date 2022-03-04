@@ -11,40 +11,11 @@ import 'package:weapon/model/lyric.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 import 'package:weapon/utils/lyric_util.dart';
+import 'package:window_size/window_size.dart' as window_size;
 
 class PlayView extends StatefulWidget {
-  // String? picUrl;
-  // String? name;
-  // String? artist;
-  // LyricView? lyricWidget;
-  // PlayerState? playerState;
-  // List<Lyric> lyrics = [];
-  // Duration duration = const Duration();
-  // Duration position = const Duration();
-  // AnimationController? lyricOffsetYController;
-  // Timer? dragEndTimer;
-  // Function? previous;
-  // Function? play;
-  // Function? next;
-
-  // Function? dragEndFunc;
-  // Duration? dragEndDuration = const Duration(milliseconds: 1000);
-
   PlayView({
     Key? key,
-    // this.name,
-    // this.picUrl,
-    // this.artist,
-    // this.lyricWidget,
-    // this.playerState,
-    // this.lyrics = const [],
-    // this.duration = const Duration(),
-    // this.position = const Duration(),
-    // this.lyricOffsetYController,
-    // this.dragEndTimer,
-    // this.play,
-    // this.previous,
-    // this.next
   }) : super(key: key);
 
   @override
@@ -55,15 +26,13 @@ class PlayView extends StatefulWidget {
 
 class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
   final PlayController controller = Get.put(PlayController());
+  double playViewWidth = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    // WidgetsBinding.instance?.addPostFrameCallback((call) {
-    // controller.initState(widget.historyPo);
-    // });
+    frameSize();
   }
 
   @override
@@ -107,12 +76,12 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 // width: 200.dp,
                 // height: 200.dp,
                 imageUrl: url,
-                imageBuilder: (context, image){
+                imageBuilder: (context, image) {
                   return Container(
                     width: 180.dp,
                     height: 180.dp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.dp),
+                      borderRadius: BorderRadius.circular(20.dp),
                       image: DecorationImage(
                         image: image,
                       ),
@@ -165,6 +134,15 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
         );
       },
     );
+  }
+
+  void frameSize() async {
+    var window = await window_size.getWindowInfo();
+    if (window.screen == null) {
+      return;
+    }
+    double width = window.screen!.visibleFrame.width;
+    playViewWidth = width/5 - 30;
   }
 
   _lyricContainerWidget() {
@@ -222,7 +200,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
           cancelDragTimer();
         },
         child: CustomPaint(
-          // size: Size(50, 50),
+          // size: Size(50, 0),
           painter: controller.state.lyricWidget,
         ),
       )),

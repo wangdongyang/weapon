@@ -17,11 +17,11 @@ class LyricView extends CustomPainter with ChangeNotifier {
   late Size canvasSize = Size.zero;
   late int dragLineTime;
 
-  final commonWhiteTextStyle = TextStyle(fontSize: 14.sp, color: Colors.red);
-  final commonGrayTextStyle = TextStyle(fontSize: 14.sp, color: Colors.grey);
+  final commonWhiteTextStyle = TextStyle(fontSize: 12.sp, color: Colors.red, overflow: TextOverflow.ellipsis);
+  final commonGrayTextStyle = TextStyle(fontSize: 12.sp, color: Colors.grey, overflow: TextOverflow.ellipsis);
   final commonWhite70TextStyle =
       TextStyle(fontSize: 14.sp, color: Colors.white70);
-  final smallGrayTextStyle = TextStyle(fontSize: 12.sp, color: Colors.grey);
+  final smallGrayTextStyle = TextStyle(fontSize: 10.sp, color: Colors.grey, overflow: TextOverflow.ellipsis);
 
   double get offsetY => _offsetY;
 

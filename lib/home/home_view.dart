@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/home/home_controller.dart';
+import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/model/history_po.dart';
 
 class HomeView extends StatefulWidget {
@@ -39,28 +40,86 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    // loadData();
     return GetBuilder<HomeController>(
       builder: (controller) {
         return Container(
-          // padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           color: const Color(0xffF6F8F9),
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-            itemBuilder: (ctx, index) {
-              return _itemWidget(index);
-            },
-            itemCount: controller.state.histories.length,
-            separatorBuilder: (ctx, index) {
-              return const SizedBox(
-                height: 5,
-              );
-            },
+          child: Column(
+            children: [
+              _searchWidget(),
+              SizedBox(
+                height: 15.dp,
+              ),
+              Expanded(
+                child: ListView(children: [
+                  sectionHeader("assets/images/recent_normal.png", "最近播放"),
+                  ListView.separated(
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    itemBuilder: (ctx, index) {
+                      return _itemWidget(index);
+                    },
+                    shrinkWrap: true,
+                    itemCount: controller.state.histories.length,
+                    separatorBuilder: (ctx, index) {
+                      return const SizedBox(
+                        height: 5,
+                      );
+                    },
+                  )
+                ],),
+              ),
+
+            ],
           ),
         );
       },
     );
   }
+
+  /// 搜索
+  _searchWidget() {
+    return Padding(
+      padding: EdgeInsets.only(left: 15.dp, right: 15.dp, top: 15.dp),
+      child: SearchWidget(
+        start: controller.startSearch,
+      ),
+    );
+  }
+
+  /// 专辑
+  _albumWidget() {}
+
+  Widget sectionHeader(String icon, String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            icon,
+            width: 18.sp,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(
+            width: 15.dp,
+          ),
+          Text(
+            title,
+            maxLines: 1,
+            style: TextStyle(
+                fontSize: 14.sp,
+                color: const Color(0xFF768295),),
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
+      ),
+    );
+  }
+
+  /// 排行榜
+  _rankWidget() {}
 
   _itemWidget(int index) {
     HistoryPo item = controller.state.histories[index];
