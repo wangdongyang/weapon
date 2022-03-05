@@ -1,10 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:weapon/config/api_config.dart';
 import 'package:weapon/model/history_po.dart';
+import 'package:weapon/model/song_detail.dart';
 import 'package:weapon/play/play_state.dart';
 import 'package:weapon/utils/audio_player_util.dart';
+import 'package:weapon/utils/auth_util.dart';
 import 'package:weapon/utils/lyric_util.dart';
 
 import 'lyric/lyric_view.dart';
@@ -72,7 +77,15 @@ class PlayController extends GetxController {
   play() async {
     print('PlayController->play->url = ' + (state.historyPo?.playUrl ?? ""));
     if (state.historyPo == null) return;
-    String url = state.historyPo?.playUrl ?? "";
+    String songId = state.historyPo!.playId;
+    var dio = Dio();
+    Map<String, dynamic> header = AuthUtil.getHeader(Api.music);
+    Map<String, dynamic> param = {"item_id": songId, "site": state.historyPo!.source};
+    dio.options.headers = header;
+    final response = await dio.get(Api.music, queryParameters: param);
+    SongDetail detail = SongDetail.fromJson(jsonDecode(response.toString()));
+
+    String url = detail.url ?? "";
     if (url.isEmpty) return;
 
     final playPosition = (state.position.inMilliseconds > 0 &&
