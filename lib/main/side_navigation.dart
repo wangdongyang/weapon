@@ -90,7 +90,7 @@ class SideNavigation extends StatelessWidget {
                         gradient: const LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Color(0xFF464BFA), Color(0xFF0007F6)],
+                          colors: [Color(0xFFABAEFF), Color(0xFF686BFA),Color(0xFF0007F6)],
                           tileMode: TileMode.repeated,
                         )
                         // boxShadow: [
@@ -102,11 +102,11 @@ class SideNavigation extends StatelessWidget {
                         // ],
                         // border: Border.all(width: 1,color: Colors.redAccent.withAlpha(100))
                         ),
-                    width: 6.dp,
-                    height: 55.dp,
+                    width: 7.dp,
+                    height: 46.dp,
                   )
                 : Container(
-                    width: 6.dp,
+                    width: 7.dp,
                   ),
             SizedBox(
               width: 50.dp,
@@ -123,7 +123,7 @@ class SideNavigation extends StatelessWidget {
                 ),
                 Text(
                   item.title ?? "",
-                  style: TextStyle(color: color, fontSize: 15.sp),
+                  style: TextStyle(color: color, fontSize: 14.sp),
                 ),
               ],
             )

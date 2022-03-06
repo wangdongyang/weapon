@@ -95,7 +95,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 fadeInDuration: const Duration(seconds: 1),
               ),
               SizedBox(
-                height: 30.dp,
+                height: 20.dp,
               ),
               Text(
                 name,

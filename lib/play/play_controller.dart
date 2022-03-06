@@ -27,6 +27,8 @@ class PlayController extends GetxController {
     state.name = historyPo?.name ?? "";
     state.picUrl = historyPo?.picUrl ?? "";
     state.artist = historyPo?.artist.map((e) => e.name).toList().join(",") ?? "";
+    state.duration = const Duration();
+    state.position = const Duration();
 
     update();
   }
@@ -75,6 +77,15 @@ class PlayController extends GetxController {
   }
 
   play() async {
+
+    if (audioPlayer.state == PlayerState.PLAYING) {
+      final result = await audioPlayer.pause();
+      if (result == 1) {
+        print('pause succes');
+      }
+      return;
+    }
+
     print('PlayController->play->url = ' + (state.historyPo?.playUrl ?? ""));
     if (state.historyPo == null) return;
     String songId = state.historyPo!.playId;
@@ -97,13 +108,7 @@ class PlayController extends GetxController {
       print("url 为空");
       return;
     }
-    if (audioPlayer.state == PlayerState.PLAYING) {
-      final result = await audioPlayer.pause();
-      if (result == 1) {
-        print('pause succes');
-      }
-      return;
-    }
+
     final result =
     await audioPlayer.play(url, position: playPosition);
     if (result == 1) {

@@ -20,7 +20,7 @@ class SearchWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
-              Radius.circular(35.dp),
+              Radius.circular(22.dp),
             ),
             boxShadow: [
               BoxShadow(
@@ -34,7 +34,7 @@ class SearchWidget extends StatelessWidget {
                   blurRadius: 5.0,
                   spreadRadius: 0)
             ]),
-        height: 50.dp,
+        height: 44.dp,
         // padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 12.dp),
         child: Container(
           // height: SGScreenUtil.w(40),
@@ -50,18 +50,18 @@ class SearchWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                width: 24.dp,
+                width: 20.dp,
               ),
               Container(
                 // color: Colors.blue,
                 child: Image.asset(
                   "assets/images/search_icon.png",
-                  width: 18.sp,
+                  width: 15.sp,
                   fit: BoxFit.contain,
                 ),
               ),
               SizedBox(
-                width: 20.dp,
+                width: 12.dp,
               ),
               Expanded(
                 // height: SGScreenUtil.h(40),
@@ -73,7 +73,7 @@ class SearchWidget extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   style: TextStyle(
                       color: const Color(0xFF333333),
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       textBaseline: TextBaseline.alphabetic),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(
@@ -81,7 +81,7 @@ class SearchWidget extends StatelessWidget {
                     border: InputBorder.none,
                     hintText: "请输入...",
                     hintStyle:
-                        TextStyle(color: Color(0xFF999999), fontSize: 13.sp),
+                        TextStyle(color: Color(0xFF999999), fontSize: 12.sp),
                   ),
                 ),
               ),
