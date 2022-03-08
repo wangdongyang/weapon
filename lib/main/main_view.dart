@@ -18,7 +18,7 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScaffold(
       backgroundColor: Colors.white,
-      drawer: const MainDrawer(),
+      // drawer: const MainDrawer(),
       body: Row(children: [
         ///侧边栏区域
         GetBuilder<MainController>(
@@ -45,7 +45,7 @@ class MainView extends StatelessWidget {
           flex: 9,
           child: Stack(
             children: [
-              _buildBackground(),
+              // _buildBackground(),
               PageView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: controller.state.pageList.length,

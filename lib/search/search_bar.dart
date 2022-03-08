@@ -1,0 +1,154 @@
+import 'package:flutter/material.dart';
+import 'package:weapon/auto_ui.dart';
+
+typedef OnChanged = Function(String text);
+typedef StartSearch = Function();
+typedef MenuChanged = Function(String text);
+
+class SearchBar extends StatelessWidget {
+  OnChanged? onChanged;
+  StartSearch? start;
+  MenuChanged? menuChanged;
+  final TextEditingController searchBarController = TextEditingController();
+  final FocusNode searchFocus = FocusNode();
+  List<DropdownMenuItem<String>> menuItems = [];
+  String selectedName = "";
+  List<Map<String, dynamic>> sources = [];
+
+  SearchBar(
+      {Key? key,
+      this.onChanged,
+      this.start,
+      this.menuChanged,
+      required this.menuItems,
+      required this.selectedName,
+      required this.sources})
+      : super(key: key);
+
+  Widget _routeName() {
+    if (menuItems.isEmpty) return Container();
+    return DropdownButtonHideUnderline(
+      child: DropdownButton<String>(
+        items: menuItems,
+        value: selectedName,
+        selectedItemBuilder: (BuildContext context) {
+          return sources.map<Widget>((Map<String, dynamic> route) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                route["name"],
+                style: const TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 12,
+                ),
+              ),
+            );
+          }).toList();
+        },
+        iconEnabledColor: Colors.black38,
+        focusColor: Colors.redAccent.shade100,
+        dropdownColor: Colors.white,
+        icon: Container(),
+        onChanged: (newValue) =>
+            menuChanged != null ? menuChanged!(newValue!) : null,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: start,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(22.dp),
+            ),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0xFFF1F1F1).withAlpha(188),
+                  offset: const Offset(6, 6),
+                  blurRadius: 5.0,
+                  spreadRadius: 0),
+              BoxShadow(
+                  color: const Color(0xFFF1F1F1).withAlpha(188),
+                  offset: const Offset(-6, -6),
+                  blurRadius: 5.0,
+                  spreadRadius: 0)
+            ]),
+        height: 44.dp,
+        // padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 12.dp),
+        child: Container(
+          // height: SGScreenUtil.w(40),
+          // decoration: BoxDecoration(
+          //   color: const Color(0xFFF5F5F5),
+          //   borderRadius: BorderRadius.all(
+          //     Radius.circular(8.dp),
+          //   ),
+          // ),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 22.dp,
+              ),
+              _routeName(),
+              SizedBox(
+                width: 15.dp,
+              ),
+              Container(
+                // color: Colors.blue,
+                child: Image.asset(
+                  "assets/images/search_icon.png",
+                  width: 14.sp,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 12.dp,
+              ),
+              Expanded(
+                // height: SGScreenUtil.h(40),
+                child: Container(
+                  // decoration: BoxDecoration(
+                  //   color: Color(0xFFeeeeee),
+                  //     borderRadius: BorderRadius.only(
+                  //       topRight: Radius.circular(22.dp),
+                  //       bottomRight: Radius.circular(22.dp),
+                  //     ),
+                  //     ),
+                  child: TextField(
+                    focusNode: searchFocus,
+                    controller: searchBarController,
+                    onChanged: onChanged,
+                    enabled: start == null,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(
+                        color: const Color(0xFF333333),
+                        fontSize: 12.sp,
+                        textBaseline: TextBaseline.alphabetic),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(
+                          0, 0, 0, 0), //const EdgeInsets.all(0),
+                      border: InputBorder.none,
+                      hintText: "请输入...",
+                      hintStyle:
+                          TextStyle(color: Color(0xFF999999), fontSize: 12.sp),
+                    ),
+                  ),
+                ),
+              ),
+              // cancelWidget,
+              // SizedBox(
+              //   width: 10.dp,
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

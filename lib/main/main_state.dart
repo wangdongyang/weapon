@@ -39,7 +39,7 @@ class MainState {
     //PageView页面
     pageList = [
       KeepAlivePage(const HomeView()),
-      KeepAlivePage(const SearchView()),
+      KeepAlivePage(SearchView()),
       KeepAlivePage(const FavoriteView()),
     ];
     //item栏目
