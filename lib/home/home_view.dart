@@ -6,6 +6,7 @@ import 'package:weapon/auto_ui.dart';
 import 'package:weapon/home/home_controller.dart';
 import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/model/history_po.dart';
+import 'package:weapon/model/play_list_item_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -47,29 +48,38 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             children: [
               _searchWidget(),
-              SizedBox(
-                height: 15.dp,
-              ),
               Expanded(
-                child: ListView(children: [
-                  sectionHeader("assets/images/recent_normal.png", "最近播放"),
-                  ListView.separated(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    itemBuilder: (ctx, index) {
-                      return _itemWidget(index);
-                    },
-                    shrinkWrap: true,
-                    itemCount: controller.state.histories.length,
-                    separatorBuilder: (ctx, index) {
-                      return const SizedBox(
-                        height: 5,
-                      );
-                    },
-                  )
-                ],),
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: 20.dp,
+                    ),
+                    sectionHeader("assets/images/stars.png", "热门歌单"),
+                    SizedBox(
+                      height: 15.dp,
+                    ),
+                    _playListWidget(),
+                    SizedBox(
+                      height: 20.dp,
+                    ),
+                    sectionHeader("assets/images/rank.png", "排行榜"),
+                    ListView.separated(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 15),
+                      itemBuilder: (ctx, index) {
+                        return _itemWidget(index);
+                      },
+                      shrinkWrap: true,
+                      itemCount: controller.state.histories.length,
+                      separatorBuilder: (ctx, index) {
+                        return const SizedBox(
+                          height: 5,
+                        );
+                      },
+                    )
+                  ],
+                ),
               ),
-
             ],
           ),
         );
@@ -88,18 +98,91 @@ class _HomeViewState extends State<HomeView> {
   }
 
   /// 专辑
-  _albumWidget() {}
+  _playListWidget() {
+    return Container(
+      height: 130.dp,
+      child: ListView.separated(
+        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15.dp),
+        itemBuilder: (ctx, index) {
+          return _playListItemWidget(index);
+        },
+        shrinkWrap: true,
+        itemCount: controller.state.playList.length,
+        scrollDirection: Axis.horizontal,
+        separatorBuilder: (ctx, index) {
+          return SizedBox(
+            width: 15.dp,
+          );
+        },
+      ),
+    );
+  }
+
+  _playListItemWidget(int index) {
+    PlayListItemModel playListItem = controller.state.playList[index];
+    return Container(
+        width: 180.dp,
+        child: Column(
+          children: [
+            Expanded(
+              child: CachedNetworkImage(
+                width: 180.dp,
+                height: 120.dp,
+                //maxHeightDiskCache: 10,
+                imageUrl: playListItem.coverImgUrl ?? "",
+                // placeholder: (context, url) => const CircleAvatar(
+                //   backgroundColor: Colors.amber,
+                //   radius: 150,
+                // ),
+                imageBuilder: (context, image) {
+                  return Container(
+                    width: 180.dp,
+                    height: 140.dp,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.dp),
+                        image: DecorationImage(image: image, fit: BoxFit.cover),
+                        boxShadow: [
+                          BoxShadow(
+                              color: const Color(0xffd2d2d2).withAlpha(166),
+                              offset: const Offset(4, 4),
+                              blurRadius: 5.0,
+                              spreadRadius: 0)
+                        ]),
+                  );
+                },
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                fadeOutDuration: const Duration(seconds: 1),
+                fadeInDuration: const Duration(seconds: 3),
+              ),
+            ),
+            SizedBox(
+              height: 8.dp,
+            ),
+            Text(
+              playListItem.name ?? "",
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 13.sp,
+                color: const Color(0xFF999999),
+              ),
+              overflow: TextOverflow.ellipsis,
+            )
+          ],
+        ));
+  }
 
   Widget sectionHeader(String icon, String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
             icon,
-            width: 18.sp,
+            width: 20.sp,
             fit: BoxFit.contain,
           ),
           SizedBox(
@@ -109,8 +192,9 @@ class _HomeViewState extends State<HomeView> {
             title,
             maxLines: 1,
             style: TextStyle(
-                fontSize: 14.sp,
-                color: const Color(0xFF768295),),
+              fontSize: 14.sp,
+              color: const Color(0xFF999999),
+            ),
             overflow: TextOverflow.ellipsis,
           )
         ],

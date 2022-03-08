@@ -10,3 +10,4 @@ typedef ParamTwiceCallback<O, T> = dynamic Function(O dataOne, T dataTwo);
 ///回调三个参数
 typedef ParamThreeCallback<O, T, K> = dynamic Function(
     O dataOne, T dataTwo, K threeData);
+

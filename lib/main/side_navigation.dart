@@ -1,20 +1,24 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/config/api_config.dart';
 import 'package:weapon/model/btn_info.dart';
+import 'package:weapon/model/one_word_model.dart';
 import 'package:weapon/typedef/function.dart';
 
 ///NavigationRail组件为侧边栏
 class SideNavigation extends StatelessWidget {
-  SideNavigation({
-    required this.onItem,
-    required this.selectedIndex,
-    required this.sideItems,
-    required this.isUnfold,
-    required this.onUnfold,
-    required this.isScale,
-    required this.onScale,
-  });
+  SideNavigation(
+      {required this.onItem,
+      required this.selectedIndex,
+      required this.sideItems,
+      required this.isUnfold,
+      required this.onUnfold,
+      required this.isScale,
+      required this.onScale,
+      required this.oneWord,
+      required this.oneWordClicked});
 
   ///侧边栏item
   final List<BtnInfo> sideItems;
@@ -31,21 +35,54 @@ class SideNavigation extends StatelessWidget {
   final bool isScale;
   final ParamSingleCallback<bool> onScale;
 
+  final String oneWord;
+  final ParamVoidCallback oneWordClicked;
+
   @override
   Widget build(BuildContext context) {
+    // getOneWord();
     return Container(
       color: Colors.white,
       child: Column(
         children: [
-          _buildTopLeading(),
-          _buildItem(0),
-          _buildItem(1),
-          _buildItem(2),
+          Expanded(
+            child: Column(
+              children: [
+                _buildTopLeading(),
+                _buildItem(0),
+                _buildItem(1),
+                _buildItem(2),
+              ],
+            ),
+          ),
+          buildOneWord(),
+          SizedBox(
+            height: 15.dp,
+          )
         ],
       ),
     );
   }
 
+  Widget buildOneWord() {
+    return GestureDetector(
+      onTap: oneWordClicked,
+      child: Container(
+        height: 50.dp,
+        padding: EdgeInsets.symmetric(horizontal: 15.sp),
+        child: Text(
+          oneWord,
+          maxLines: 4,
+          textAlign: TextAlign.start,
+          style: TextStyle(
+              fontSize: 12.sp,
+              color: Color(0xFF999999),
+              fontFamily: "ZCOOLXiaoWei"),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
+  }
 
   Widget _buildTopLeading() {
     return Center(
@@ -64,7 +101,6 @@ class SideNavigation extends StatelessWidget {
     );
   }
 
-
   Widget _buildItem(int index) {
     var item = sideItems[index];
     bool choose = selectedIndex == index;
@@ -75,7 +111,7 @@ class SideNavigation extends StatelessWidget {
     return GestureDetector(
       onTap: () => onItem(index),
       child: Container(
-        height: 90.dp,
+        height: 70.dp,
         color: Colors.transparent,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -90,7 +126,11 @@ class SideNavigation extends StatelessWidget {
                         gradient: const LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Color(0xFFABAEFF), Color(0xFF686BFA),Color(0xFF0007F6)],
+                          colors: [
+                            Color(0xFFABAEFF),
+                            Color(0xFF686BFA),
+                            Color(0xFF0007F6)
+                          ],
                           tileMode: TileMode.repeated,
                         )
                         // boxShadow: [

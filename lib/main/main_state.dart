@@ -27,6 +27,8 @@ class MainState {
   late List<Widget> pageList;
   late PageController pageController;
 
+  String? oneWord;
+
   MainState() {
     //初始化index
     selectedIndex = 0;

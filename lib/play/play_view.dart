@@ -40,7 +40,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
         String url = controller.state.picUrl ?? "";
         String name = controller.state.name ?? "";
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           decoration: BoxDecoration(color: Colors.white,
               // borderRadius: const BorderRadius.all(
               //   Radius.circular(40),
@@ -76,14 +76,18 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 imageUrl: url,
                 imageBuilder: (context, image) {
                   return Container(
-                    width: 180.dp,
+                    // width: playViewWidth,
                     height: 180.dp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.dp),
-                      image: DecorationImage(
-                        image: image,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(10.dp),
+                        image: DecorationImage(image: image, fit: BoxFit.cover),
+                        boxShadow: [
+                          BoxShadow(
+                              color: const Color(0xffd2d2d2).withAlpha(166),
+                              offset: const Offset(4, 4),
+                              blurRadius: 5.0,
+                              spreadRadius: 0)
+                        ]),
                   );
                 },
                 // placeholder: (context, url) => CircleAvatar(
@@ -140,7 +144,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
       return;
     }
     double width = window.screen!.visibleFrame.width;
-    playViewWidth = width/5 - 30;
+    playViewWidth = width / 5 - 20;
   }
 
   _lyricContainerWidget() {

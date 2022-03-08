@@ -33,6 +33,8 @@ class MainView extends StatelessWidget {
                 onItem: (index) => logic.switchTap(index),
                 onUnfold: (isUnfold) => logic.onUnfold(isUnfold),
                 onScale: (isScale) => logic.onScale(isScale),
+                oneWord: logic.state.oneWord ?? "",
+                oneWordClicked: logic.getOneWord,
               ),
             );
           },
