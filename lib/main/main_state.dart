@@ -4,6 +4,7 @@ import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/bookmark/bookmark_page.dart';
 import 'package:weapon/favorite/favorite_view.dart';
 import 'package:weapon/home/home_view.dart';
+import 'package:weapon/main/setting_view.dart';
 import 'package:weapon/model/btn_info.dart';
 import 'package:weapon/search/search_view.dart';
 
@@ -41,6 +42,7 @@ class MainState {
       KeepAlivePage(const HomeView()),
       KeepAlivePage(SearchView()),
       KeepAlivePage(const FavoriteView()),
+      KeepAlivePage(const SettingView())
     ];
     //item栏目
     itemList = [
@@ -55,6 +57,10 @@ class MainState {
       BtnInfo(
         title: "收藏",
         icon: "favorite",
+      ),
+      BtnInfo(
+        title: "设置",
+        icon: "setting",
       ),
     ];
     //页面控制器

@@ -8,6 +8,7 @@ import 'package:weapon/home/home_state.dart';
 import 'package:weapon/main/main_controller.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
+import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/utils/leancloud_util.dart';
 
@@ -21,6 +22,7 @@ class HomeController extends GetxController {
 
     loadData();
     fetchPlayList();
+    fetchTopSongs();
   }
 
   loadData() async {
@@ -37,6 +39,17 @@ class HomeController extends GetxController {
     }
     state.histories = histories;
     update();
+  }
+
+  fetchTopSongs() async {
+    var dio = Dio();
+    final response = await dio.get(Api.top500);
+    Map<String, dynamic> data = jsonDecode(response.toString());
+    List dataList = data["data"]["info"];
+    List<SongRankModel> ranks = dataList.map((e) => SongRankModel.fromJson(e)).toList();
+    ranks.forEach((element) {
+      print(element.filename);
+    });
   }
 
   fetchPlayList() async {

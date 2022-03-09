@@ -9,7 +9,7 @@ import 'package:weapon/typedef/function.dart';
 
 ///NavigationRail组件为侧边栏
 class SideNavigation extends StatelessWidget {
-  SideNavigation(
+  const SideNavigation(
       {required this.onItem,
       required this.selectedIndex,
       required this.sideItems,
@@ -52,6 +52,7 @@ class SideNavigation extends StatelessWidget {
                 _buildItem(0),
                 _buildItem(1),
                 _buildItem(2),
+                _buildItem(3),
               ],
             ),
           ),
@@ -89,7 +90,7 @@ class SideNavigation extends StatelessWidget {
       child: Container(
         width: 50.dp,
         height: 50.dp,
-        margin: const EdgeInsets.all(32.0),
+        margin: EdgeInsets.symmetric(vertical: 25.0.dp),
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
@@ -111,7 +112,7 @@ class SideNavigation extends StatelessWidget {
     return GestureDetector(
       onTap: () => onItem(index),
       child: Container(
-        height: 70.dp,
+        height: 64.dp,
         color: Colors.transparent,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

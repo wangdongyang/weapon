@@ -1,5 +1,4 @@
 import 'package:leancloud_storage/leancloud.dart';
-import 'package:weapon/model/history_po.dart';
 
 class LeanCloudUtil {
   static String historyCN = "history";

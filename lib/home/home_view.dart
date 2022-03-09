@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/home/home_controller.dart';
 import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
+import 'package:weapon/utils/color_util.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -41,7 +44,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-
     return GetBuilder<HomeController>(
       builder: (controller) {
         return Container(
@@ -50,40 +52,39 @@ class _HomeViewState extends State<HomeView> {
             children: [
               _searchWidget(),
               Expanded(
-                child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                    child: ListView(
-                      children: [
-                        SizedBox(
-                          height: 20.dp,
-                        ),
-                        sectionHeader("assets/images/stars.png", "热门歌单"),
-                        SizedBox(
-                          height: 15.dp,
-                        ),
-                        _playListWidget(),
-                        SizedBox(
-                          height: 20.dp,
-                        ),
-                        sectionHeader("assets/images/rank.png", "排行榜"),
-                        ListView.separated(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15),
-                          itemBuilder: (ctx, index) {
-                            return _itemWidget(index);
-                          },
-                          shrinkWrap: true,
-                          itemCount: controller.state.histories.length,
-                          separatorBuilder: (ctx, index) {
-                            return const SizedBox(
-                              height: 5,
-                            );
-                          },
-                        )
-                      ],
-                    )
-                )
-              ),
+                  child: ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context)
+                          .copyWith(scrollbars: false),
+                      child: ListView(
+                        children: [
+                          SizedBox(
+                            height: 30.dp,
+                          ),
+                          sectionHeader("assets/images/stars.png", "热门歌单"),
+                          SizedBox(
+                            height: 15.dp,
+                          ),
+                          _playListWidget(),
+                          SizedBox(
+                            height: 30.dp,
+                          ),
+                          sectionHeader("assets/images/rank.png", "排行榜"),
+                          ListView.separated(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15),
+                            itemBuilder: (ctx, index) {
+                              return _itemWidget(index);
+                            },
+                            shrinkWrap: true,
+                            itemCount: controller.state.histories.length,
+                            separatorBuilder: (ctx, index) {
+                              return const SizedBox(
+                                height: 5,
+                              );
+                            },
+                          )
+                        ],
+                      ))),
             ],
           ),
         );
@@ -104,7 +105,7 @@ class _HomeViewState extends State<HomeView> {
   /// 专辑
   _playListWidget() {
     return Container(
-      height: 130.dp,
+      height: 150.dp,
       child: ListView.separated(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15.dp),
         itemBuilder: (ctx, index) {
@@ -125,13 +126,15 @@ class _HomeViewState extends State<HomeView> {
   _playListItemWidget(int index) {
     PlayListItemModel playListItem = controller.state.playList[index];
     return Container(
-        width: 180.dp,
+        width: 200.dp,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: CachedNetworkImage(
-                width: 180.dp,
-                height: 120.dp,
+                width: 200.dp,
+                height: 150.dp,
                 //maxHeightDiskCache: 10,
                 imageUrl: playListItem.coverImgUrl ?? "",
                 // placeholder: (context, url) => const CircleAvatar(
@@ -140,36 +143,40 @@ class _HomeViewState extends State<HomeView> {
                 // ),
                 imageBuilder: (context, image) {
                   return Container(
-                    width: 180.dp,
-                    height: 140.dp,
+                    width: 200.dp,
+                    height: 150.dp,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.dp),
                         image: DecorationImage(image: image, fit: BoxFit.cover),
                         boxShadow: [
                           BoxShadow(
-                              color: const Color(0xffd2d2d2).withAlpha(166),
+                              color: const Color(0xffc2c2c2).withAlpha(146),
                               offset: const Offset(4, 4),
                               blurRadius: 5.0,
                               spreadRadius: 0)
                         ]),
                   );
                 },
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
+                placeholder: (context, url) => Container(
+                  decoration: BoxDecoration(
+                    color: ColorUtil.randomColor().withAlpha(60),
+                    borderRadius: BorderRadius.circular(8.dp),
+                  ),
+                ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
                 fadeOutDuration: const Duration(seconds: 1),
-                fadeInDuration: const Duration(seconds: 3),
+                fadeInDuration: const Duration(seconds: 2),
               ),
             ),
             SizedBox(
-              height: 8.dp,
+              height: 10.dp,
             ),
             Text(
               playListItem.name ?? "",
               maxLines: 1,
               style: TextStyle(
-                fontSize: 13.sp,
-                color: const Color(0xFF999999),
+                fontSize: 12.sp,
+                color: const Color(0xFF404040),
               ),
               overflow: TextOverflow.ellipsis,
             )
@@ -197,7 +204,7 @@ class _HomeViewState extends State<HomeView> {
             maxLines: 1,
             style: TextStyle(
               fontSize: 14.sp,
-              color: const Color(0xFF999999),
+              color: const Color(0xFF404040),
             ),
             overflow: TextOverflow.ellipsis,
           )
@@ -223,7 +230,7 @@ class _HomeViewState extends State<HomeView> {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-      height: 70.dp,
+      height: 60.dp,
       decoration: controller.state.selectedIndex == index
           ? selectedDec
           : const BoxDecoration(color: Color(0xffF6F8F9)),
@@ -263,12 +270,16 @@ class _HomeViewState extends State<HomeView> {
                       backgroundImage: image,
                       radius: 6,
                     ),
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
+                    placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                        color: ColorUtil.randomColor().withAlpha(90),
+                        borderRadius: BorderRadius.circular(40.dp),
+                      ),
+                    ),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                     fadeOutDuration: const Duration(seconds: 1),
-                    fadeInDuration: const Duration(seconds: 3),
+                    fadeInDuration: const Duration(seconds: 2),
                   ),
                   SizedBox(
                     width: 20.dp,

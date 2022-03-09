@@ -14,6 +14,9 @@ class Api {
 
   /// 网易云音乐热门歌单
   static String neteasePlayList = "http://www.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&offset=0&limit=20&_=1646578856186";
+
+  /// Top500
+  static String top500 = "http://mobilecdn.kugou.com/api/v3/rank/song?ranktype=2&rankid=58176&plat=0&page=1&pagesize=30&version=8352&with_res_tag=1";
 }
 
 /**
