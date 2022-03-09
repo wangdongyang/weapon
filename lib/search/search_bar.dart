@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
 
 typedef OnChanged = Function(String text);
-typedef StartInput = Function();
 typedef StartSearch = Function();
 typedef MenuChanged = Function(String text);
 
 class SearchBar extends StatelessWidget {
   OnChanged? onChanged;
-  StartInput? start;
   StartSearch? search;
   MenuChanged? menuChanged;
   TextEditingController searchBarController = TextEditingController();
@@ -20,7 +18,6 @@ class SearchBar extends StatelessWidget {
   SearchBar(
       {Key? key,
       this.onChanged,
-      this.start,
       this.search,
       this.menuChanged,
       required this.searchBarController,
@@ -68,118 +65,120 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: start,
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(22.dp),
+          ),
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0xFFF1F1F1).withAlpha(168),
+                offset: const Offset(6, 6),
+                blurRadius: 5.0,
+                spreadRadius: 0),
+            BoxShadow(
+                color: const Color(0xFFF1F1F1).withAlpha(168),
+                offset: const Offset(-6, -6),
+                blurRadius: 5.0,
+                spreadRadius: 0)
+          ]),
+      height: 44.dp,
+      // padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 12.dp),
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(22.dp),
+        // height: SGScreenUtil.w(40),
+        // decoration: BoxDecoration(
+        //   color: const Color(0xFFF5F5F5),
+        //   borderRadius: BorderRadius.all(
+        //     Radius.circular(8.dp),
+        //   ),
+        // ),
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 22.dp,
             ),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0xFFF1F1F1).withAlpha(188),
-                  offset: const Offset(6, 6),
-                  blurRadius: 5.0,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: const Color(0xFFF1F1F1).withAlpha(188),
-                  offset: const Offset(-6, -6),
-                  blurRadius: 5.0,
-                  spreadRadius: 0)
-            ]),
-        height: 44.dp,
-        // padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 12.dp),
-        child: Container(
-          // height: SGScreenUtil.w(40),
-          // decoration: BoxDecoration(
-          //   color: const Color(0xFFF5F5F5),
-          //   borderRadius: BorderRadius.all(
-          //     Radius.circular(8.dp),
-          //   ),
-          // ),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 22.dp,
+            _routeName(),
+            SizedBox(
+              width: 15.dp,
+            ),
+            Container(
+              // color: Colors.blue,
+              child: Image.asset(
+                "assets/images/search_icon.png",
+                width: 14.sp,
+                fit: BoxFit.contain,
               ),
-              _routeName(),
-              SizedBox(
-                width: 15.dp,
-              ),
-              Container(
-                // color: Colors.blue,
-                child: Image.asset(
-                  "assets/images/search_icon.png",
-                  width: 14.sp,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(
-                width: 12.dp,
-              ),
-              Expanded(
-                // height: SGScreenUtil.h(40),
-                child: Container(
-                  // decoration: BoxDecoration(
-                  //   color: Color(0xFFeeeeee),
-                  //     borderRadius: BorderRadius.only(
-                  //       topRight: Radius.circular(22.dp),
-                  //       bottomRight: Radius.circular(22.dp),
-                  //     ),
-                  //     ),
-                  child: TextField(
-                    focusNode: searchFocus,
-                    controller: searchBarController,
-                    onChanged: onChanged,
-                    enabled: start == null,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                        color: const Color(0xFF333333),
-                        fontSize: 12.sp,
-                        textBaseline: TextBaseline.alphabetic),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(
-                          0, 0, 0, 0), //const EdgeInsets.all(0),
+            ),
+            SizedBox(
+              width: 12.dp,
+            ),
+            Expanded(
+              // height: SGScreenUtil.h(40),
+              child: Container(
+                // decoration: BoxDecoration(
+                //   color: Color(0xFFeeeeee),
+                //     borderRadius: BorderRadius.only(
+                //       topRight: Radius.circular(22.dp),
+                //       bottomRight: Radius.circular(22.dp),
+                //     ),
+                //     ),
+                child: TextField(
+                  focusNode: searchFocus,
+                  controller: searchBarController,
+                  onChanged: onChanged,
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                      color: const Color(0xFF333333),
+                      fontSize: 12.sp,
+                      textBaseline: TextBaseline.alphabetic),
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(0),
+                      //const EdgeInsets.all(0),
                       border: InputBorder.none,
                       hintText: "请输入...",
-                      hintStyle:
-                          TextStyle(color: Color(0xFFcccccc), fontSize: 12.sp),
-                    ),
+                      hintStyle: TextStyle(
+                          color: const Color(0xFFcccccc), fontSize: 12.sp),
+                      ),
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (text) {
+                    if (search != null) {
+                      search!();
+                    }
+                  },
+                ),
+              ),
+            ),
+            // cancelWidget,
+            SizedBox(
+              width: 10.dp,
+            ),
+            GestureDetector(
+              onTap: search,
+              child: Container(
+                width: 70.dp,
+                height: double.infinity,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Color(0xFFE8EFF9),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(22.dp),
+                    bottomRight: Radius.circular(22.dp),
+                  ),
+                ),
+                child: Text(
+                  "搜索",
+                  style: TextStyle(
+                    color: Color(0xFF333333),
+                    fontSize: 12.sp,
                   ),
                 ),
               ),
-              // cancelWidget,
-              SizedBox(
-                width: 10.dp,
-              ),
-              GestureDetector(
-                onTap: search,
-                child: Container(
-                  width: 70.dp,
-                  height: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE8EFF9),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(22.dp),
-                      bottomRight: Radius.circular(22.dp),
-                    ),
-                  ),
-                  child: Text(
-                    "搜索",
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12.sp,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

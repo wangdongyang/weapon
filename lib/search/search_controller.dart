@@ -37,7 +37,9 @@ class SearchController extends GetxController {
           update();
         },
         child: Container(
-          color: Colors.white,
+          // width: double.infinity,
+          // height: double.infinity,
+          // color: Colors.white,
           child: Text(
             route["name"],
             style: TextStyle(
@@ -52,6 +54,7 @@ class SearchController extends GetxController {
 
   search() async {
     String text = state.searchBarController.value.text;
+    print(text);
     if (text.isEmpty) return;
     var dio = Dio();
     String host = Api.music;

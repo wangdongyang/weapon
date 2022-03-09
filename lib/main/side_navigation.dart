@@ -77,7 +77,7 @@ class SideNavigation extends StatelessWidget {
           style: TextStyle(
               fontSize: 12.sp,
               color: Color(0xFF999999),
-              fontFamily: "ZCOOLXiaoWei"),
+              fontFamily: 'Raleway'),
           overflow: TextOverflow.ellipsis,
         ),
       ),
