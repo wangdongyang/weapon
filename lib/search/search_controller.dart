@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leancloud_storage/leancloud.dart';
+import 'package:weapon/auto_ui.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/home/home_state.dart';
 import 'package:weapon/main/main_controller.dart';
@@ -35,19 +36,22 @@ class SearchController extends GetxController {
           state.audioSource = route["source"];
           update();
         },
-        child: Text(
-          route["name"],
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 14,
+        child: Container(
+          color: Colors.white,
+          child: Text(
+            route["name"],
+            style: TextStyle(
+              color: const Color(0xFF333333),
+              fontSize: 12.sp,
+            ),
           ),
         ),
       );
     }).toList();
   }
 
-  search(String text) async {
-    // String text = _searchBarController.value.text;
+  search() async {
+    String text = state.searchBarController.value.text;
     if (text.isEmpty) return;
     var dio = Dio();
     String host = Api.music;
@@ -64,7 +68,8 @@ class SearchController extends GetxController {
     for (var element in mapList) {
       songs.add(SongListItem.fromJson(element));
     }
-    // this.songs = songs;
+    state.songs = songs;
+    update();
   }
 
   chooseSong(HistoryPo item, int index) {

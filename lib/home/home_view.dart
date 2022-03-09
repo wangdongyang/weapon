@@ -41,6 +41,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+
     return GetBuilder<HomeController>(
       builder: (controller) {
         return Container(
@@ -49,36 +50,39 @@ class _HomeViewState extends State<HomeView> {
             children: [
               _searchWidget(),
               Expanded(
-                child: ListView(
-                  children: [
-                    SizedBox(
-                      height: 20.dp,
-                    ),
-                    sectionHeader("assets/images/stars.png", "热门歌单"),
-                    SizedBox(
-                      height: 15.dp,
-                    ),
-                    _playListWidget(),
-                    SizedBox(
-                      height: 20.dp,
-                    ),
-                    sectionHeader("assets/images/rank.png", "排行榜"),
-                    ListView.separated(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 15),
-                      itemBuilder: (ctx, index) {
-                        return _itemWidget(index);
-                      },
-                      shrinkWrap: true,
-                      itemCount: controller.state.histories.length,
-                      separatorBuilder: (ctx, index) {
-                        return const SizedBox(
-                          height: 5,
-                        );
-                      },
+                child: ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          height: 20.dp,
+                        ),
+                        sectionHeader("assets/images/stars.png", "热门歌单"),
+                        SizedBox(
+                          height: 15.dp,
+                        ),
+                        _playListWidget(),
+                        SizedBox(
+                          height: 20.dp,
+                        ),
+                        sectionHeader("assets/images/rank.png", "排行榜"),
+                        ListView.separated(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15),
+                          itemBuilder: (ctx, index) {
+                            return _itemWidget(index);
+                          },
+                          shrinkWrap: true,
+                          itemCount: controller.state.histories.length,
+                          separatorBuilder: (ctx, index) {
+                            return const SizedBox(
+                              height: 5,
+                            );
+                          },
+                        )
+                      ],
                     )
-                  ],
-                ),
+                )
               ),
             ],
           ),

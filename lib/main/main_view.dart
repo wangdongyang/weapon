@@ -24,7 +24,7 @@ class MainView extends StatelessWidget {
         GetBuilder<MainController>(
           builder: (logic) {
             return Expanded(
-              flex: 3,
+              flex: 4,
               child: SideNavigation(
                 selectedIndex: logic.state.selectedIndex,
                 isUnfold: logic.state.isUnfold,
@@ -42,7 +42,7 @@ class MainView extends StatelessWidget {
 
         ///Expanded占满剩下的空间
         Expanded(
-          flex: 9,
+          flex: 12,
           child: Stack(
             children: [
               // _buildBackground(),
@@ -56,7 +56,7 @@ class MainView extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(flex: 3, child: PlayView()),
+        Expanded(flex: 4, child: PlayView()),
       ]),
     );
   }

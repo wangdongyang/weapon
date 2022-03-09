@@ -40,7 +40,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
         String url = controller.state.picUrl ?? "";
         String name = controller.state.name ?? "";
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           decoration: BoxDecoration(color: Colors.white,
               // borderRadius: const BorderRadius.all(
               //   Radius.circular(40),
@@ -294,7 +294,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
     String url = controller.state.picUrl ?? "";
     String name = controller.state.artist ?? "";
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.symmetric(vertical: 15.dp),
       child: Row(
         children: [
           CachedNetworkImage(

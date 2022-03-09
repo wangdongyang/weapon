@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
 
 typedef OnChanged = Function(String text);
+typedef StartInput = Function();
 typedef StartSearch = Function();
 typedef MenuChanged = Function(String text);
 
 class SearchBar extends StatelessWidget {
   OnChanged? onChanged;
-  StartSearch? start;
+  StartInput? start;
+  StartSearch? search;
   MenuChanged? menuChanged;
-  final TextEditingController searchBarController = TextEditingController();
-  final FocusNode searchFocus = FocusNode();
+  TextEditingController searchBarController = TextEditingController();
+  FocusNode searchFocus = FocusNode();
   List<DropdownMenuItem<String>> menuItems = [];
   String selectedName = "";
   List<Map<String, dynamic>> sources = [];
@@ -19,7 +21,10 @@ class SearchBar extends StatelessWidget {
       {Key? key,
       this.onChanged,
       this.start,
+      this.search,
       this.menuChanged,
+      required this.searchBarController,
+      required this.searchFocus,
       required this.menuItems,
       required this.selectedName,
       required this.sources})
@@ -31,22 +36,28 @@ class SearchBar extends StatelessWidget {
       child: DropdownButton<String>(
         items: menuItems,
         value: selectedName,
+        elevation: 0,
+        isDense: true,
+        isExpanded: false,
+        menuMaxHeight: 200.dp,
+        autofocus: false,
+        borderRadius: BorderRadius.circular(4.dp),
         selectedItemBuilder: (BuildContext context) {
           return sources.map<Widget>((Map<String, dynamic> route) {
             return Container(
               alignment: Alignment.center,
               child: Text(
                 route["name"],
-                style: const TextStyle(
+                style: TextStyle(
                   color: Color(0xFF333333),
-                  fontSize: 12,
+                  fontSize: 12.sp,
                 ),
               ),
             );
           }).toList();
         },
-        iconEnabledColor: Colors.black38,
-        focusColor: Colors.redAccent.shade100,
+        iconEnabledColor: Colors.white,
+        focusColor: Colors.white,
         dropdownColor: Colors.white,
         icon: Container(),
         onChanged: (newValue) =>
@@ -136,15 +147,37 @@ class SearchBar extends StatelessWidget {
                       border: InputBorder.none,
                       hintText: "请输入...",
                       hintStyle:
-                          TextStyle(color: Color(0xFF999999), fontSize: 12.sp),
+                          TextStyle(color: Color(0xFFcccccc), fontSize: 12.sp),
                     ),
                   ),
                 ),
               ),
               // cancelWidget,
-              // SizedBox(
-              //   width: 10.dp,
-              // ),
+              SizedBox(
+                width: 10.dp,
+              ),
+              GestureDetector(
+                onTap: search,
+                child: Container(
+                  width: 70.dp,
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE8EFF9),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(22.dp),
+                      bottomRight: Radius.circular(22.dp),
+                    ),
+                  ),
+                  child: Text(
+                    "搜索",
+                    style: TextStyle(
+                      color: Color(0xFF333333),
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),

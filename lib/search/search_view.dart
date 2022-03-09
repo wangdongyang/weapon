@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/model/history_po.dart';
+import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/search/search_bar.dart';
 import 'package:weapon/search/search_controller.dart';
 
@@ -21,20 +22,24 @@ class SearchView extends StatelessWidget {
           children: [
             _searchWidget(),
             Expanded(
-              child: ListView.separated(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                itemBuilder: (ctx, index) {
-                  return _itemWidget(index);
-                },
-                shrinkWrap: true,
-                itemCount: controller.state.histories.length,
-                separatorBuilder: (ctx, index) {
-                  return const SizedBox(
-                    height: 5,
-                  );
-                },
-              ),
+              child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15),
+                    itemBuilder: (ctx, index) {
+                      return _itemWidget(index);
+                    },
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: controller.state.songs.length,
+                    separatorBuilder: (ctx, index) {
+                      return const SizedBox(
+                        height: 5,
+                      );
+                    },
+                  )),
             )
           ],
         );
@@ -47,26 +52,28 @@ class SearchView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 15.dp, right: 15.dp, top: 15.dp),
       child: SearchBar(
+        searchBarController: controller.state.searchBarController,
+        searchFocus: controller.state.searchFocus,
         menuItems: controller.state.subRouteNameMenuItems,
         sources: controller.state.sources,
         selectedName: controller.state.selectedName,
         menuChanged: (text) => controller.menuChanged(text),
-        onChanged: (text) {},
+        search: () => controller.search(),
       ),
     );
   }
 
   _itemWidget(int index) {
-    HistoryPo item = controller.state.histories[index];
-    String url = item.picUrl;
-    int munite = (item.dt / 60).ceil();
-    String muniteStr = "$munite";
-    if (munite < 10) muniteStr = "0$munite";
-    int seconds = (item.dt % 60).ceil();
-    String secondStr = "$seconds";
-    if (seconds < 10) secondStr = "0$seconds";
-    String time = "$muniteStr:$secondStr";
-    String artistName = item.artist.map((e) => e.name).toList().join(",");
+    SongListItem item = controller.state.songs[index];
+    // String url = item.picUrl;
+    // int munite = (item.dt / 60).ceil();
+    // String muniteStr = "$munite";
+    // if (munite < 10) muniteStr = "0$munite";
+    // int seconds = (item.dt % 60).ceil();
+    // String secondStr = "$seconds";
+    // if (seconds < 10) secondStr = "0$seconds";
+    // String time = "$muniteStr:$secondStr";
+    // String artistName = item.artist.map((e) => e.name).toList().join(",");
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
@@ -78,7 +85,7 @@ class SearchView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () => controller.chooseSong(item, index),
+            onTap: null, //controller.chooseSong(item, index),
             child: Container(
               padding: EdgeInsets.only(left: 15.dp),
               child: Icon(
@@ -97,26 +104,26 @@ class SearchView extends StatelessWidget {
               flex: 1,
               child: Row(
                 children: [
-                  CachedNetworkImage(
-                    width: 40.dp,
-                    height: 40.dp,
-                    //maxHeightDiskCache: 10,
-                    imageUrl: url,
-                    // placeholder: (context, url) => const CircleAvatar(
-                    //   backgroundColor: Colors.amber,
-                    //   radius: 150,
-                    // ),
-                    imageBuilder: (context, image) => CircleAvatar(
-                      backgroundImage: image,
-                      radius: 6,
-                    ),
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    fadeOutDuration: const Duration(seconds: 1),
-                    fadeInDuration: const Duration(seconds: 3),
-                  ),
+                  // CachedNetworkImage(
+                  //   width: 40.dp,
+                  //   height: 40.dp,
+                  //   //maxHeightDiskCache: 10,
+                  //   imageUrl: url,
+                  //   // placeholder: (context, url) => const CircleAvatar(
+                  //   //   backgroundColor: Colors.amber,
+                  //   //   radius: 150,
+                  //   // ),
+                  //   imageBuilder: (context, image) => CircleAvatar(
+                  //     backgroundImage: image,
+                  //     radius: 6,
+                  //   ),
+                  //   placeholder: (context, url) =>
+                  //       const CircularProgressIndicator(),
+                  //   errorWidget: (context, url, error) =>
+                  //       const Icon(Icons.error),
+                  //   fadeOutDuration: const Duration(seconds: 1),
+                  //   fadeInDuration: const Duration(seconds: 3),
+                  // ),
                   SizedBox(
                     width: 20.dp,
                   ),
@@ -133,14 +140,14 @@ class SearchView extends StatelessWidget {
                   ),
                 ],
               )),
-          Expanded(
-              flex: 1,
-              child: Text(artistName,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 13.sp, color: const Color(0xFF666666)))),
+          // Expanded(
+          //     flex: 1,
+          //     child: Text(artistName,
+          //         maxLines: 1,
+          //         textAlign: TextAlign.center,
+          //         overflow: TextOverflow.ellipsis,
+          //         style: TextStyle(
+          //             fontSize: 13.sp, color: const Color(0xFF666666)))),
           Expanded(
             flex: 1,
             child: Row(
@@ -154,12 +161,12 @@ class SearchView extends StatelessWidget {
                 SizedBox(
                   width: 5.dp,
                 ),
-                Text(time,
-                    maxLines: 1,
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 13.sp, color: const Color(0xFF999999)))
+                // Text(time,
+                //     maxLines: 1,
+                //     textAlign: TextAlign.end,
+                //     overflow: TextOverflow.ellipsis,
+                //     style: TextStyle(
+                //         fontSize: 13.sp, color: const Color(0xFF999999)))
               ],
             ),
           ),
