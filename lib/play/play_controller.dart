@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_detail.dart';
+import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/play/play_state.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 import 'package:weapon/utils/auth_util.dart';
@@ -21,12 +23,38 @@ class PlayController extends GetxController {
   late AudioPlayer audioPlayer;
 
   initState(HistoryPo? historyPo) {
-    state.historyPo = historyPo;
-    state.lyrics = LyricUtil.formatLyric(historyPo?.lyricUrl ?? "");
+    if (historyPo == null) return;
+    state.playId = historyPo.playId;
+    state.source = AudioSource.netease;
+    state.lyrics = LyricUtil.formatLyric(historyPo.lyricUrl ?? "");
     state.lyricWidget = LyricView(state.lyrics, 0);
-    state.name = historyPo?.name ?? "";
-    state.picUrl = historyPo?.picUrl ?? "";
-    state.artist = historyPo?.artist.map((e) => e.name).toList().join(",") ?? "";
+    state.name = historyPo.name ?? "";
+    state.picUrl = historyPo.picUrl ?? "";
+    state.artist = historyPo.artist.map((e) => e.name).toList().join(",") ?? "";
+    state.duration = const Duration();
+    state.position = const Duration();
+
+    update();
+  }
+
+  initRangSong(SongRankModel? rank) async {
+    if (rank == null) return;
+    state.source = AudioSource.kugou;
+    String? id = rank.hash;
+    var dio = Dio();
+    Map<String, dynamic> header = AuthUtil.getHeader(Api.music);
+    dio.options.headers = header;
+    Map<String, dynamic> lyricParam = {"lyric": id, "site": state.sourceStr};
+    final lyricResponse = await dio.get(Api.music, queryParameters: lyricParam);
+    var lyricMap = jsonDecode(lyricResponse.toString());
+
+    state.playId = id;
+    state.source = AudioSource.kugou;
+    state.lyrics = LyricUtil.formatLyric(lyricMap["lyric"]);
+    state.lyricWidget = LyricView(state.lyrics, 0);
+    state.name = rank.songName ?? "";
+    state.picUrl = rank.albumSizableCover;
+    state.artist = rank.singer;
     state.duration = const Duration();
     state.position = const Duration();
 
@@ -77,7 +105,6 @@ class PlayController extends GetxController {
   }
 
   play() async {
-
     if (audioPlayer.state == PlayerState.PLAYING) {
       final result = await audioPlayer.pause();
       if (result == 1) {
@@ -86,12 +113,11 @@ class PlayController extends GetxController {
       return;
     }
 
-    print('PlayController->play->url = ' + (state.historyPo?.playUrl ?? ""));
-    if (state.historyPo == null) return;
-    String songId = state.historyPo!.playId;
+    if (state.playId == null) return;
+    String songId = state.playId!;
     var dio = Dio();
     Map<String, dynamic> header = AuthUtil.getHeader(Api.music);
-    Map<String, dynamic> param = {"item_id": songId, "site": state.historyPo!.source};
+    Map<String, dynamic> param = {"item_id": songId, "site": state.sourceStr};
     dio.options.headers = header;
     final response = await dio.get(Api.music, queryParameters: param);
     SongDetail detail = SongDetail.fromJson(jsonDecode(response.toString()));
@@ -109,8 +135,7 @@ class PlayController extends GetxController {
       return;
     }
 
-    final result =
-    await audioPlayer.play(url, position: playPosition);
+    final result = await audioPlayer.play(url, position: playPosition);
     if (result == 1) {
       print('play succes');
     }

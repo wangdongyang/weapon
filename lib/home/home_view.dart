@@ -9,6 +9,7 @@ import 'package:weapon/home/home_controller.dart';
 import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
+import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/utils/color_util.dart';
 
 class HomeView extends StatefulWidget {
@@ -76,7 +77,7 @@ class _HomeViewState extends State<HomeView> {
                               return _itemWidget(index);
                             },
                             shrinkWrap: true,
-                            itemCount: controller.state.histories.length,
+                            itemCount: controller.state.ranks.length,
                             separatorBuilder: (ctx, index) {
                               return const SizedBox(
                                 height: 5,
@@ -217,16 +218,16 @@ class _HomeViewState extends State<HomeView> {
   _rankWidget() {}
 
   _itemWidget(int index) {
-    HistoryPo item = controller.state.histories[index];
-    String url = item.picUrl;
-    int munite = (item.dt / 60).ceil();
+    SongRankModel item = controller.state.ranks[index];
+    String url = item.albumSizableCover ?? "";
+    int munite = ((item.duration??0) / 60).floor();
     String muniteStr = "$munite";
     if (munite < 10) muniteStr = "0$munite";
-    int seconds = (item.dt % 60).ceil();
+    int seconds = ((item.duration??0) % 60).floor();
     String secondStr = "$seconds";
     if (seconds < 10) secondStr = "0$seconds";
     String time = "$muniteStr:$secondStr";
-    String artistName = item.artist.map((e) => e.name).toList().join(",");
+    String artistName = item.singer;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
@@ -258,8 +259,8 @@ class _HomeViewState extends State<HomeView> {
               child: Row(
                 children: [
                   CachedNetworkImage(
-                    width: 40.dp,
-                    height: 40.dp,
+                    width: 44.dp,
+                    height: 44.dp,
                     //maxHeightDiskCache: 10,
                     imageUrl: url,
                     // placeholder: (context, url) => const CircleAvatar(
@@ -286,7 +287,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   Expanded(
                     child: Text(
-                      item.name,
+                      item.songName,
                       maxLines: 1,
                       style: TextStyle(
                           fontSize: 14.sp,

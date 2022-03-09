@@ -20,7 +20,7 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
 
-    loadData();
+    // loadData();
     fetchPlayList();
     fetchTopSongs();
   }
@@ -44,12 +44,13 @@ class HomeController extends GetxController {
   fetchTopSongs() async {
     var dio = Dio();
     final response = await dio.get(Api.top500);
-    Map<String, dynamic> data = jsonDecode(response.toString());
+    String sst = response.toString().replaceAll(RegExp(r'<!--KG_TAG_RES_START-->'), "");
+    sst = sst.replaceAll(RegExp(r'<!--KG_TAG_RES_END-->'), "");
+    Map<String, dynamic> data = jsonDecode(sst);
     List dataList = data["data"]["info"];
     List<SongRankModel> ranks = dataList.map((e) => SongRankModel.fromJson(e)).toList();
-    ranks.forEach((element) {
-      print(element.filename);
-    });
+    state.ranks = ranks;
+    update();
   }
 
   fetchPlayList() async {
@@ -62,10 +63,10 @@ class HomeController extends GetxController {
     update();
   }
 
-  chooseSong(HistoryPo item, int index) {
+  chooseSong(SongRankModel item, int index) {
     state.selectedItem = item;
     state.selectedIndex = index;
-    Get.find<PlayController>().initState(item);
+    Get.find<PlayController>().initRangSong(item);
     update();
   }
 

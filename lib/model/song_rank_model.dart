@@ -209,6 +209,9 @@ class SongRankModel {
   String? hashSuper;
   int? bitrateSuper;
 
+  String songName = "";
+  String singer = "";
+
   SongRankModel({
     this.rankCid,
     this.priceSq,
@@ -315,7 +318,12 @@ class SongRankModel {
     payType_320 = json['pay_type_320']?.toInt();
     m4afilesize = json['m4afilesize']?.toInt();
     bitrate = json['bitrate']?.toInt();
-    albumSizableCover = json['album_sizable_cover']?.toString();
+    // albumSizableCover = json['album_sizable_cover']?.toString();
+    String? cover = json['album_sizable_cover']?.toString();
+    if (cover != null && cover.isNotEmpty) {
+      albumSizableCover = cover.replaceAll(r'{size}/', "");
+    }
+
     price = json['price']?.toInt();
     privilegeSuper = json['privilege_super']?.toInt();
     oldCpy = json['old_cpy']?.toInt();
@@ -347,6 +355,12 @@ class SongRankModel {
     zone = json['zone']?.toString();
     hashSuper = json['hash_super']?.toString();
     bitrateSuper = json['bitrate_super']?.toInt();
+
+    if (filename != null && filename!.isNotEmpty) {
+      var split = filename!.split("-");
+      songName = split.last.trim();
+      singer = split.first.trim();
+    }
   }
 
   Map<String, dynamic> toJson() {
