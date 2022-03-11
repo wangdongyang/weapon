@@ -26,6 +26,12 @@ class Api {
   /// Top500
   static String top500 =
       "http://mobilecdn.kugou.com/api/v3/rank/song?ranktype=2&rankid=58176&plat=0&page=1&pagesize=30&version=8352&with_res_tag=1";
+
+  /// 酷狗歌曲所有排行
+  static String rankList = "http://mobilecdn.kugou.com/api/v3/rank/list?apiver=4&withsong=1&showtype=2&plat=0&parentid=0&version=8352&with_res_tag=1";
+
+  /// 获取某个排行榜下的所有的歌曲
+  static String rankSongsList = "http://mobilecdn.kugou.com/api/v3/rank/song?version=8352&with_res_tag=1";
 }
 
 /**

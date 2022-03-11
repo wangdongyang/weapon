@@ -7,4 +7,9 @@ class PlayListState {
 
   List<SongListItem> songs = [];
   int selectedIndex = -1;
+
+
+  List<PlayListItemModel> playList = [];
+
+  int offset = 0;
 }

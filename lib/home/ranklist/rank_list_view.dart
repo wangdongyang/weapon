@@ -1,45 +1,43 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
-
-import 'package:weapon/home/playlist/play_list_controller.dart';
-import 'package:weapon/home/playlist/play_list_state.dart';
+import 'package:weapon/home/ranklist/rank_list_controller.dart';
+import 'package:weapon/home/ranklist/rank_list_state.dart';
 import 'package:weapon/home/songs_view.dart';
-import 'package:weapon/model/play_list_item_model.dart';
+import 'package:weapon/model/rank_list_item_model.dart';
 import 'package:weapon/utils/color_util.dart';
 import 'package:weapon/utils/navigator_util.dart';
 
-class PlayListView extends StatefulWidget {
-  const PlayListView({Key? key}) : super(key: key);
+class RankListView extends StatefulWidget {
+  const RankListView({Key? key}) : super(key: key);
 
   @override
-  _PlayListViewState createState() => _PlayListViewState();
+  _RankListViewState createState() => _RankListViewState();
 }
 
-class _PlayListViewState extends State<PlayListView> {
-  final PlayListController controller = Get.put(PlayListController());
+class _RankListViewState extends State<RankListView> {
+  final RankListController controller = Get.put(RankListController());
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.loadRefresh();
+    controller.fetchList();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    controller.state = PlayListState();
+    controller.state = RankListState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xffF6F8F9),
-      child: GetBuilder<PlayListController>(builder: (controller) {
+      child: GetBuilder<RankListController>(builder: (controller) {
         return ScrollConfiguration(
           behavior:
           ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -48,14 +46,14 @@ class _PlayListViewState extends State<PlayListView> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 300,
+                maxCrossAxisExtent: 200,
                 mainAxisSpacing: 20.dp,
                 crossAxisSpacing: 20.dp,
-                childAspectRatio: 1.4),
+                childAspectRatio: 1.2),
             itemBuilder: (BuildContext context, int index) {
               return itemWidget(index);
             },
-            itemCount: controller.state.playList.length,
+            itemCount: controller.state.rankList.length,
           ),
         );
         // return EasyRefresh(
@@ -89,14 +87,14 @@ class _PlayListViewState extends State<PlayListView> {
   }
 
   Widget itemWidget(int index) {
-    PlayListItemModel item = controller.state.playList[index];
+    RankListItemModel item = controller.state.rankList[index];
     return GestureDetector(
       onTap: () {
         NavigatorUtil.push(
             context,
             SongsView(
-              playListItem: item,
-              sourceType: SongSourceType.playList,
+              rankListItem: item,
+              sourceType: SongSourceType.rankList,
             ));
       },
       child: Container(
@@ -116,7 +114,7 @@ class _PlayListViewState extends State<PlayListView> {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: item.coverImgUrl ?? "",
+                  imageUrl: item.imgurl ?? "",
                   imageBuilder: (context, image) {
                     return Container(
                       decoration: BoxDecoration(
@@ -145,7 +143,7 @@ class _PlayListViewState extends State<PlayListView> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0.dp),
                 child: Text(
-                  item.name ?? "",
+                  item.rankname ?? "",
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 12.sp,

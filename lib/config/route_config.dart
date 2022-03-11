@@ -23,10 +23,10 @@ class RouteConfig {
         page: () => PlayView(),
       ),
       GetPage(name: home, page: () => HomeView(), children: [
-        GetPage(
-          name: songs,
-          page: () => SongsView(),
-        ),
+        // GetPage(
+        //   name: songs,
+        //   page: () => SongsView(),
+        // ),
       ]),
     ]),
   ];

@@ -37,6 +37,7 @@ dependencies:
   common_utils: ^2.1.0
   url_launcher_web: 2.0.6
   cached_network_image: ^3.2.0
+  flutter_easyrefresh: ^2.2.1
   # 设置window窗口 https://github.com/google/flutter-desktop-embedding/tree/master/plugins/window_size
   window_size:
     git:

@@ -1,14 +1,16 @@
 import 'package:weapon/model/play_list_item_model.dart';
 import 'package:weapon/model/rank_list_item_model.dart';
 import 'package:weapon/model/song_list_item.dart';
-import 'package:weapon/model/song_rank_model.dart';
 
-class SongsState {
+class RankListState {
 
   PlayListItemModel? playListItem;
-  RankListItemModel? rankListItem;
 
   List<SongListItem> songs = [];
-  List<SongRankModel> ranks = [];
   int selectedIndex = -1;
+
+
+  List<RankListItemModel> rankList = [];
+
+  int offset = 0;
 }

@@ -41,7 +41,7 @@ class MainState {
     pageList = [
       KeepAlivePage(const HomeView()),
       KeepAlivePage(SearchView()),
-      KeepAlivePage(const FavoriteView()),
+      KeepAlivePage( FavoriteView()),
       KeepAlivePage(const SettingView())
     ];
     //item栏目

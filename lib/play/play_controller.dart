@@ -28,7 +28,7 @@ class PlayController extends GetxController {
     if (historyPo == null) return;
     if (state.playId == historyPo.playId) return;
     state.playId = historyPo.playId;
-    state.source = AudioSource.netease;
+    state.source = historyPo.sourceType;
     state.lyrics = LyricUtil.formatLyric(historyPo.lyricUrl);
     state.lyricWidget = LyricView(state.lyrics, 0);
     state.name = historyPo.name;

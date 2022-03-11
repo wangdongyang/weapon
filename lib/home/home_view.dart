@@ -9,6 +9,7 @@ import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
 import 'package:weapon/home/home_controller.dart';
 import 'package:weapon/home/playlist/play_list_view.dart';
+import 'package:weapon/home/ranklist/rank_list_view.dart';
 import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/home/songs_view.dart';
 import 'package:weapon/model/history_po.dart';
@@ -45,16 +46,21 @@ class _HomeViewState extends State<HomeView> {
                           SizedBox(
                             height: 30.dp,
                           ),
-                          sectionHeader("assets/images/stars.png", "热门歌单"),
+                          sectionHeader("assets/images/stars.png", "热门歌单",
+                              callBack: () {
+                            NavigatorUtil.push(context, const PlayListView());
+                          }),
                           SizedBox(
                             height: 15.dp,
                           ),
+
                           /// 歌单
                           Container(
                             height: 150.dp,
                             // padding: EdgeInsets.only(left: 15.dp),
                             child: ListView.separated(
-                              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15.dp),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 15.dp),
                               itemBuilder: (ctx, index) {
                                 return _playListItemWidget(index);
                               },
@@ -71,20 +77,26 @@ class _HomeViewState extends State<HomeView> {
                           SizedBox(
                             height: 30.dp,
                           ),
-                          sectionHeader("assets/images/rank.png", "排行榜"),
+                          sectionHeader("assets/images/rank.png", "排行榜",
+                              callBack: () {
+                            NavigatorUtil.push(context, const RankListView());
+                          }),
                           ListView.separated(
                             padding: EdgeInsets.symmetric(
                                 vertical: 15.dp, horizontal: 0),
                             itemBuilder: (ctx, index) {
-                              SongRankModel item = controller.state.ranks[index];
+                              SongRankModel item =
+                                  controller.state.ranks[index];
                               String url = item.albumSizableCover ?? "";
                               return AudioItemWidget(
                                 name: item.songName,
                                 picUrl: url,
                                 duration: item.duration ?? 0,
                                 singer: item.singer,
-                                isChoose: controller.state.selectedIndex == index,
-                                clickCallBack: ()=>controller.chooseSong(item, index),
+                                isChoose:
+                                    controller.state.selectedIndex == index,
+                                clickCallBack: () =>
+                                    controller.chooseSong(item, index),
                               );
                             },
                             shrinkWrap: true,
@@ -114,8 +126,6 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-
-
   _playListItemWidget(int index) {
     PlayListItemModel playListItem = controller.state.playList[index];
     double padding =
@@ -123,8 +133,13 @@ class _HomeViewState extends State<HomeView> {
             ? 5.dp
             : 0.dp;
     return GestureDetector(
-      onTap: (){
-        NavigatorUtil.push(context, SongsView(playListItem: playListItem,));
+      onTap: () {
+        NavigatorUtil.push(
+            context,
+            SongsView(
+              playListItem: playListItem,
+              sourceType: SongSourceType.playList,
+            ));
         // NavigatorUtil.push(context, PlayListView());
         // Get.to(()=>SongsView());
       },
@@ -151,7 +166,8 @@ class _HomeViewState extends State<HomeView> {
                       height: 150.dp,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.dp),
-                          image: DecorationImage(image: image, fit: BoxFit.cover),
+                          image:
+                              DecorationImage(image: image, fit: BoxFit.cover),
                           boxShadow: [
                             BoxShadow(
                                 color: const Color(0xffc2c2c2).withAlpha(146),
@@ -163,10 +179,11 @@ class _HomeViewState extends State<HomeView> {
                   },
                   placeholder: (context, url) => Container(
                     decoration: BoxDecoration(
-                      color: ColorUtil.randomColor().withAlpha(60),
+                      color: ColorUtil.randomColor().withAlpha(40),
                       borderRadius: BorderRadius.circular(8.dp),
                     ),
                   ),
+                  //card_place_image.png
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   fadeOutDuration: const Duration(seconds: 1),
                   fadeInDuration: const Duration(seconds: 2),
@@ -189,7 +206,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget sectionHeader(String icon, String title) {
+  Widget sectionHeader(String icon, String title, {Function? callBack}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -218,28 +235,33 @@ class _HomeViewState extends State<HomeView> {
               )
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "查看更多",
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 12.sp,
+          GestureDetector(
+            onTap: () {
+              if (callBack != null) callBack();
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "查看更多",
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: const Color(0xFFACACAC),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  width: 5.dp,
+                ),
+                Icon(
+                  Icons.arrow_forward,
+                  size: 14.sp,
                   color: const Color(0xFFACACAC),
                 ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(
-                width: 5.dp,
-              ),
-              Icon(
-                Icons.arrow_forward,
-                size: 14.sp,
-                color: const Color(0xFFACACAC),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

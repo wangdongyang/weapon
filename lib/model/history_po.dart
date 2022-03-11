@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:leancloud_storage/leancloud.dart';
 import 'package:weapon/model/song_list_item.dart';
+import 'package:weapon/search/search_state.dart';
+import 'package:weapon/utils/enum_util.dart';
 import 'package:weapon/utils/leancloud_util.dart';
 import 'package:weapon/utils/lyric_util.dart';
 
@@ -18,6 +20,8 @@ class HistoryPo {
   int size = 0;
   int id = 0;
   int dt = 0;
+
+  AudioSource sourceType = AudioSource.netease;
 
   HistoryPo();
 
@@ -41,6 +45,9 @@ class HistoryPo {
     if (lcObject["dt"] != null) {
       dt = int.parse(lcObject["dt"].toString());
     }
+
+    sourceType =
+        EnumUtil.enumFromString<AudioSource>(AudioSource.values, source);
   }
 
   Future<void> saveData() async {
