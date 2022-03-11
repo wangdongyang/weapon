@@ -211,6 +211,7 @@ class SongRankModel {
 
   String songName = "";
   String singer = "";
+  dynamic lyric;
 
   SongRankModel({
     this.rankCid,

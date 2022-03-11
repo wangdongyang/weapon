@@ -8,7 +8,7 @@ enum AudioSource { netease, tencent, xiami, kugou, baidu, kuwo }
 
 class SearchState {
   HistoryPo? selectedItem;
-  int selectedIndex = 0;
+  int selectedIndex = -1;
 
   List<HistoryPo> histories = [];
 

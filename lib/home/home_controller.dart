@@ -4,7 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:leancloud_storage/leancloud.dart';
 import 'package:weapon/config/api_config.dart';
+import 'package:weapon/config/route_config.dart';
 import 'package:weapon/home/home_state.dart';
+import 'package:weapon/home/songs_view.dart';
 import 'package:weapon/main/main_controller.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
@@ -44,18 +46,21 @@ class HomeController extends GetxController {
   fetchTopSongs() async {
     var dio = Dio();
     final response = await dio.get(Api.top500);
-    String sst = response.toString().replaceAll(RegExp(r'<!--KG_TAG_RES_START-->'), "");
+    String sst =
+        response.toString().replaceAll(RegExp(r'<!--KG_TAG_RES_START-->'), "");
     sst = sst.replaceAll(RegExp(r'<!--KG_TAG_RES_END-->'), "");
     Map<String, dynamic> data = jsonDecode(sst);
     List dataList = data["data"]["info"];
-    List<SongRankModel> ranks = dataList.map((e) => SongRankModel.fromJson(e)).toList();
+    List<SongRankModel> ranks =
+        dataList.map((e) => SongRankModel.fromJson(e)).toList();
     state.ranks = ranks;
     update();
   }
 
   fetchPlayList() async {
     var dio = Dio();
-    final response = await dio.get(Api.neteasePlayList);
+    final response =
+        await dio.get(Api.neteasePlayList, queryParameters: {"offset": 0});
     Map<String, dynamic> data = jsonDecode(response.toString());
     List dataList = data["rows"];
     var playList = dataList.map((e) => PlayListItemModel.fromJson(e)).toList();
@@ -72,5 +77,9 @@ class HomeController extends GetxController {
 
   startSearch() {
     Get.find<MainController>().switchTap(1);
+  }
+
+  morePlayList(int index) {
+    PlayListItemModel playListItem = state.playList[index];
   }
 }

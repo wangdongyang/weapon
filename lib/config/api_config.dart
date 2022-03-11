@@ -1,6 +1,13 @@
 class Api {
-  static String music =
-      "https://service-1neqmc80-1257701204.gz.apigw.tencentcs.com/release/music";
+  static String host =
+      "https://service-1neqmc80-1257701204.gz.apigw.tencentcs.com/release/";
+
+  static String music = host + "music";
+  static String play = host + "play";
+  static String lyric = host + "lyric";
+  static String playlist = host + "playlist";
+  static String search = host + "search";
+
 
   static String oneWord = "https://v1.hitokoto.cn/";
 
@@ -13,10 +20,12 @@ class Api {
       "http://mobilecdn.kugou.com/api/v3/special/song?plat=0&specialid={歌单 id}&page=1&pagesize=-1&version=8352&with_res_tag=1";
 
   /// 网易云音乐热门歌单
-  static String neteasePlayList = "http://www.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&offset=0&limit=20&_=1646578856186";
+  static String neteasePlayList =
+      "http://www.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&limit=20&_=1646578856186";
 
   /// Top500
-  static String top500 = "http://mobilecdn.kugou.com/api/v3/rank/song?ranktype=2&rankid=58176&plat=0&page=1&pagesize=30&version=8352&with_res_tag=1";
+  static String top500 =
+      "http://mobilecdn.kugou.com/api/v3/rank/song?ranktype=2&rankid=58176&plat=0&page=1&pagesize=30&version=8352&with_res_tag=1";
 }
 
 /**

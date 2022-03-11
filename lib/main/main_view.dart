@@ -49,8 +49,24 @@ class MainView extends StatelessWidget {
               PageView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: controller.state.pageList.length,
-                itemBuilder: (context, index) =>
-                    controller.state.pageList[index],
+                itemBuilder: (context, index){
+                  return Navigator(
+                    initialRoute: '/',
+                    onGenerateRoute: (RouteSettings settins) {
+                      // WidgetBuilder builder;
+                      // switch (settins.name) {
+                      //   case '/':
+                      //     builder = (context) => controller.state.pageList[index];
+                      //     break;
+                      //   default:
+                      //     builder = (context) => Container();
+                      //     break;
+                      // }
+                      return MaterialPageRoute(builder: (context) => controller.state.pageList[index]);
+                    },
+                  );
+                },
+                // controller.state.pageList[index],
                 controller: controller.state.pageController,
               )
             ],

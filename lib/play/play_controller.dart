@@ -8,13 +8,15 @@ import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_detail.dart';
+import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/play/play_state.dart';
+import 'package:weapon/search/search_state.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 import 'package:weapon/utils/auth_util.dart';
 import 'package:weapon/utils/lyric_util.dart';
 
-import 'lyric/lyric_view.dart';
+import 'lyric_view.dart';
 
 class PlayController extends GetxController {
   PlayState state = PlayState();
@@ -24,13 +26,47 @@ class PlayController extends GetxController {
 
   initState(HistoryPo? historyPo) {
     if (historyPo == null) return;
+    if (state.playId == historyPo.playId) return;
     state.playId = historyPo.playId;
     state.source = AudioSource.netease;
-    state.lyrics = LyricUtil.formatLyric(historyPo.lyricUrl ?? "");
+    state.lyrics = LyricUtil.formatLyric(historyPo.lyricUrl);
     state.lyricWidget = LyricView(state.lyrics, 0);
-    state.name = historyPo.name ?? "";
-    state.picUrl = historyPo.picUrl ?? "";
-    state.artist = historyPo.artist.map((e) => e.name).toList().join(",") ?? "";
+    state.name = historyPo.name;
+    state.picUrl = historyPo.picUrl;
+    state.artist = historyPo.artist.map((e) => e.name).toList().join(",");
+    state.duration = const Duration();
+    state.position = const Duration();
+
+    update();
+  }
+
+  initSongListItem(SongListItem? item, AudioSource source) async {
+    if (item == null) return;
+    state.source = source;
+    String? id = item.id;
+    if (state.playId == id) return;
+
+    if (item.lyric == null) {
+      var dio = Dio();
+      Map<String, dynamic> header = AuthUtil.getHeader(Api.lyric);
+      dio.options.headers = header;
+      Map<String, dynamic> lyricParam = {
+        "lyric_id": id,
+        "source": state.sourceStr,
+        "type": "lyric"
+      };
+      final lyricResponse =
+          await dio.get(Api.lyric, queryParameters: lyricParam);
+      var lyricMap = jsonDecode(lyricResponse.toString());
+      item.lyric = lyricMap;
+    }
+
+    state.playId = id;
+    state.lyrics = LyricUtil.formatLyric(item.lyric["lyric"]);
+    state.lyricWidget = LyricView(state.lyrics, 0);
+    state.name = item.name;
+    state.picUrl = item.picUrl;
+    state.artist = item.artist.map((e) => e.name).toList().join(",");
     state.duration = const Duration();
     state.position = const Duration();
 
@@ -41,18 +77,26 @@ class PlayController extends GetxController {
     if (rank == null) return;
     state.source = AudioSource.kugou;
     String? id = rank.hash;
-    var dio = Dio();
-    Map<String, dynamic> header = AuthUtil.getHeader(Api.music);
-    dio.options.headers = header;
-    Map<String, dynamic> lyricParam = {"lyric": id, "site": state.sourceStr};
-    final lyricResponse = await dio.get(Api.music, queryParameters: lyricParam);
-    var lyricMap = jsonDecode(lyricResponse.toString());
-
+    if (state.playId == id) return;
+    if (rank.lyric == null) {
+      var dio = Dio();
+      Map<String, dynamic> header = AuthUtil.getHeader(Api.lyric);
+      dio.options.headers = header;
+      Map<String, dynamic> lyricParam = {
+        "lyric_id": id,
+        "source": state.sourceStr,
+        "type": "lyric"
+      };
+      final lyricResponse =
+          await dio.get(Api.lyric, queryParameters: lyricParam);
+      var lyricMap = jsonDecode(lyricResponse.toString());
+      rank.lyric = lyricMap;
+    }
     state.playId = id;
     state.source = AudioSource.kugou;
-    state.lyrics = LyricUtil.formatLyric(lyricMap["lyric"]);
+    state.lyrics = LyricUtil.formatLyric(rank.lyric["lyric"]);
     state.lyricWidget = LyricView(state.lyrics, 0);
-    state.name = rank.songName ?? "";
+    state.name = rank.songName;
     state.picUrl = rank.albumSizableCover;
     state.artist = rank.singer;
     state.duration = const Duration();
@@ -112,14 +156,19 @@ class PlayController extends GetxController {
       }
       return;
     }
-
+    print('state.playId = ${state.playId}');
     if (state.playId == null) return;
     String songId = state.playId!;
     var dio = Dio();
-    Map<String, dynamic> header = AuthUtil.getHeader(Api.music);
-    Map<String, dynamic> param = {"item_id": songId, "site": state.sourceStr};
+    Map<String, dynamic> header = AuthUtil.getHeader(Api.play);
+    Map<String, dynamic> param = {
+      "id": songId,
+      "source": state.sourceStr,
+      "type": "play"
+    };
     dio.options.headers = header;
-    final response = await dio.get(Api.music, queryParameters: param);
+    final response = await dio.get(Api.play, queryParameters: param);
+    print('sresponse = $response');
     SongDetail detail = SongDetail.fromJson(jsonDecode(response.toString()));
 
     String url = detail.url ?? "";

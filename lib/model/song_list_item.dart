@@ -4,10 +4,12 @@ class SongListItem {
   List<ArtistModel> artist = [];
   String album = "";
   String picId = "";
+  String picUrl = "";
   String urlId = "";
   String lyricId = "";
   String source = "";
   int dt = 0;
+  dynamic lyric;
 
   SongListItem({
     required this.id,
@@ -15,6 +17,7 @@ class SongListItem {
     required this.artist,
     required this.album,
     required this.picId,
+    required this.picUrl,
     required this.urlId,
     required this.lyricId,
     required this.source,
@@ -34,6 +37,7 @@ class SongListItem {
     }
     album = json['album']?.toString() ?? "";
     picId = json['pic_id']?.toString() ?? "";
+    picUrl = json['pic_url']?.toString() ?? "";
     urlId = json['url_id']?.toString() ?? "";
     lyricId = json['lyric_id']?.toString() ?? "";
     source = json['source']?.toString() ?? "";

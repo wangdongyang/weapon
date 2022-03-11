@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
-import 'package:weapon/play/lyric/lyric_view.dart';
+import 'package:weapon/play/lyric_view.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 import 'package:weapon/utils/lyric_util.dart';

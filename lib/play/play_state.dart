@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/lyric.dart';
-import 'package:weapon/play/lyric/lyric_view.dart';
+import 'package:weapon/play/lyric_view.dart';
+import 'package:weapon/search/search_state.dart';
 import 'package:weapon/utils/lyric_util.dart';
 
 class PlayState {
-  // HistoryPo? historyPo;
   String? playId;
   String? picUrl;
   String? name;
@@ -32,14 +32,9 @@ class PlayState {
   PlayState() {
     duration = const Duration();
     position = const Duration();
-
     source = AudioSource.netease;
-
     dragEndDuration = const Duration(milliseconds: 1000);
     curPositionController = StreamController<String>.broadcast();
     curPositionStream = curPositionController.stream;
-
-    // lyrics = LyricUtil.formatLyric(historyPo?.lyricUrl ?? "");
-    // lyricWidget = LyricView(lyrics, 0);
   }
 }

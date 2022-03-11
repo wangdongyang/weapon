@@ -57,15 +57,15 @@ class SearchController extends GetxController {
     print(text);
     if (text.isEmpty) return;
     var dio = Dio();
-    String host = Api.music;
+    String host = Api.search;
     Map<String, dynamic> header = AuthUtil.getHeader(host);
     dio.options.headers = header;
     Map<String, dynamic> param = {
-      "keyword": text,
-      "site": state.audioSource.toString().split(".").last
+      "word": text,
+      "type":"search",
+      "source": state.audioSource.toString().split(".").last
     };
     final response = await dio.get(host, queryParameters: param);
-    print("param:$param; response: $response");
     List<dynamic> mapList = jsonDecode(response.toString());
     List<SongListItem> songs = [];
     for (var element in mapList) {
@@ -75,11 +75,9 @@ class SearchController extends GetxController {
     update();
   }
 
-  chooseSong(HistoryPo item, int index) {
-    state.selectedItem = item;
+  chooseSong(SongListItem item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>().initState(item);
-    update();
+    Get.find<PlayController>().initSongListItem(item, state.audioSource);
   }
 
   startSearch() {
