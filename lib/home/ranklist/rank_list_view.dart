@@ -103,7 +103,7 @@ class _RankListViewState extends State<RankListView> {
               borderRadius: BorderRadius.circular(8.dp),
               boxShadow: [
                 BoxShadow(
-                    color: const Color(0xffd7d7d7).withAlpha(120),
+                    color: const Color(0xffe2e2e2).withAlpha(120),
                     offset: const Offset(6, 6),
                     blurRadius: 7.0,
                     spreadRadius: 0)

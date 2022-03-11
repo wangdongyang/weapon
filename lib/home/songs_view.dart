@@ -62,6 +62,10 @@ class _SongsViewState extends State<SongsView> {
     return Container(
       color: const Color(0xffF6F8F9),
       child: GetBuilder<SongsController>(builder: (logic) {
+        int length = controller.state.songs.length;
+        if (widget.sourceType == SongSourceType.rankList) {
+          length = controller.state.ranks.length;
+        }
         return ScrollConfiguration(
             behavior:
                 ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -72,7 +76,7 @@ class _SongsViewState extends State<SongsView> {
               },
               shrinkWrap: true,
               primary: false,
-              itemCount: controller.state.songs.length,
+              itemCount: length,
               separatorBuilder: (ctx, index) {
                 return SizedBox(
                   height: 5.dp,

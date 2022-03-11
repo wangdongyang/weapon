@@ -46,12 +46,13 @@ class SongsController extends GetxController {
   }
 
   loadDataFromRank() async {
-    var id = state.playListItem?.id;
+    var ranktype = state.rankListItem?.ranktype;
+    var rankid = state.rankListItem?.rankid;
     var dio = Dio();
     String host = Api.rankSongsList;
     Map<String, dynamic> param = {
-      "ranktype": id,
-      "rankid": "netease",
+      "ranktype": ranktype,
+      "rankid": rankid,
       "page": 0,
       "pagesize": 20
     };
@@ -59,10 +60,12 @@ class SongsController extends GetxController {
     String sst =
         response.toString().replaceAll(RegExp(r'<!--KG_TAG_RES_START-->'), "");
     sst = sst.replaceAll(RegExp(r'<!--KG_TAG_RES_END-->'), "");
-    List<Map<String, dynamic>> mapList = jsonDecode(sst);
+    Map<String, dynamic> data = jsonDecode(sst);
+    List dataList = data["data"]["info"];
     List<SongRankModel> ranks =
-        mapList.map((e) => SongRankModel.fromJson(e)).toList();
+        dataList.map((e) => SongRankModel.fromJson(e)).toList();
     state.ranks = ranks;
+    print("ranks.length = ${ranks.length}");
     update();
   }
 
