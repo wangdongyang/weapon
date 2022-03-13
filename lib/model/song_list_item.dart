@@ -30,8 +30,12 @@ class SongListItem {
     if (json['artist'] != null) {
       final v = json['artist'];
       final arr0 = <ArtistModel>[];
-      v.forEach((v) {
-        arr0.add(ArtistModel.fromJson(v));
+      v.forEach((e) {
+        if (e is Map<String, dynamic>) {
+          arr0.add(ArtistModel.fromJson(e));
+        }else{
+
+        }
       });
       artist = arr0;
     }

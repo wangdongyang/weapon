@@ -12,6 +12,7 @@ import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
 import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/play/play_controller.dart';
+import 'package:weapon/search/search_state.dart';
 import 'package:weapon/utils/leancloud_util.dart';
 
 class HomeController extends GetxController {
@@ -71,7 +72,7 @@ class HomeController extends GetxController {
   chooseSong(SongRankModel item, int index) {
     state.selectedItem = item;
     state.selectedIndex = index;
-    Get.find<PlayController>().initRangSong(item);
+    Get.find<PlayController>().initRangSong(item, AudioSource.kugou);
     update();
   }
 

@@ -101,7 +101,10 @@ class SearchBar extends StatelessWidget {
             SizedBox(
               width: 22.dp,
             ),
-            _routeName(),
+            ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: _routeName()),
             SizedBox(
               width: 15.dp,
             ),
@@ -136,13 +139,13 @@ class SearchBar extends StatelessWidget {
                       fontSize: 12.sp,
                       textBaseline: TextBaseline.alphabetic),
                   decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0),
-                      //const EdgeInsets.all(0),
-                      border: InputBorder.none,
-                      hintText: "请输入...",
-                      hintStyle: TextStyle(
-                          color: const Color(0xFFcccccc), fontSize: 12.sp),
-                      ),
+                    contentPadding: const EdgeInsets.all(0),
+                    //const EdgeInsets.all(0),
+                    border: InputBorder.none,
+                    hintText: "请输入...",
+                    hintStyle: TextStyle(
+                        color: const Color(0xFFcccccc), fontSize: 12.sp),
+                  ),
                   textInputAction: TextInputAction.search,
                   onSubmitted: (text) {
                     if (search != null) {

@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_detail.dart';
@@ -73,9 +72,9 @@ class PlayController extends GetxController {
     update();
   }
 
-  initRangSong(SongRankModel? rank) async {
+  initRangSong(SongRankModel? rank, AudioSource source) async {
     if (rank == null) return;
-    state.source = AudioSource.kugou;
+    state.source = source;
     String? id = rank.hash;
     if (state.playId == id) return;
     if (rank.lyric == null) {

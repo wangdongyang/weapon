@@ -146,7 +146,7 @@ class _RankListViewState extends State<RankListView> {
                   item.rankname ?? "",
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     color: const Color(0xFF404040),
                   ),
                   overflow: TextOverflow.ellipsis,

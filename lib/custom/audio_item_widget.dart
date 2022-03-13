@@ -42,7 +42,7 @@ class AudioItemWidget extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 10.dp),
+      margin: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 10.dp),
       height: 70.dp,
       decoration: isChoose
           ? BoxDecoration(
@@ -63,12 +63,15 @@ class AudioItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          SizedBox(
+            width: 10.dp,
+          ),
           GestureDetector(
             onTap: () {
               clickCallBack();
             },
             child: Container(
-              padding: EdgeInsets.only(left: 15.dp),
+              // padding: EdgeInsets.only(left: 15.dp),
               child: Icon(
                 isChoose
                     ? Icons.pause_circle_rounded
@@ -86,8 +89,8 @@ class AudioItemWidget extends StatelessWidget {
               child: Row(
                 children: [
                   CachedNetworkImage(
-                    width: 40.dp,
-                    height: 40.dp,
+                    width: 42.dp,
+                    height: 42.dp,
                     imageUrl: url,
                     imageBuilder: (context, image) => CircleAvatar(
                       backgroundImage: image,
@@ -95,15 +98,15 @@ class AudioItemWidget extends StatelessWidget {
                     ),
                     placeholder: (context, url) => Image.asset(
                       "assets/images/album.png",
-                      width: 40.dp,
-                      height: 40.dp,
+                      width: 42.dp,
+                      height: 42.dp,
                     ),
                     errorWidget: (context, url, error) => const Icon(
                       Icons.error,
                       color: Color(0xFFcccccc),
                     ),
                     fadeOutDuration: const Duration(seconds: 1),
-                    fadeInDuration: const Duration(seconds: 2),
+                    fadeInDuration: const Duration(seconds: 1),
                   ),
                   SizedBox(
                     width: 20.dp,
@@ -113,9 +116,8 @@ class AudioItemWidget extends StatelessWidget {
                       name,
                       maxLines: 1,
                       style: TextStyle(
-                          fontSize: 14.sp,
-                          color: const Color(0xFF333333),
-                          fontWeight: FontWeight.w500),
+                          fontSize: 15.sp,
+                          color: const Color(0xFF333333),),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -128,7 +130,7 @@ class AudioItemWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: 13.sp, color: const Color(0xFF666666)))),
+                      fontSize: 14.sp, color: const Color(0xFF666666)))),
           Expanded(
             flex: 1,
             child: Row(
@@ -154,14 +156,17 @@ class AudioItemWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {},
             child: Container(
-              padding: EdgeInsets.only(left: 15.dp, right: 15.dp),
+              padding: EdgeInsets.only(left: 15.dp, right: 0.dp),
               child: const Icon(
                 Icons.more_horiz_rounded,
                 size: 16,
                 color: Color(0xFF999999),
               ),
             ),
-          )
+          ),
+          SizedBox(
+            width: 10.dp,
+          ),
         ],
       ),
     );

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/home/songs_state.dart';
 import 'package:weapon/model/song_list_item.dart';
@@ -72,10 +71,12 @@ class SongsController extends GetxController {
   chooseSong(SongListItem item, int index) {
     state.selectedIndex = index;
     Get.find<PlayController>().initSongListItem(item, AudioSource.netease);
+    update();
   }
 
   chooseRankSong(SongRankModel item, int index) {
     state.selectedIndex = index;
-    // Get.find<PlayController>().initSongListItem(item, AudioSource.netease);
+    Get.find<PlayController>().initRangSong(item, AudioSource.kugou);
+    update();
   }
 }

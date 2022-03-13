@@ -105,10 +105,15 @@ class _PlayListViewState extends State<PlayListView> {
               borderRadius: BorderRadius.circular(8.dp),
               boxShadow: [
                 BoxShadow(
-                    color: const Color(0xffd7d7d7).withAlpha(120),
+                    color: const Color(0xffe0e0e0).withAlpha(100),
                     offset: const Offset(6, 6),
                     blurRadius: 7.0,
-                    spreadRadius: 0)
+                    spreadRadius: 0),
+                BoxShadow(
+                    color: const Color(0xffe0e0e0).withAlpha(100),
+                    offset: const Offset(-6, -6),
+                    blurRadius: 7.0,
+                    spreadRadius: 0),
               ]),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -148,7 +153,7 @@ class _PlayListViewState extends State<PlayListView> {
                   item.name ?? "",
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     color: const Color(0xFF404040),
                   ),
                   overflow: TextOverflow.ellipsis,

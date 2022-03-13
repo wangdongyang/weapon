@@ -48,19 +48,20 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           sectionHeader("assets/images/stars.png", "热门歌单",
                               callBack: () {
-                            NavigatorUtil.push(context, const PlayListView());
-                          }),
+                                NavigatorUtil.push(
+                                    context, const PlayListView());
+                              }),
                           SizedBox(
                             height: 15.dp,
                           ),
 
                           /// 歌单
                           Container(
-                            height: 150.dp,
+                            height: 180.dp,
                             // padding: EdgeInsets.only(left: 15.dp),
                             child: ListView.separated(
                               padding: EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 15.dp),
+                                  vertical: 0, horizontal: 20.dp),
                               itemBuilder: (ctx, index) {
                                 return _playListItemWidget(index);
                               },
@@ -69,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
                               scrollDirection: Axis.horizontal,
                               separatorBuilder: (ctx, index) {
                                 return SizedBox(
-                                  width: 15.dp,
+                                  width: 20.dp,
                                 );
                               },
                             ),
@@ -79,14 +80,15 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           sectionHeader("assets/images/rank.png", "排行榜",
                               callBack: () {
-                            NavigatorUtil.push(context, const RankListView());
-                          }),
+                                NavigatorUtil.push(
+                                    context, const RankListView());
+                              }),
                           ListView.separated(
                             padding: EdgeInsets.symmetric(
                                 vertical: 15.dp, horizontal: 0),
                             itemBuilder: (ctx, index) {
                               SongRankModel item =
-                                  controller.state.ranks[index];
+                              controller.state.ranks[index];
                               String url = item.albumSizableCover ?? "";
                               return AudioItemWidget(
                                 name: item.songName,
@@ -94,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
                                 duration: item.duration ?? 0,
                                 singer: item.singer,
                                 isChoose:
-                                    controller.state.selectedIndex == index,
+                                controller.state.selectedIndex == index,
                                 clickCallBack: () =>
                                     controller.chooseSong(item, index),
                               );
@@ -129,9 +131,9 @@ class _HomeViewState extends State<HomeView> {
   _playListItemWidget(int index) {
     PlayListItemModel playListItem = controller.state.playList[index];
     double padding =
-        (index == 0 || index == controller.state.playList.length - 1)
-            ? 5.dp
-            : 0.dp;
+    (index == 0 || index == controller.state.playList.length - 1)
+        ? 5.dp
+        : 0.dp;
     return GestureDetector(
       onTap: () {
         NavigatorUtil.push(
@@ -144,16 +146,32 @@ class _HomeViewState extends State<HomeView> {
         // Get.to(()=>SongsView());
       },
       child: Container(
-          width: 200.dp,
-          padding: EdgeInsets.only(left: padding),
+          width: 250.dp,
+          // padding: EdgeInsets.only(left: padding),
+          // decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     borderRadius: BorderRadius.circular(8.dp),
+          //     boxShadow: [
+          //       BoxShadow(
+          //           color: const Color(0xffe0e0e0).withAlpha(100),
+          //           offset: const Offset(6, 6),
+          //           blurRadius: 7.0,
+          //           spreadRadius: 0),
+          //       BoxShadow(
+          //           color: const Color(0xffe0e0e0).withAlpha(100),
+          //           offset: const Offset(-6, -6),
+          //           blurRadius: 7.0,
+          //           spreadRadius: 0),
+          //     ]
+          // ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  width: 200.dp,
-                  height: 150.dp,
+                  // width: 200.dp,
+                  // height: 150.dp,
                   //maxHeightDiskCache: 10,
                   imageUrl: playListItem.coverImgUrl ?? "",
                   // placeholder: (context, url) => const CircleAvatar(
@@ -162,31 +180,40 @@ class _HomeViewState extends State<HomeView> {
                   // ),
                   imageBuilder: (context, image) {
                     return Container(
-                      width: 200.dp,
-                      height: 150.dp,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.dp),
-                          image:
-                              DecorationImage(image: image, fit: BoxFit.cover),
+                        // width: 200.dp,
+                        // height: 150.dp,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.dp),
+                          // borderRadius: BorderRadius.only(
+                          //     topLeft: Radius.circular(8.dp),
+                          //     topRight: Radius.circular(8.dp)),
+                          image: DecorationImage(
+                              image: image, fit: BoxFit.cover),
                           boxShadow: [
                             BoxShadow(
-                                color: const Color(0xffc2c2c2).withAlpha(146),
+                                color: const Color(0xffe0e0e0).withAlpha(120),
                                 offset: const Offset(4, 4),
                                 blurRadius: 5.0,
+                                spreadRadius: 0),
+                            BoxShadow(
+                                color: const Color(0xffe0e0e0).withAlpha(120),
+                                offset: const Offset(-4, -4),
+                                blurRadius: 5.0,
                                 spreadRadius: 0)
-                          ]),
-                    );
+                          ],
+                        ));
                   },
-                  placeholder: (context, url) => Container(
-                    decoration: BoxDecoration(
-                      color: ColorUtil.randomColor().withAlpha(40),
-                      borderRadius: BorderRadius.circular(8.dp),
-                    ),
-                  ),
+                  placeholder: (context, url) =>
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorUtil.randomColor().withAlpha(40),
+                          borderRadius: BorderRadius.circular(8.dp),
+                        ),
+                      ),
                   //card_place_image.png
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   fadeOutDuration: const Duration(seconds: 1),
-                  fadeInDuration: const Duration(seconds: 2),
+                  fadeInDuration: const Duration(seconds: 1),
                 ),
               ),
               SizedBox(
@@ -196,11 +223,14 @@ class _HomeViewState extends State<HomeView> {
                 playListItem.name ?? "",
                 maxLines: 1,
                 style: TextStyle(
-                  fontSize: 12.sp,
+                  fontSize: 14.sp,
                   color: const Color(0xFF404040),
                 ),
                 overflow: TextOverflow.ellipsis,
-              )
+              ),
+              // SizedBox(
+              //   height: 10.dp,
+              // ),
             ],
           )),
     );
@@ -218,7 +248,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               Image.asset(
                 icon,
-                width: 20.sp,
+                width: 22.sp,
                 fit: BoxFit.contain,
               ),
               SizedBox(
@@ -228,7 +258,7 @@ class _HomeViewState extends State<HomeView> {
                 title,
                 maxLines: 1,
                 style: TextStyle(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   color: const Color(0xFF404040),
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -247,7 +277,7 @@ class _HomeViewState extends State<HomeView> {
                   "查看更多",
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     color: const Color(0xFFACACAC),
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -257,7 +287,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 Icon(
                   Icons.arrow_forward,
-                  size: 14.sp,
+                  size: 15.sp,
                   color: const Color(0xFFACACAC),
                 ),
               ],

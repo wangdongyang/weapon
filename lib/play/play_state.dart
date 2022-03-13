@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:weapon/audio/audio_play_page.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/lyric.dart';
 import 'package:weapon/play/lyric_view.dart';

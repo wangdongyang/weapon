@@ -6,6 +6,7 @@ import 'package:weapon/config/api_config.dart';
 import 'package:weapon/model/btn_info.dart';
 import 'package:weapon/model/one_word_model.dart';
 import 'package:weapon/typedef/function.dart';
+import 'package:weapon/utils/color_util.dart';
 
 ///NavigationRail组件为侧边栏
 class SideNavigation extends StatelessWidget {
@@ -47,6 +48,8 @@ class SideNavigation extends StatelessWidget {
         children: [
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildTopLeading(),
                 _buildItem(0),
@@ -76,9 +79,7 @@ class SideNavigation extends StatelessWidget {
           maxLines: 4,
           textAlign: TextAlign.start,
           style: TextStyle(
-              fontSize: 12.sp,
-              color: Color(0xFF999999),
-              fontFamily: 'Raleway'),
+              fontSize: 12.sp, color: Color(0xFF999999), fontFamily: 'Raleway'),
           overflow: TextOverflow.ellipsis,
         ),
       ),
@@ -90,7 +91,7 @@ class SideNavigation extends StatelessWidget {
       child: Container(
         width: 50.dp,
         height: 50.dp,
-        margin: EdgeInsets.symmetric(vertical: 25.0.dp),
+        margin: EdgeInsets.only(top: 25.0.dp, bottom: 25.dp),
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
@@ -114,60 +115,70 @@ class SideNavigation extends StatelessWidget {
       child: Container(
         height: 64.dp,
         color: Colors.transparent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Expanded(
+              child: Container(
+                height: 64.dp,
+                // color: ColorUtil.randomColor(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        alignment: Alignment.center,
+                        width: 20.dp,
+                        height: 20.dp,
+                        child: icon),
+                    SizedBox(
+                      width: 14.dp,
+                    ),
+                    Text(
+                      item.title ?? "",
+                      style: TextStyle(color: color, fontSize: 15.sp),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             choose
-                ? Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(4.dp),
-                            topRight: Radius.circular(4.dp)),
-                        gradient: const LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Color(0xFFABAEFF),
-                            Color(0xFF686BFA),
-                            Color(0xFF0007F6)
-                          ],
-                          tileMode: TileMode.repeated,
-                        )
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //       color: const Color(0xFFF5F5F5).withAlpha(255),
-                        //       offset: const Offset(-4, 0.0),
-                        //       blurRadius: 5.0,
-                        //       spreadRadius: 0)
-                        // ],
-                        // border: Border.all(width: 1,color: Colors.redAccent.withAlpha(100))
-                        ),
-                    width: 7.dp,
-                    height: 46.dp,
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(4.dp),
+                                topRight: Radius.circular(4.dp)),
+                            gradient: const LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Color(0xFFABAEFF),
+                                Color(0xFF686BFA),
+                                Color(0xFF0007F6)
+                              ],
+                              tileMode: TileMode.repeated,
+                            )
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //       color: const Color(0xFFF5F5F5).withAlpha(255),
+                            //       offset: const Offset(-4, 0.0),
+                            //       blurRadius: 5.0,
+                            //       spreadRadius: 0)
+                            // ],
+                            // border: Border.all(width: 1,color: Colors.redAccent.withAlpha(100))
+                            ),
+                        width: 7.dp,
+                        height: 46.dp,
+                      ),
+                    ],
                   )
                 : Container(
                     width: 7.dp,
                   ),
-            SizedBox(
-              width: 50.dp,
-            ),
-            Row(
-              children: [
-                Container(
-                    alignment: Alignment.center,
-                    width: 20.dp,
-                    height: 20.dp,
-                    child: icon),
-                SizedBox(
-                  width: 14.dp,
-                ),
-                Text(
-                  item.title ?? "",
-                  style: TextStyle(color: color, fontSize: 14.sp),
-                ),
-              ],
-            )
           ],
         ),
       ),

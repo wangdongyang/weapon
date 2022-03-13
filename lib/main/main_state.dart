@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toolkit_easy/flutter_toolkit.dart';
-import 'package:weapon/audio/audio_play_page.dart';
-import 'package:weapon/bookmark/bookmark_page.dart';
 import 'package:weapon/favorite/favorite_view.dart';
 import 'package:weapon/home/home_view.dart';
 import 'package:weapon/main/setting_view.dart';
