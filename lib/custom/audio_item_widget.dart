@@ -16,7 +16,9 @@ class AudioItemWidget extends StatelessWidget {
       {Key? key,
       required this.name,
       required this.picUrl,
-      required this.duration, this.artist, this.singer,
+      required this.duration,
+      this.artist,
+      this.singer,
       required this.isChoose,
       required this.clickCallBack})
       : super(key: key);
@@ -57,7 +59,6 @@ class AudioItemWidget extends StatelessWidget {
                       blurRadius: 5.0,
                       spreadRadius: 0)
                 ]
-              // border: Border.all(width: 1,color: Colors.redAccent.withAlpha(100))
               )
           : const BoxDecoration(color: Color(0xffF6F8F9)),
       child: Row(
@@ -88,13 +89,19 @@ class AudioItemWidget extends StatelessWidget {
               flex: 1,
               child: Row(
                 children: [
+                  //
                   CachedNetworkImage(
                     width: 42.dp,
                     height: 42.dp,
                     imageUrl: url,
-                    imageBuilder: (context, image) => CircleAvatar(
-                      backgroundImage: image,
-                      radius: 6,
+                    imageBuilder: (context, image) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(image: image),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(21.dp),
+                        ),
+                        border: Border.all(width: 1.5.dp, color: Colors.white),
+                      ),
                     ),
                     placeholder: (context, url) => Image.asset(
                       "assets/images/album.png",
@@ -116,8 +123,9 @@ class AudioItemWidget extends StatelessWidget {
                       name,
                       maxLines: 1,
                       style: TextStyle(
-                          fontSize: 15.sp,
-                          color: const Color(0xFF333333),),
+                        fontSize: 15.sp,
+                        color: const Color(0xFF333333),
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

@@ -119,28 +119,26 @@ class SideNavigation extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Container(
-                height: 64.dp,
-                // color: ColorUtil.randomColor(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        alignment: Alignment.center,
-                        width: 20.dp,
-                        height: 20.dp,
-                        child: icon),
-                    SizedBox(
-                      width: 14.dp,
-                    ),
-                    Text(
-                      item.title ?? "",
-                      style: TextStyle(color: color, fontSize: 15.sp),
-                    ),
-                  ],
-                ),
+            Container(
+              height: 64.dp,
+              // color: ColorUtil.randomColor(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                      alignment: Alignment.center,
+                      width: 20.dp,
+                      height: 20.dp,
+                      child: icon),
+                  SizedBox(
+                    width: 14.dp,
+                  ),
+                  Text(
+                    item.title ?? "",
+                    style: TextStyle(color: color, fontSize: 15.sp),
+                  ),
+                ],
               ),
             ),
             choose
