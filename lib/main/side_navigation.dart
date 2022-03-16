@@ -91,12 +91,11 @@ class SideNavigation extends StatelessWidget {
       child: Container(
         width: 50.dp,
         height: 50.dp,
-        margin: EdgeInsets.only(top: 25.0.dp, bottom: 25.dp),
+        margin: EdgeInsets.only(top: 30.0.dp, bottom: 25.dp),
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
-              image: NetworkImage(
-                  "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3383029432,2292503864&fm=26&gp=0.jpg"),
+              image: AssetImage('assets/images/app_icon.png'),
               fit: BoxFit.cover),
         ),
       ),

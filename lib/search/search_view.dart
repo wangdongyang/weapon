@@ -36,6 +36,7 @@ class SearchView extends StatelessWidget {
                         picUrl: item.picUrl,
                         duration: item.dt,
                         artist: item.artist,
+                        artistStrArr: item.artistStrArr,
                         isChoose: controller.state.selectedIndex == index,
                         clickCallBack: () => controller.chooseSong(item, index),
                       );

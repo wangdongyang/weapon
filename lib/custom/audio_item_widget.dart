@@ -8,6 +8,7 @@ class AudioItemWidget extends StatelessWidget {
   String picUrl = "";
   int duration = 0;
   List<ArtistModel>? artist = [];
+  List<String>? artistStrArr = [];
   String? singer = "";
   bool isChoose = false;
   Function clickCallBack;
@@ -18,6 +19,7 @@ class AudioItemWidget extends StatelessWidget {
       required this.picUrl,
       required this.duration,
       this.artist,
+      this.artistStrArr,
       this.singer,
       required this.isChoose,
       required this.clickCallBack})
@@ -43,6 +45,10 @@ class AudioItemWidget extends StatelessWidget {
       artistName = artist!.map((e) => e.name).toList().join(",");
     }
 
+    if (artistStrArr != null && artistStrArr!.isNotEmpty) {
+      artistName = artistStrArr!.map((e) => e).toList().join(",");
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 10.dp),
       height: 70.dp,
@@ -58,8 +64,7 @@ class AudioItemWidget extends StatelessWidget {
                       offset: const Offset(0, 6),
                       blurRadius: 5.0,
                       spreadRadius: 0)
-                ]
-              )
+                ])
           : const BoxDecoration(color: Color(0xffF6F8F9)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +94,6 @@ class AudioItemWidget extends StatelessWidget {
               flex: 1,
               child: Row(
                 children: [
-                  //
                   CachedNetworkImage(
                     width: 42.dp,
                     height: 42.dp,

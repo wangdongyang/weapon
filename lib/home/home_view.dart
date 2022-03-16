@@ -183,7 +183,7 @@ class _HomeViewState extends State<HomeView> {
                         // width: 200.dp,
                         // height: 150.dp,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.dp),
+                            borderRadius: BorderRadius.circular(12.dp),
                           // borderRadius: BorderRadius.only(
                           //     topLeft: Radius.circular(8.dp),
                           //     topRight: Radius.circular(8.dp)),
