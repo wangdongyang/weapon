@@ -42,7 +42,7 @@ class PlayController extends GetxController {
   initSongListItem(SongListItem? item, AudioSource source) async {
     if (item == null) return;
     state.source = source;
-    print(source);
+    // print(source);
     String? id = item.id;
     if (state.playId == id) return;
 
@@ -158,7 +158,7 @@ class PlayController extends GetxController {
       return;
     }
     print('state.playId = ${state.playId}');
-    // print(state.source);
+    print(state.sourceStr);
     print('state.playId = ${audioPlayer.playerId}');
     if (state.playId == null) return;
     String songId = state.playId!;
@@ -173,7 +173,7 @@ class PlayController extends GetxController {
     };
     dio.options.headers = header;
     final response = await dio.get(Api.play, queryParameters: param);
-    // print('response = $response');
+    print('response = $response');
     SongDetail detail = SongDetail.fromJson(jsonDecode(response.toString()));
 
     String url = detail.url ?? "";

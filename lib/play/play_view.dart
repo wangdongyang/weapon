@@ -39,6 +39,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
       builder: (controller) {
         String url = controller.state.picUrl ?? "";
         String name = controller.state.name ?? "";
+        double iconSize = 22.dp;
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           decoration: BoxDecoration(color: Colors.white,
@@ -111,23 +112,62 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
               ),
               _progressWidget(),
               SizedBox(
-                height: 10.dp,
+                height: 20.dp,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                      icon: const Icon(Icons.skip_previous_rounded),
-                      onPressed: () => controller.previous),
-                  IconButton(
-                      icon: controller.state.playerState == PlayerState.PLAYING
-                          ? const Icon(Icons.pause_circle_outline_rounded)
-                          : const Icon(Icons.play_arrow_rounded),
-                      onPressed: controller.play),
-                  IconButton(
-                      icon: const Icon(Icons.skip_next_rounded),
-                      onPressed: controller.next),
+                  GestureDetector(
+                    onTap: () => controller.previous,
+                    child: Container(
+                        child: Icon(
+                          Icons.skip_previous_rounded,
+                          size: iconSize,
+                        ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => controller.previous,
+                    child: Container(
+                      child: Icon(
+                        Icons.skip_previous_rounded,
+                        size: iconSize,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: controller.play,
+                    child: Container(
+                      child: controller.state.playerState == PlayerState.PLAYING
+                          ? Icon(
+                        Icons.pause_circle_outline_rounded,
+                        size: iconSize,
+                      )
+                          : Icon(
+                        Icons.play_arrow_rounded,
+                        size: iconSize,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => controller.next,
+                    child: Container(
+                      child: Icon(
+                        Icons.skip_next_rounded,
+                        size: iconSize,
+                      ),
+                    ),
+                  ),
+                  // GestureDetector(
+                  //   onTap: () => controller.next,
+                  //   child: Container(
+                  //     child: Icon(
+                  //       Icons.,
+                  //       size: iconSize,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               _lyricContainerWidget()
