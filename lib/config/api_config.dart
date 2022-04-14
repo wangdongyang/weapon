@@ -21,7 +21,7 @@ class Api {
 
   /// 网易云音乐热门歌单
   static String neteasePlayList =
-      "http://www.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&limit=20&_=1646578856186";
+      "http://www.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&_=1646578856186";
 
   /// Top500
   static String top500 =

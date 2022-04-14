@@ -43,7 +43,9 @@ class _SongsViewState extends State<SongsView> {
         controller.loadData();
         break;
       case SongSourceType.rankList:
+        controller.state.offset = 0;
         controller.loadDataFromRank();
+        // controller.addScrollListener();
         break;
     }
   }
@@ -77,6 +79,7 @@ class _SongsViewState extends State<SongsView> {
               shrinkWrap: true,
               primary: false,
               itemCount: length,
+              controller: controller.state.scrollController,
               separatorBuilder: (ctx, index) {
                 return SizedBox(
                   height: 5.dp,

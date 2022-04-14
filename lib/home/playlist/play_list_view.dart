@@ -26,6 +26,7 @@ class _PlayListViewState extends State<PlayListView> {
     // TODO: implement initState
     super.initState();
     controller.loadRefresh();
+    controller.addScrollListener();
   }
 
   @override
@@ -35,6 +36,7 @@ class _PlayListViewState extends State<PlayListView> {
     controller.state = PlayListState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,11 +44,12 @@ class _PlayListViewState extends State<PlayListView> {
       child: GetBuilder<PlayListController>(builder: (controller) {
         return ScrollConfiguration(
           behavior:
-          ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: GridView.builder(
             padding: EdgeInsets.all(20.dp),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
+            controller: controller.state.scrollController,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 300,
                 mainAxisSpacing: 20.dp,

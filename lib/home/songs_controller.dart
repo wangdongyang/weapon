@@ -25,6 +25,19 @@ class SongsController extends GetxController {
     super.onClose();
   }
 
+  void addScrollListener() {
+    //监听滚动条的滚动事件
+    state.scrollController.addListener(() {
+      if (state.scrollController.position.pixels ==
+          state.scrollController.position.maxScrollExtent) {
+        if (state.haveMore) {
+          state.offset++;
+          loadDataFromRank();
+        }
+      }
+    });
+  }
+
   loadData() async {
     var id = state.playListItem?.id;
     var dio = Dio();
@@ -53,8 +66,9 @@ class SongsController extends GetxController {
       "ranktype": ranktype,
       "rankid": rankid,
       "page": 0,
-      "pagesize": 20
+      "pagesize": 1000
     };
+    print("param = $param");
     final response = await dio.get(host, queryParameters: param);
     String sst =
         response.toString().replaceAll(RegExp(r'<!--KG_TAG_RES_START-->'), "");
@@ -63,8 +77,12 @@ class SongsController extends GetxController {
     List dataList = data["data"]["info"];
     List<SongRankModel> ranks =
         dataList.map((e) => SongRankModel.fromJson(e)).toList();
-    state.ranks = ranks;
-    print("ranks.length = ${ranks.length}");
+    state.haveMore = dataList.length >= 20;
+    if (state.offset == 0) {
+      state.ranks = ranks;
+    } else {
+      state.ranks.addAll(ranks);
+    }
     update();
   }
 
