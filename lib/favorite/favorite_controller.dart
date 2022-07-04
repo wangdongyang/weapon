@@ -29,6 +29,6 @@ class FavoriteController extends GetxController {
 
   chooseSong(HistoryPo item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>().initState(item);
+    Get.find<PlayController>().initState(state.histories, index);
   }
 }

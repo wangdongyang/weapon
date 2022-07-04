@@ -36,58 +36,84 @@ class _PlayListViewState extends State<PlayListView> {
     controller.state = PlayListState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xffF6F8F9),
-      child: GetBuilder<PlayListController>(builder: (controller) {
-        return ScrollConfiguration(
-          behavior:
-              ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: GridView.builder(
-            padding: EdgeInsets.all(20.dp),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            controller: controller.state.scrollController,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 300,
-                mainAxisSpacing: 20.dp,
-                crossAxisSpacing: 20.dp,
-                childAspectRatio: 1.4),
-            itemBuilder: (BuildContext context, int index) {
-              return itemWidget(index);
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              NavigatorUtil.pop(context, returnData: {});
             },
-            itemCount: controller.state.playList.length,
+            child: Container(
+              color: const Color(0xffFFFFFF),
+              height: 32,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 20.dp,
+                  ),
+                  Icon(
+                    Icons.arrow_back_sharp,
+                    size: 22.sp,
+                    color: const Color(0xffc1c1c1),
+                  )
+                ],
+              ),
+            ),
           ),
-        );
-        // return EasyRefresh(
-        //     controller: EasyRefreshController(),
-        //     scrollController: ScrollController(),
-        //     header: ClassicalHeader(refreshedText: "开始刷新"),
-        //     footer:
-        //         BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
-        //     onLoad: () => controller.loadMore(),
-        //     onRefresh: () => controller.loadRefresh(),
-        //     child: ScrollConfiguration(
-        //       behavior:
-        //           ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        //       child: GridView.builder(
-        //         padding: EdgeInsets.all(20.dp),
-        //         scrollDirection: Axis.vertical,
-        //         shrinkWrap: true,
-        //         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        //             maxCrossAxisExtent: 300,
-        //             mainAxisSpacing: 20.dp,
-        //             crossAxisSpacing: 20.dp,
-        //             childAspectRatio: 1.4),
-        //         itemBuilder: (BuildContext context, int index) {
-        //           return itemWidget(index);
-        //         },
-        //         itemCount: controller.state.playList.length,
-        //       ),
-        //     ));
-      }),
+          Expanded(
+            child: GetBuilder<PlayListController>(builder: (controller) {
+              return ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: GridView.builder(
+                  padding: EdgeInsets.all(20.dp),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  controller: controller.state.scrollController,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 300,
+                      mainAxisSpacing: 20.dp,
+                      crossAxisSpacing: 20.dp,
+                      childAspectRatio: 1.4),
+                  itemBuilder: (BuildContext context, int index) {
+                    return itemWidget(index);
+                  },
+                  itemCount: controller.state.playList.length,
+                ),
+              );
+              // return EasyRefresh(
+              //     controller: EasyRefreshController(),
+              //     scrollController: ScrollController(),
+              //     header: ClassicalHeader(refreshedText: "开始刷新"),
+              //     footer:
+              //         BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
+              //     onLoad: () => controller.loadMore(),
+              //     onRefresh: () => controller.loadRefresh(),
+              //     child: ScrollConfiguration(
+              //       behavior:
+              //           ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              //       child: GridView.builder(
+              //         padding: EdgeInsets.all(20.dp),
+              //         scrollDirection: Axis.vertical,
+              //         shrinkWrap: true,
+              //         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              //             maxCrossAxisExtent: 300,
+              //             mainAxisSpacing: 20.dp,
+              //             crossAxisSpacing: 20.dp,
+              //             childAspectRatio: 1.4),
+              //         itemBuilder: (BuildContext context, int index) {
+              //           return itemWidget(index);
+              //         },
+              //         itemCount: controller.state.playList.length,
+              //       ),
+              //     ));
+            }),
+          ),
+        ],
+      ),
     );
   }
 

@@ -20,8 +20,12 @@ class Api {
       "http://mobilecdn.kugou.com/api/v3/special/song?plat=0&specialid={歌单 id}&page=1&pagesize=-1&version=8352&with_res_tag=1";
 
   /// 网易云音乐热门歌单
-  static String neteasePlayList =
-      "http://www.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&_=1646578856186";
+  static String neteasePlayList = "http://music.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&_=1656930401519";
+      // "https://googlec.cc/_next/data/c_vgN4T6QC4nrhMVmsWbY/playlist/";
+      // "http://www.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&_=1646578856186";
+
+  // http://music.googlec.cc/Home/List?ident=&search2=&sort=PlayCount&order=desc&offset=0&limit=10&_=1656930401519
+  // https://googlec.cc/_next/data/c_vgN4T6QC4nrhMVmsWbY/playlist/2022-07-04/1/p.json
 
   /// Top500
   static String top500 =

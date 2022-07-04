@@ -119,21 +119,12 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () => controller.previous,
+                    onTap: controller.previous,
                     child: Container(
                         child: Icon(
                           Icons.skip_previous_rounded,
                           size: iconSize,
                         ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => controller.previous,
-                    child: Container(
-                      child: Icon(
-                        Icons.skip_previous_rounded,
-                        size: iconSize,
-                      ),
                     ),
                   ),
                   GestureDetector(
@@ -151,7 +142,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => controller.next,
+                    onTap: controller.next,
                     child: Container(
                       child: Icon(
                         Icons.skip_next_rounded,

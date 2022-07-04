@@ -41,6 +41,14 @@ class CryptUtil {
     return signStr;
   }
 
+  static String md5(String s, String k) {
+    var key = utf8.encode(k);
+    var bytes = utf8.encode(s);
+    Hmac hmac = Hmac(sha1, key);
+    // Hmac(hash, key);
+    return "";
+  }
+
   static String getStringToSign(Map<String, Object> params, List attrKeys) {
     String s2s = "GETcvm.tencentcloudapi.com/?";
     for (var key in attrKeys) {

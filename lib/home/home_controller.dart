@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:leancloud_storage/leancloud.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/config/route_config.dart';
@@ -72,7 +73,8 @@ class HomeController extends GetxController {
   chooseSong(SongRankModel item, int index) {
     state.selectedItem = item;
     state.selectedIndex = index;
-    Get.find<PlayController>().initRangSong(item, AudioSource.kugou);
+    Get.find<PlayController>()
+        .initRankSong(AudioSource.kugou, state.ranks, index);
     update();
   }
 

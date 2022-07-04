@@ -79,7 +79,7 @@ class SearchController extends GetxController {
 
   chooseSong(SongListItem item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>().initSongListItem(item, state.audioSource);
+    Get.find<PlayController>().initSongListItem(state.audioSource, state.songs, index);
     update();
   }
 

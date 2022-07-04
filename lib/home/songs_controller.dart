@@ -21,7 +21,6 @@ class SongsController extends GetxController {
 
   @override
   void onClose() {
-    print("SongsController onClose");
     super.onClose();
   }
 
@@ -88,13 +87,15 @@ class SongsController extends GetxController {
 
   chooseSong(SongListItem item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>().initSongListItem(item, AudioSource.netease);
+    Get.find<PlayController>()
+        .initSongListItem(AudioSource.netease, state.songs, index);
     update();
   }
 
   chooseRankSong(SongRankModel item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>().initRangSong(item, AudioSource.kugou);
+    Get.find<PlayController>()
+        .initRankSong(AudioSource.kugou, state.ranks, index);
     update();
   }
 }

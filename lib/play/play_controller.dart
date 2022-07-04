@@ -22,9 +22,14 @@ class PlayController extends GetxController {
 
   late PlayerMode mode;
   late AudioPlayer audioPlayer;
+  late List playItems = [];
+  late int playIndex = 0;
 
-  initState(HistoryPo? historyPo) {
-    if (historyPo == null) return;
+  initState(List<HistoryPo>? histories, int index) {
+    if (histories == null || histories.isEmpty) return;
+    playItems = histories;
+    playIndex = index;
+    HistoryPo historyPo = histories[index];
     if (state.playId == historyPo.playId) return;
     state.playId = historyPo.playId;
     state.source = historyPo.sourceType;
@@ -36,11 +41,17 @@ class PlayController extends GetxController {
     state.duration = const Duration();
     state.position = const Duration();
 
+    play();
     update();
   }
 
-  initSongListItem(SongListItem? item, AudioSource source) async {
-    if (item == null) return;
+  initSongListItem(
+      AudioSource source, List<SongListItem>? songs, int index) async {
+    if (songs == null || songs.isEmpty) return;
+    playItems = songs;
+    playIndex = index;
+
+    SongListItem item = songs[index];
     state.source = source;
     // print(source);
     String? id = item.id;
@@ -70,12 +81,17 @@ class PlayController extends GetxController {
     state.artist = item.artist.map((e) => e.name).toList().join(",");
     state.duration = const Duration();
     state.position = const Duration();
-
+    play();
     update();
   }
 
-  initRangSong(SongRankModel? rank, AudioSource source) async {
-    if (rank == null) return;
+  initRankSong(
+      AudioSource source, List<SongRankModel>? ranks, int index) async {
+    if (ranks == null || ranks.isEmpty) return;
+    playItems = ranks;
+    playIndex = index;
+
+    SongRankModel? rank = ranks[index];
     state.source = source;
     String? id = rank.hash;
     if (state.playId == id) return;
@@ -103,6 +119,7 @@ class PlayController extends GetxController {
     state.duration = const Duration();
     state.position = const Duration();
 
+    play();
     update();
   }
 
@@ -131,12 +148,14 @@ class PlayController extends GetxController {
     //播放完成
     audioPlayer.onPlayerCompletion.listen((event) {
       state.position = const Duration();
+
+      next();
+
       update();
     });
 
     //监听报错
     audioPlayer.onPlayerError.listen((msg) {
-      print('audioPlayer error : $msg');
       state.duration = const Duration(seconds: 0);
       state.position = const Duration(seconds: 0);
       update();
@@ -153,17 +172,13 @@ class PlayController extends GetxController {
     if (audioPlayer.state == PlayerState.PLAYING) {
       final result = await audioPlayer.pause();
       if (result == 1) {
-        print('pause succes');
+        // print('pause succes');
       }
       return;
     }
-    print('state.playId = ${state.playId}');
-    print(state.sourceStr);
-    print('state.playId = ${audioPlayer.playerId}');
+
     if (state.playId == null) return;
     String songId = state.playId!;
-    // if (audioPlayer.playerId)
-    // audioPlayer.
     var dio = Dio();
     Map<String, dynamic> header = AuthUtil.getHeader(Api.play);
     Map<String, dynamic> param = {
@@ -173,19 +188,16 @@ class PlayController extends GetxController {
     };
     dio.options.headers = header;
     final response = await dio.get(Api.play, queryParameters: param);
-    print('response = $response');
     SongDetail detail = SongDetail.fromJson(jsonDecode(response.toString()));
-
     String url = detail.url ?? "";
     if (url.isEmpty) return;
-
     final playPosition = (state.position.inMilliseconds > 0 &&
             state.position.inMilliseconds < state.duration.inMilliseconds)
         ? state.position
         : const Duration();
 
     if (url.isEmpty) {
-      print("url 为空");
+      // print("url 为空");
       return;
     }
 
@@ -195,7 +207,43 @@ class PlayController extends GetxController {
     }
   }
 
-  previous() {}
+  previous() {
+    print(playItems.length);
+    print(playIndex);
+    if (playItems.isNotEmpty && playIndex < playItems.length - 1) {
+      int next = playIndex - 1;
 
-  next() {}
+      var first = playItems.first;
+      if (first is HistoryPo) {
+        initState(playItems.cast<HistoryPo>(), next);
+      }
+
+      if (first is SongListItem) {
+        initSongListItem(state.source, playItems.cast<SongListItem>(), next);
+      }
+
+      if (first is SongRankModel) {
+        initRankSong(state.source, playItems.cast<SongRankModel>(), next);
+      }
+    }
+  }
+
+  next() {
+    if (playItems.isNotEmpty && playIndex < playItems.length - 1) {
+      int next = playIndex + 1;
+
+      var first = playItems.first;
+      if (first is HistoryPo) {
+        initState(playItems.cast<HistoryPo>(), next);
+      }
+
+      if (first is SongListItem) {
+        initSongListItem(state.source, playItems.cast<SongListItem>(), next);
+      }
+
+      if (first is SongRankModel) {
+        initRankSong(state.source, playItems.cast<SongRankModel>(), next);
+      }
+    }
+  }
 }
