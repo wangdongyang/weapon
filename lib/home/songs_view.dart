@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
+import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/songs_controller.dart';
 import 'package:weapon/home/songs_state.dart';
 import 'package:weapon/model/play_list_item_model.dart';
@@ -63,30 +64,45 @@ class _SongsViewState extends State<SongsView> {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xffF6F8F9),
-      child: GetBuilder<SongsController>(builder: (logic) {
-        int length = controller.state.songs.length;
-        if (widget.sourceType == SongSourceType.rankList) {
-          length = controller.state.ranks.length;
-        }
-        return ScrollConfiguration(
-            behavior:
-                ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
-              itemBuilder: (ctx, index) {
-                return _itemWidget(index);
-              },
-              shrinkWrap: true,
-              primary: false,
-              itemCount: length,
-              controller: controller.state.scrollController,
-              separatorBuilder: (ctx, index) {
-                return SizedBox(
-                  height: 5.dp,
-                );
-              },
-            ));
-      }),
+      child: Stack(
+        children: [
+          Expanded(
+            child: GetBuilder<SongsController>(builder: (logic) {
+              int length = controller.state.songs.length;
+              if (widget.sourceType == SongSourceType.rankList) {
+                length = controller.state.ranks.length;
+              }
+              return ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: ListView.separated(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                    itemBuilder: (ctx, index) {
+                      return _itemWidget(index);
+                    },
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: length,
+                    controller: controller.state.scrollController,
+                    separatorBuilder: (ctx, index) {
+                      return SizedBox(
+                        height: 5.dp,
+                      );
+                    },
+                  ));
+            }),
+          ),
+          Positioned(
+              bottom: 30,
+              right: 30,
+              child: BackButtonWidget(
+                clickCallBack: () {
+                  NavigatorUtil.pop(context, returnData: {});
+                },
+              )),
+        ],
+      ),
     );
   }
 

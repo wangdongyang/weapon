@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/ranklist/rank_list_controller.dart';
 import 'package:weapon/home/ranklist/rank_list_state.dart';
 import 'package:weapon/home/songs_view.dart';
@@ -37,52 +38,67 @@ class _RankListViewState extends State<RankListView> {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xffF6F8F9),
-      child: GetBuilder<RankListController>(builder: (controller) {
-        return ScrollConfiguration(
-          behavior:
-          ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: GridView.builder(
-            padding: EdgeInsets.all(20.dp),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                mainAxisSpacing: 20.dp,
-                crossAxisSpacing: 20.dp,
-                childAspectRatio: 1.2),
-            itemBuilder: (BuildContext context, int index) {
-              return itemWidget(index);
-            },
-            itemCount: controller.state.rankList.length,
+      child: Stack(
+        children: [
+          Expanded(
+            child: GetBuilder<RankListController>(builder: (controller) {
+              return ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: GridView.builder(
+                  padding: EdgeInsets.all(20.dp),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      mainAxisSpacing: 20.dp,
+                      crossAxisSpacing: 20.dp,
+                      childAspectRatio: 1.2),
+                  itemBuilder: (BuildContext context, int index) {
+                    return itemWidget(index);
+                  },
+                  itemCount: controller.state.rankList.length,
+                ),
+              );
+
+              // return EasyRefresh(
+              //     controller: EasyRefreshController(),
+              //     scrollController: ScrollController(),
+              //     header: ClassicalHeader(refreshedText: "开始刷新"),
+              //     footer:
+              //         BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
+              //     onLoad: () => controller.loadMore(),
+              //     onRefresh: () => controller.loadRefresh(),
+              //     child: ScrollConfiguration(
+              //       behavior:
+              //           ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              //       child: GridView.builder(
+              //         padding: EdgeInsets.all(20.dp),
+              //         scrollDirection: Axis.vertical,
+              //         shrinkWrap: true,
+              //         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              //             maxCrossAxisExtent: 300,
+              //             mainAxisSpacing: 20.dp,
+              //             crossAxisSpacing: 20.dp,
+              //             childAspectRatio: 1.4),
+              //         itemBuilder: (BuildContext context, int index) {
+              //           return itemWidget(index);
+              //         },
+              //         itemCount: controller.state.playList.length,
+              //       ),
+              //     ));
+            }),
           ),
-        );
-        // return EasyRefresh(
-        //     controller: EasyRefreshController(),
-        //     scrollController: ScrollController(),
-        //     header: ClassicalHeader(refreshedText: "开始刷新"),
-        //     footer:
-        //         BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
-        //     onLoad: () => controller.loadMore(),
-        //     onRefresh: () => controller.loadRefresh(),
-        //     child: ScrollConfiguration(
-        //       behavior:
-        //           ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        //       child: GridView.builder(
-        //         padding: EdgeInsets.all(20.dp),
-        //         scrollDirection: Axis.vertical,
-        //         shrinkWrap: true,
-        //         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        //             maxCrossAxisExtent: 300,
-        //             mainAxisSpacing: 20.dp,
-        //             crossAxisSpacing: 20.dp,
-        //             childAspectRatio: 1.4),
-        //         itemBuilder: (BuildContext context, int index) {
-        //           return itemWidget(index);
-        //         },
-        //         itemCount: controller.state.playList.length,
-        //       ),
-        //     ));
-      }),
+          Positioned(
+              bottom: 30,
+              right: 30,
+              child: BackButtonWidget(
+                clickCallBack: () {
+                  NavigatorUtil.pop(context, returnData: {});
+                },
+              )),
+        ],
+      ),
     );
   }
 

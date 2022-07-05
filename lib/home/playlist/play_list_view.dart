@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/custom/back_button.dart';
 
 import 'package:weapon/home/playlist/play_list_controller.dart';
 import 'package:weapon/home/playlist/play_list_state.dart';
@@ -40,29 +41,8 @@ class _PlayListViewState extends State<PlayListView> {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xffF6F8F9),
-      child: Column(
+      child: Stack(
         children: [
-          GestureDetector(
-            onTap: () {
-              NavigatorUtil.pop(context, returnData: {});
-            },
-            child: Container(
-              color: const Color(0xffFFFFFF),
-              height: 32,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 20.dp,
-                  ),
-                  Icon(
-                    Icons.arrow_back_sharp,
-                    size: 22.sp,
-                    color: const Color(0xffc1c1c1),
-                  )
-                ],
-              ),
-            ),
-          ),
           Expanded(
             child: GetBuilder<PlayListController>(builder: (controller) {
               return ScrollConfiguration(
@@ -112,6 +92,14 @@ class _PlayListViewState extends State<PlayListView> {
               //     ));
             }),
           ),
+          Positioned(
+              bottom: 30,
+              right: 30,
+              child: BackButtonWidget(
+                clickCallBack: () {
+                  NavigatorUtil.pop(context, returnData: {});
+                },
+              )),
         ],
       ),
     );
