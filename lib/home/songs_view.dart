@@ -66,33 +66,31 @@ class _SongsViewState extends State<SongsView> {
       color: const Color(0xffF6F8F9),
       child: Stack(
         children: [
-          Expanded(
-            child: GetBuilder<SongsController>(builder: (logic) {
-              int length = controller.state.songs.length;
-              if (widget.sourceType == SongSourceType.rankList) {
-                length = controller.state.ranks.length;
-              }
-              return ScrollConfiguration(
-                  behavior: ScrollConfiguration.of(context)
-                      .copyWith(scrollbars: false),
-                  child: ListView.separated(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
-                    itemBuilder: (ctx, index) {
-                      return _itemWidget(index);
-                    },
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: length,
-                    controller: controller.state.scrollController,
-                    separatorBuilder: (ctx, index) {
-                      return SizedBox(
-                        height: 5.dp,
-                      );
-                    },
-                  ));
-            }),
-          ),
+          GetBuilder<SongsController>(builder: (logic) {
+            int length = controller.state.songs.length;
+            if (widget.sourceType == SongSourceType.rankList) {
+              length = controller.state.ranks.length;
+            }
+            return ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context)
+                    .copyWith(scrollbars: false),
+                child: ListView.separated(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                  itemBuilder: (ctx, index) {
+                    return _itemWidget(index);
+                  },
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: length,
+                  controller: controller.state.scrollController,
+                  separatorBuilder: (ctx, index) {
+                    return SizedBox(
+                      height: 5.dp,
+                    );
+                  },
+                ));
+          }),
           Positioned(
               bottom: 30,
               right: 30,

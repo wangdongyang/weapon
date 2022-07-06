@@ -43,55 +43,53 @@ class _PlayListViewState extends State<PlayListView> {
       color: const Color(0xffF6F8F9),
       child: Stack(
         children: [
-          Expanded(
-            child: GetBuilder<PlayListController>(builder: (controller) {
-              return ScrollConfiguration(
-                behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                child: GridView.builder(
-                  padding: EdgeInsets.all(20.dp),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  controller: controller.state.scrollController,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 300,
-                      mainAxisSpacing: 20.dp,
-                      crossAxisSpacing: 20.dp,
-                      childAspectRatio: 1.4),
-                  itemBuilder: (BuildContext context, int index) {
-                    return itemWidget(index);
-                  },
-                  itemCount: controller.state.playList.length,
-                ),
-              );
-              // return EasyRefresh(
-              //     controller: EasyRefreshController(),
-              //     scrollController: ScrollController(),
-              //     header: ClassicalHeader(refreshedText: "开始刷新"),
-              //     footer:
-              //         BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
-              //     onLoad: () => controller.loadMore(),
-              //     onRefresh: () => controller.loadRefresh(),
-              //     child: ScrollConfiguration(
-              //       behavior:
-              //           ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              //       child: GridView.builder(
-              //         padding: EdgeInsets.all(20.dp),
-              //         scrollDirection: Axis.vertical,
-              //         shrinkWrap: true,
-              //         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              //             maxCrossAxisExtent: 300,
-              //             mainAxisSpacing: 20.dp,
-              //             crossAxisSpacing: 20.dp,
-              //             childAspectRatio: 1.4),
-              //         itemBuilder: (BuildContext context, int index) {
-              //           return itemWidget(index);
-              //         },
-              //         itemCount: controller.state.playList.length,
-              //       ),
-              //     ));
-            }),
-          ),
+          GetBuilder<PlayListController>(builder: (controller) {
+            return ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: GridView.builder(
+                padding: EdgeInsets.all(20.dp),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                controller: controller.state.scrollController,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 300,
+                    mainAxisSpacing: 20.dp,
+                    crossAxisSpacing: 20.dp,
+                    childAspectRatio: 1.4),
+                itemBuilder: (BuildContext context, int index) {
+                  return itemWidget(index);
+                },
+                itemCount: controller.state.playList.length,
+              ),
+            );
+            // return EasyRefresh(
+            //     controller: EasyRefreshController(),
+            //     scrollController: ScrollController(),
+            //     header: ClassicalHeader(refreshedText: "开始刷新"),
+            //     footer:
+            //         BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
+            //     onLoad: () => controller.loadMore(),
+            //     onRefresh: () => controller.loadRefresh(),
+            //     child: ScrollConfiguration(
+            //       behavior:
+            //           ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            //       child: GridView.builder(
+            //         padding: EdgeInsets.all(20.dp),
+            //         scrollDirection: Axis.vertical,
+            //         shrinkWrap: true,
+            //         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            //             maxCrossAxisExtent: 300,
+            //             mainAxisSpacing: 20.dp,
+            //             crossAxisSpacing: 20.dp,
+            //             childAspectRatio: 1.4),
+            //         itemBuilder: (BuildContext context, int index) {
+            //           return itemWidget(index);
+            //         },
+            //         itemCount: controller.state.playList.length,
+            //       ),
+            //     ));
+          }),
           Positioned(
               bottom: 30,
               right: 30,

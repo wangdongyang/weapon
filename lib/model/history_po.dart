@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:leancloud_storage/leancloud.dart';
+import 'package:weapon/db/local_db.dart';
 import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/search/search_state.dart';
 import 'package:weapon/utils/enum_util.dart';
@@ -51,29 +52,31 @@ class HistoryPo {
   }
 
   Future<void> saveData() async {
-    LCObject lcObject = LCObject(LeanCloudUtil.historyCN);
-    lcObject["playUrl"] = playUrl;
-    lcObject["playId"] = playId;
-    List<Map<String, dynamic>> artistMaps = [];
-    for (var element in artist) {
-      artistMaps.add(element.toJson());
-    }
-    lcObject["artist"] = jsonEncode(artistMaps);
-    lcObject["source"] = source;
-    lcObject["picUrl"] = picUrl;
-    lcObject["lyricUrl"] = lyricUrl;
-    lcObject["picId"] = picId;
-    lcObject["lyricId"] = lyricId;
-    lcObject["name"] = name;
-    lcObject["size"] = size;
-    lcObject["dt"] = dt;
+    // LCObject lcObject = LCObject(LeanCloudUtil.historyCN);
+    // lcObject["playUrl"] = playUrl;
+    // lcObject["playId"] = playId;
+    // List<Map<String, dynamic>> artistMaps = [];
+    // for (var element in artist) {
+    //   artistMaps.add(element.toJson());
+    // }
+    // lcObject["artist"] = jsonEncode(artistMaps);
+    // lcObject["source"] = source;
+    // lcObject["picUrl"] = picUrl;
+    // lcObject["lyricUrl"] = lyricUrl;
+    // lcObject["picId"] = picId;
+    // lcObject["lyricId"] = lyricId;
+    // lcObject["name"] = name;
+    // lcObject["size"] = size;
+    // lcObject["dt"] = dt;
+    //
+    // var findOneMusic = await LeanCloudUtil.findOneMusic(playId, source);
+    // if (findOneMusic.isEmpty) {
+    //   await lcObject.save();
+    // } else {
+    //   print("$playId:$name已经存在了");
+    // }
 
-    var findOneMusic = await LeanCloudUtil.findOneMusic(playId, source);
-    if (findOneMusic.isEmpty) {
-      await lcObject.save();
-    } else {
-      print("$playId:$name已经存在了");
-    }
-    // LocalDb.instance.historyDao.insert(po);
+
+    LocalDb.instance.historyDao.insert(this);
   }
 }

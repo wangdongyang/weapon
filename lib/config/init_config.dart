@@ -34,7 +34,7 @@ void initWindow({double scale: 1.0}) async {
   // //设置窗口信息
   window_size.setWindowFrame(frame);
   //设置窗口顶部标题
-  window_size.setWindowTitle('Flutter Use');
+  window_size.setWindowTitle('简悦');
   //限制最大最小窗口大小
   window_size.setWindowMinSize(Size(900.dp * scale, 500.dp * scale));
 }

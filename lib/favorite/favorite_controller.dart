@@ -16,13 +16,16 @@ class FavoriteController extends GetxController {
   }
 
   fetchData() async {
-    List<LCObject> results =
-        await LeanCloudUtil.query(LeanCloudUtil.historyCN, 10);
+    // List<LCObject> results =
+    //     await LeanCloudUtil.query(LeanCloudUtil.historyCN, 10);
     List<HistoryPo> histories = [];
-    for (LCObject element in results) {
-      HistoryPo historyPo = HistoryPo.parse(element);
-      histories.add(historyPo);
-    }
+    // for (LCObject element in results) {
+    //   HistoryPo historyPo = HistoryPo.parse(element);
+    //   histories.add(historyPo);
+    // }
+
+
+
     state.histories = histories;
     update();
   }

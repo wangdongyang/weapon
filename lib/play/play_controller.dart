@@ -91,6 +91,9 @@ class PlayController extends GetxController {
     playItems = ranks;
     playIndex = index;
 
+    print(playItems.length);
+    print(playIndex);
+
     SongRankModel? rank = ranks[index];
     state.source = source;
     String? id = rank.hash;
@@ -169,6 +172,7 @@ class PlayController extends GetxController {
   }
 
   play() async {
+
     if (audioPlayer.state == PlayerState.PLAYING) {
       final result = await audioPlayer.pause();
       if (result == 1) {
