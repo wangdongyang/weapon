@@ -219,9 +219,9 @@ class _HomeViewState extends State<HomeView> {
                 playListItem.name ?? "",
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 15.sp,
                     color: const Color(0xFF404040),
-                    fontWeight: FontWeight.w400),
+                    fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               ),
               // SizedBox(
