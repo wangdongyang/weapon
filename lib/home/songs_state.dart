@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
 import 'package:weapon/model/rank_list_item_model.dart';
 import 'package:weapon/model/song_list_item.dart';
@@ -9,8 +10,7 @@ class SongsState {
   PlayListItemModel? playListItem;
   RankListItemModel? rankListItem;
 
-  List<SongListItem> songs = [];
-  List<SongRankModel> ranks = [];
+  List<HistoryPo> songs = [];
   int selectedIndex = -1;
 
   int offset = 0;

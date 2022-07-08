@@ -26,7 +26,7 @@ class SearchState {
   String selectedName = "网易";
   AudioSource audioSource = AudioSource.netease;
 
-  List<SongListItem> songs = [];
+  List<HistoryPo> songs = [];
 
   final TextEditingController searchBarController = TextEditingController();
   final FocusNode searchFocus = FocusNode();

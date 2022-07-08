@@ -40,10 +40,10 @@ class DataBaseUtil {
     }
 
     //非 release模式，执行拷贝
-    const isPro = bool.fromEnvironment('dart.vm.product');
-    if (!isPro) {
-      shouldCopy = true;
-    }
+    // const isPro = bool.fromEnvironment('dart.vm.product');
+    // if (!isPro) {
+    //   shouldCopy = true;
+    // }
 
     //数据库不存在，执行拷贝
     if (!File(dbPath).existsSync()) {

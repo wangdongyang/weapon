@@ -24,25 +24,8 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
 
-    // loadData();
     fetchPlayList();
     fetchTopSongs();
-  }
-
-  loadData() async {
-    // LCUser user = LCUser();
-    // user.signUp();
-    // LCUser.loginByMobilePhoneNumber(username, password);
-
-    List<LCObject> results =
-        await LeanCloudUtil.query(LeanCloudUtil.historyCN, 10);
-    List<HistoryPo> histories = [];
-    for (LCObject element in results) {
-      HistoryPo historyPo = HistoryPo.parse(element);
-      histories.add(historyPo);
-    }
-    state.histories = histories;
-    update();
   }
 
   fetchTopSongs() async {
@@ -53,8 +36,8 @@ class HomeController extends GetxController {
     sst = sst.replaceAll(RegExp(r'<!--KG_TAG_RES_END-->'), "");
     Map<String, dynamic> data = jsonDecode(sst);
     List dataList = data["data"]["info"];
-    List<SongRankModel> ranks =
-        dataList.map((e) => SongRankModel.fromJson(e)).toList();
+    List<HistoryPo> ranks =
+        dataList.map((e) => HistoryPo.fromKugouRankJson(e)).toList();
     state.ranks = ranks;
     update();
   }
@@ -70,11 +53,10 @@ class HomeController extends GetxController {
     update();
   }
 
-  chooseSong(SongRankModel item, int index) {
+  chooseSong(HistoryPo item, int index) {
     state.selectedItem = item;
     state.selectedIndex = index;
-    Get.find<PlayController>()
-        .initRankSong(AudioSource.kugou, state.ranks, index);
+    Get.find<PlayController>().initState(state.ranks, index);
     update();
   }
 

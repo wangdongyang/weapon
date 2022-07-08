@@ -37,11 +37,11 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return GetBuilder<PlayController>(
       builder: (controller) {
-        String url = controller.state.picUrl ?? "";
-        String name = controller.state.name ?? "";
+        String url = controller.state.currentPo.picUrl;
+        String name = controller.state.currentPo.name;
         double iconSize = 22.dp;
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          padding: EdgeInsets.symmetric(vertical: 10.dp, horizontal: 15.dp),
           decoration: BoxDecoration(color: Colors.white,
               // borderRadius: const BorderRadius.all(
               //   Radius.circular(40),
@@ -121,24 +121,24 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                   GestureDetector(
                     onTap: controller.previous,
                     child: Container(
-                        child: Icon(
-                          Icons.skip_previous_rounded,
-                          size: iconSize,
-                        ),
+                      child: Icon(
+                        Icons.skip_previous_rounded,
+                        size: iconSize,
+                      ),
                     ),
                   ),
                   GestureDetector(
-                    onTap: controller.play,
+                    onTap: controller.stopAndPlay,
                     child: Container(
                       child: controller.state.playerState == PlayerState.PLAYING
                           ? Icon(
-                        Icons.pause_circle_outline_rounded,
-                        size: iconSize,
-                      )
+                              Icons.pause_circle_outline_rounded,
+                              size: iconSize,
+                            )
                           : Icon(
-                        Icons.play_arrow_rounded,
-                        size: iconSize,
-                      ),
+                              Icons.play_arrow_rounded,
+                              size: iconSize,
+                            ),
                     ),
                   ),
                   GestureDetector(
@@ -150,15 +150,17 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  // GestureDetector(
-                  //   onTap: () => controller.next,
-                  //   child: Container(
-                  //     child: Icon(
-                  //       Icons.,
-                  //       size: iconSize,
-                  //     ),
-                  //   ),
-                  // ),
+                  GestureDetector(
+                    onTap: controller.collect,
+                    child: Container(
+                      child: Icon(
+                        controller.state.isSaved
+                            ? Icons.star_rate_rounded
+                            : Icons.star_border_rounded,
+                        size: iconSize,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               _lyricContainerWidget()
@@ -179,7 +181,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
   }
 
   _lyricContainerWidget() {
-    if (controller.state.lyrics.isEmpty) {
+    if (controller.state.currentPo.lyrics.isEmpty) {
       return Container(
         alignment: Alignment.center,
         child: Text(
@@ -191,8 +193,8 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
     int position = controller.state.position.inMilliseconds;
     int duration = controller.state.duration.inMilliseconds;
     var p = position > duration ? duration : position;
-    int curLine =
-        LyricUtil.findLyricIndex(p.toDouble(), controller.state.lyrics);
+    int curLine = LyricUtil.findLyricIndex(
+        p.toDouble(), controller.state.currentPo.lyrics);
 
     // print("_lyricContainerWidget curLine = $curLine");
     bool isDragging = controller.state.lyricWidget?.isDragging ?? true;
@@ -322,8 +324,8 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
   }
 
   _authorWidget() {
-    String url = controller.state.picUrl ?? "";
-    String name = controller.state.artist ?? "";
+    String url = controller.state.currentPo.picUrl;
+    String name = controller.state.currentPo.artistStr;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.dp),
       child: Row(

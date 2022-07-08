@@ -14,7 +14,7 @@ class LyricUtil {
       int hourSeparatorIndex = time.indexOf(":");
       int minuteSeparatorIndex = time.indexOf(".");
       return Lyric(
-        lyric,
+        lyric:lyric,
         startTime: Duration(
           minutes: int.parse(
             time.substring(0, hourSeparatorIndex),

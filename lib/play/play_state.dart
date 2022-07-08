@@ -8,22 +8,26 @@ import 'package:weapon/search/search_state.dart';
 import 'package:weapon/utils/lyric_util.dart';
 
 class PlayState {
-  String? playId;
-  String? picUrl;
-  String? name;
-  String? artist;
+  // String? playId;
+  // String? picUrl;
+  // String? name;
+  // String? artist;
   late AudioSource source;
+
+  late HistoryPo currentPo = HistoryPo();
+
   PlayerState? playerState;
   AnimationController? lyricOffsetYController;
   Timer? dragEndTimer;
   late Function dragEndFunc;
   late Duration dragEndDuration = const Duration(milliseconds: 1000);
   LyricView? lyricWidget;
-  List<Lyric> lyrics = [];
+  // List<Lyric> lyrics = [];
   late StreamController<String> curPositionController;
   late Stream<String> curPositionStream;
   late Duration duration = const Duration();
   late Duration position = const Duration();
+  bool isSaved = false;
 
   String get sourceStr => source.toString().split(".").last;
 

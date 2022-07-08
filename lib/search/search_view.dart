@@ -30,13 +30,13 @@ class SearchView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                         vertical: 15.dp, horizontal: 0),
                     itemBuilder: (ctx, index) {
-                      SongListItem item = controller.state.songs[index];
+                      HistoryPo item = controller.state.songs[index];
                       return AudioItemWidget(
                         name: item.name,
                         picUrl: item.picUrl,
-                        duration: item.dt,
+                        duration: item.duration,
                         artist: item.artist,
-                        artistStrArr: item.artistStrArr,
+                        singer: item.artistStr,
                         isChoose: controller.state.selectedIndex == index,
                         clickCallBack: () => controller.chooseSong(item, index),
                       );

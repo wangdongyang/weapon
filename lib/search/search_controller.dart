@@ -67,19 +67,18 @@ class SearchController extends GetxController {
     };
     final response = await dio.get(host, queryParameters: param);
     List<dynamic> mapList = jsonDecode(response.toString());
-    // print("mapList = $mapList");
-    List<SongListItem> songs = [];
+    List<HistoryPo> songs = [];
     for (var element in mapList) {
-      songs.add(SongListItem.fromJson(element));
+      songs.add(HistoryPo.fromSearchJson(element));
     }
     state.songs = songs;
     state.selectedIndex = -1;
     update();
   }
 
-  chooseSong(SongListItem item, int index) {
+  chooseSong(HistoryPo item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>().initSongListItem(state.audioSource, state.songs, index);
+    Get.find<PlayController>().initState(state.songs, index);
     update();
   }
 

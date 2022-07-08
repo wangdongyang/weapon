@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:leancloud_storage/leancloud.dart';
+import 'package:weapon/db/history_dao.dart';
+import 'package:weapon/db/local_db.dart';
 import 'package:weapon/favorite/favorite_state.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/play/play_controller.dart';
@@ -15,17 +17,23 @@ class FavoriteController extends GetxController {
     fetchData();
   }
 
+
   fetchData() async {
     // List<LCObject> results =
     //     await LeanCloudUtil.query(LeanCloudUtil.historyCN, 10);
+    // List<HistoryPo> histories = [];
+    // // for (LCObject element in results) {
+    // //   HistoryPo historyPo = HistoryPo.parse(element);
+    // //   histories.add(historyPo);
+    // // }
+
     List<HistoryPo> histories = [];
-    // for (LCObject element in results) {
-    //   HistoryPo historyPo = HistoryPo.parse(element);
-    //   histories.add(historyPo);
-    // }
-
-
-
+    List<Map<String, dynamic>> result = await LocalDb.instance.historyDao.queryAll();
+    // print("result: " + result.toString());
+    for (var json in result) {
+      var historyPo = HistoryPo.fromHistoryJson(json);
+      histories.add(historyPo);
+    }
     state.histories = histories;
     update();
   }

@@ -87,14 +87,14 @@ class _HomeViewState extends State<HomeView> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 15.dp, horizontal: 0),
                             itemBuilder: (ctx, index) {
-                              SongRankModel item =
+                              HistoryPo item =
                               controller.state.ranks[index];
-                              String url = item.albumSizableCover ?? "";
+                              String url = item.picUrl;
                               return AudioItemWidget(
-                                name: item.songName,
+                                name: item.name,
                                 picUrl: url,
-                                duration: item.duration ?? 0,
-                                singer: item.singer,
+                                duration: item.duration,
+                                singer: item.artistStr,
                                 isChoose:
                                 controller.state.selectedIndex == index,
                                 clickCallBack: () =>

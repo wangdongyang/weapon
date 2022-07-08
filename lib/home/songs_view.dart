@@ -6,6 +6,7 @@ import 'package:weapon/custom/audio_item_widget.dart';
 import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/songs_controller.dart';
 import 'package:weapon/home/songs_state.dart';
+import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
 import 'package:weapon/model/rank_list_item_model.dart';
 import 'package:weapon/model/song_list_item.dart';
@@ -68,9 +69,6 @@ class _SongsViewState extends State<SongsView> {
         children: [
           GetBuilder<SongsController>(builder: (logic) {
             int length = controller.state.songs.length;
-            if (widget.sourceType == SongSourceType.rankList) {
-              length = controller.state.ranks.length;
-            }
             return ScrollConfiguration(
                 behavior: ScrollConfiguration.of(context)
                     .copyWith(scrollbars: false),
@@ -105,36 +103,14 @@ class _SongsViewState extends State<SongsView> {
   }
 
   _itemWidget(index) {
-    Widget view = Container();
-    switch (widget.sourceType) {
-      case SongSourceType.playList:
-        {
-          SongListItem item = controller.state.songs[index];
-          view = AudioItemWidget(
-            name: item.name,
-            picUrl: item.picUrl,
-            duration: item.dt,
-            artist: item.artist,
-            isChoose: controller.state.selectedIndex == index,
-            clickCallBack: () => controller.chooseSong(item, index),
-          );
-        }
-        break;
-      case SongSourceType.rankList:
-        {
-          SongRankModel item = controller.state.ranks[index];
-          String url = item.albumSizableCover ?? "";
-          view = AudioItemWidget(
-            name: item.songName,
-            picUrl: url,
-            duration: item.duration ?? 0,
-            singer: item.singer,
-            isChoose: controller.state.selectedIndex == index,
-            clickCallBack: () => controller.chooseRankSong(item, index),
-          );
-        }
-        break;
-    }
-    return view;
+    HistoryPo item = controller.state.songs[index];
+    return AudioItemWidget(
+      name: item.name,
+      picUrl: item.picUrl,
+      duration: item.duration,
+      artist: item.artist,
+      isChoose: controller.state.selectedIndex == index,
+      clickCallBack: () => controller.chooseSong(item, index),
+    );
   }
 }

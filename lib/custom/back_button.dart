@@ -3,8 +3,9 @@ import 'package:weapon/auto_ui.dart';
 
 class BackButtonWidget extends StatelessWidget {
   Function clickCallBack;
+  IconData icon = Icons.arrow_back_sharp;
 
-  BackButtonWidget({Key? key, required this.clickCallBack}) : super(key: key);
+  BackButtonWidget({Key? key, required this.clickCallBack, this.icon = Icons.arrow_back_sharp}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class BackButtonWidget extends StatelessWidget {
                   spreadRadius: 0)
             ]),
         child: Icon(
-          Icons.arrow_back_sharp,
+          icon,
           size: 22.sp,
           color: const Color(0xffc1c1c1),
         ),

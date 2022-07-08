@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/model/song_list_item.dart';
+import 'package:weapon/utils/time_format_util.dart';
 
 class AudioItemWidget extends StatelessWidget {
   String name = "";
@@ -32,22 +33,16 @@ class AudioItemWidget extends StatelessWidget {
 
   _itemWidget() {
     String url = picUrl;
-    int munite = (duration / 60).floor();
-    String muniteStr = "$munite";
-    if (munite < 10) muniteStr = "0$munite";
-    int seconds = (duration % 60).floor();
-    String secondStr = "$seconds";
-    if (seconds < 10) secondStr = "0$seconds";
-    String time = "$muniteStr:$secondStr";
+    String time = TimeFormatUtil.secondToTimeString(duration);
 
     String artistName = singer ?? "";
     if (artist != null && artist!.isNotEmpty) {
       artistName = artist!.map((e) => e.name).toList().join(",");
     }
 
-    if (artistStrArr != null && artistStrArr!.isNotEmpty) {
-      artistName = artistStrArr!.map((e) => e).toList().join(",");
-    }
+    // if (artistStrArr != null && artistStrArr!.isNotEmpty) {
+    //   artistName = artistStrArr!.map((e) => e).toList().join(",");
+    // }
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 10.dp),

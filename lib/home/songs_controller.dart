@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/home/songs_state.dart';
+import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/play/play_controller.dart';
@@ -50,8 +51,8 @@ class SongsController extends GetxController {
     };
     final response = await dio.get(host, queryParameters: param);
     List<dynamic> mapList = jsonDecode(response.toString());
-    List<SongListItem> songs =
-        mapList.map((e) => SongListItem.fromJson(e)).toList();
+    List<HistoryPo> songs =
+        mapList.map((e) => HistoryPo.fromSearchJson(e)).toList();
     state.songs = songs;
     update();
   }
@@ -74,28 +75,27 @@ class SongsController extends GetxController {
     sst = sst.replaceAll(RegExp(r'<!--KG_TAG_RES_END-->'), "");
     Map<String, dynamic> data = jsonDecode(sst);
     List dataList = data["data"]["info"];
-    List<SongRankModel> ranks =
-        dataList.map((e) => SongRankModel.fromJson(e)).toList();
+    List<HistoryPo> ranks =
+        dataList.map((e) => HistoryPo.fromKugouRankJson(e)).toList();
     state.haveMore = dataList.length >= 20;
     if (state.offset == 0) {
-      state.ranks = ranks;
+      state.songs = ranks;
     } else {
-      state.ranks.addAll(ranks);
+      state.songs.addAll(ranks);
     }
     update();
   }
 
-  chooseSong(SongListItem item, int index) {
+  chooseSong(HistoryPo item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>()
-        .initSongListItem(AudioSource.netease, state.songs, index);
+    Get.find<PlayController>().initState(state.songs, index);
     update();
   }
 
   chooseRankSong(SongRankModel item, int index) {
     state.selectedIndex = index;
     Get.find<PlayController>()
-        .initRankSong(AudioSource.kugou, state.ranks, index);
+        .initState(state.songs, index);
     update();
   }
 }

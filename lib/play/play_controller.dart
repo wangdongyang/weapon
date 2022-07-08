@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:weapon/config/api_config.dart';
+import 'package:weapon/db/local_db.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_detail.dart';
 import 'package:weapon/model/song_list_item.dart';
@@ -22,105 +23,37 @@ class PlayController extends GetxController {
 
   late PlayerMode mode;
   late AudioPlayer audioPlayer;
-  late List playItems = [];
+  late List<HistoryPo> playItems = [];
   late int playIndex = 0;
 
-  initState(List<HistoryPo>? histories, int index) {
+  initState(List<HistoryPo>? histories, int index) async {
     if (histories == null || histories.isEmpty) return;
     playItems = histories;
     playIndex = index;
     HistoryPo historyPo = histories[index];
-    if (state.playId == historyPo.playId) return;
-    state.playId = historyPo.playId;
-    state.source = historyPo.sourceType;
-    state.lyrics = LyricUtil.formatLyric(historyPo.lyricUrl);
-    state.lyricWidget = LyricView(state.lyrics, 0);
-    state.name = historyPo.name;
-    state.picUrl = historyPo.picUrl;
-    state.artist = historyPo.artist.map((e) => e.name).toList().join(",");
-    state.duration = const Duration();
-    state.position = const Duration();
 
-    play();
-    update();
-  }
-
-  initSongListItem(
-      AudioSource source, List<SongListItem>? songs, int index) async {
-    if (songs == null || songs.isEmpty) return;
-    playItems = songs;
-    playIndex = index;
-
-    SongListItem item = songs[index];
-    state.source = source;
-    // print(source);
-    String? id = item.id;
-    if (state.playId == id) return;
-
-    if (item.lyric == null) {
+    if (historyPo.lyrics.isEmpty) {
       var dio = Dio();
       Map<String, dynamic> header = AuthUtil.getHeader(Api.lyric);
       dio.options.headers = header;
       Map<String, dynamic> lyricParam = {
-        "lyric_id": id,
-        "source": state.sourceStr,
+        "lyric_id": historyPo.lyricId,
+        "source": historyPo.source,
         "type": "lyric"
       };
       final lyricResponse =
           await dio.get(Api.lyric, queryParameters: lyricParam);
       var lyricMap = jsonDecode(lyricResponse.toString());
-      item.lyric = lyricMap;
-      // print(lyricMap);
+      // print("\nlyricParam = $lyricParam;\nlyricMap = $lyricMap");
+      historyPo.lyrics = LyricUtil.formatLyric(lyricMap["lyric"]);
     }
 
-    state.playId = id;
-    state.lyrics = LyricUtil.formatLyric(item.lyric["lyric"]);
-    state.lyricWidget = LyricView(state.lyrics, 0);
-    state.name = item.name;
-    state.picUrl = item.picUrl;
-    state.artist = item.artist.map((e) => e.name).toList().join(",");
+    state.lyricWidget = LyricView(historyPo.lyrics, 0);
     state.duration = const Duration();
     state.position = const Duration();
-    play();
-    update();
-  }
+    state.currentPo = historyPo;
 
-  initRankSong(
-      AudioSource source, List<SongRankModel>? ranks, int index) async {
-    if (ranks == null || ranks.isEmpty) return;
-    playItems = ranks;
-    playIndex = index;
-
-    print(playItems.length);
-    print(playIndex);
-
-    SongRankModel? rank = ranks[index];
-    state.source = source;
-    String? id = rank.hash;
-    if (state.playId == id) return;
-    if (rank.lyric == null) {
-      var dio = Dio();
-      Map<String, dynamic> header = AuthUtil.getHeader(Api.lyric);
-      dio.options.headers = header;
-      Map<String, dynamic> lyricParam = {
-        "lyric_id": id,
-        "source": state.sourceStr,
-        "type": "lyric"
-      };
-      final lyricResponse =
-          await dio.get(Api.lyric, queryParameters: lyricParam);
-      var lyricMap = jsonDecode(lyricResponse.toString());
-      rank.lyric = lyricMap;
-    }
-    state.playId = id;
-    state.source = AudioSource.kugou;
-    state.lyrics = LyricUtil.formatLyric(rank.lyric["lyric"]);
-    state.lyricWidget = LyricView(state.lyrics, 0);
-    state.name = rank.songName;
-    state.picUrl = rank.albumSizableCover;
-    state.artist = rank.singer;
-    state.duration = const Duration();
-    state.position = const Duration();
+    state.isSaved = await isSaved();
 
     play();
     update();
@@ -151,10 +84,7 @@ class PlayController extends GetxController {
     //播放完成
     audioPlayer.onPlayerCompletion.listen((event) {
       state.position = const Duration();
-
       next();
-
-      update();
     });
 
     //监听报错
@@ -171,8 +101,7 @@ class PlayController extends GetxController {
     });
   }
 
-  play() async {
-
+  stopAndPlay() async{
     if (audioPlayer.state == PlayerState.PLAYING) {
       final result = await audioPlayer.pause();
       if (result == 1) {
@@ -180,14 +109,17 @@ class PlayController extends GetxController {
       }
       return;
     }
+    play();
+  }
 
-    if (state.playId == null) return;
-    String songId = state.playId!;
+  play() async {
+    String songId = state.currentPo.playId;
+    if (songId.isEmpty) return;
     var dio = Dio();
     Map<String, dynamic> header = AuthUtil.getHeader(Api.play);
     Map<String, dynamic> param = {
       "id": songId,
-      "source": state.sourceStr,
+      "source": state.currentPo.source,
       "type": "play"
     };
     dio.options.headers = header;
@@ -201,7 +133,7 @@ class PlayController extends GetxController {
         : const Duration();
 
     if (url.isEmpty) {
-      // print("url 为空");
+      print("url 为空");
       return;
     }
 
@@ -212,42 +144,34 @@ class PlayController extends GetxController {
   }
 
   previous() {
-    print(playItems.length);
-    print(playIndex);
     if (playItems.isNotEmpty && playIndex < playItems.length - 1) {
-      int next = playIndex - 1;
-
-      var first = playItems.first;
-      if (first is HistoryPo) {
-        initState(playItems.cast<HistoryPo>(), next);
-      }
-
-      if (first is SongListItem) {
-        initSongListItem(state.source, playItems.cast<SongListItem>(), next);
-      }
-
-      if (first is SongRankModel) {
-        initRankSong(state.source, playItems.cast<SongRankModel>(), next);
-      }
+      initState(playItems, playIndex - 1);
     }
   }
 
   next() {
     if (playItems.isNotEmpty && playIndex < playItems.length - 1) {
-      int next = playIndex + 1;
-
-      var first = playItems.first;
-      if (first is HistoryPo) {
-        initState(playItems.cast<HistoryPo>(), next);
-      }
-
-      if (first is SongListItem) {
-        initSongListItem(state.source, playItems.cast<SongListItem>(), next);
-      }
-
-      if (first is SongRankModel) {
-        initRankSong(state.source, playItems.cast<SongRankModel>(), next);
-      }
+      initState(playItems, playIndex + 1);
     }
+  }
+
+  collect() async {
+    if (state.currentPo.playId.isEmpty) return;
+    var result =
+        await LocalDb.instance.historyDao.queryByPlayId(state.currentPo.playId);
+    if (result.isNotEmpty) {
+      LocalDb.instance.historyDao.deletePlayId(state.currentPo.playId);
+    } else {
+      LocalDb.instance.historyDao.insert(state.currentPo);
+    }
+    state.isSaved = await isSaved();
+    update();
+  }
+
+  Future<bool> isSaved() async {
+    if (state.currentPo.playId.isEmpty) return false;
+    var result =
+        await LocalDb.instance.historyDao.queryByPlayId(state.currentPo.playId);
+    return result.isNotEmpty;
   }
 }

@@ -4,13 +4,12 @@ import 'package:get/get.dart';
 import 'package:weapon/config/route_config.dart';
 import 'package:weapon/custom/custom_loading_widget.dart';
 import 'package:weapon/custom/custom_toast_widget.dart';
-import 'package:weapon/main/main_view.dart';
-import 'package:weapon/utils/leancloud_util.dart';
-import 'package:weapon/web/web_land_view.dart';
+import 'package:weapon/utils/database_util.dart';
 
 Future<void> main() async {
   //确保 WidgetsBinding.instance 后续使用没有问题
   WidgetsFlutterBinding.ensureInitialized();
+  await DataBaseUtil.initDB();
   runApp(const MyApp());
 }
 
@@ -27,7 +26,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
 
-    LeanCloudUtil.initSDK();
+    // LeanCloudUtil.initSDK();
   }
 
   @override
@@ -40,7 +39,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.indigo,
             appBarTheme: AppBarTheme.of(context).copyWith(
-              // 方式1
               brightness: Brightness.light,
             )
         ),

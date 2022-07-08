@@ -72,14 +72,20 @@ class SideNavigation extends StatelessWidget {
     return GestureDetector(
       onTap: oneWordClicked,
       child: Container(
-        height: 60.dp,
+        height: 70.dp,
         padding: EdgeInsets.symmetric(horizontal: 15.sp),
         child: Text(
           oneWord,
           maxLines: 4,
           textAlign: TextAlign.start,
           style: TextStyle(
-              fontSize: 14.sp, color: Color(0xFF999999), fontFamily: 'ZCOOLXiaoWei'),
+              fontSize: 14.sp,
+              color: Color(0xFF9C9C9C),
+              fontFamily: 'ZCOOLXiaoWei',
+              letterSpacing: 1.1,
+              wordSpacing: 1.2,
+              height: 1.4,
+              fontStyle: FontStyle.normal,),
           overflow: TextOverflow.ellipsis,
         ),
       ),
