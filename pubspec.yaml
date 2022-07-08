@@ -77,6 +77,10 @@ flutter:
       fonts:
         - asset: assets/fonts/ZCOOLXiaoWei-Regular.ttf
 
+    - family: JasonHandwriting2
+      fonts:
+        - asset: assets/fonts/JasonHandwriting2-Regular.ttf
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

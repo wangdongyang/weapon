@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolkit_easy/flutter_toolkit.dart';
 import 'package:weapon/favorite/favorite_view.dart';
 import 'package:weapon/home/home_view.dart';
-import 'package:weapon/main/setting_view.dart';
 import 'package:weapon/model/btn_info.dart';
 import 'package:weapon/search/search_view.dart';
+import 'package:weapon/setting/settting_view.dart';
 
 class MainState {
   ///选择index
@@ -39,8 +39,8 @@ class MainState {
     pageList = [
       KeepAlivePage(const HomeView()),
       KeepAlivePage(SearchView()),
-      KeepAlivePage( FavoriteView()),
-      KeepAlivePage(const SettingView())
+      KeepAlivePage(FavoriteView()),
+      KeepAlivePage(SettingView())
     ];
     //item栏目
     itemList = [

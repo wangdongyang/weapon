@@ -13,6 +13,7 @@ class AudioItemWidget extends StatelessWidget {
   String? singer = "";
   bool isChoose = false;
   Function clickCallBack;
+  Function moreCallBack;
 
   AudioItemWidget(
       {Key? key,
@@ -23,7 +24,8 @@ class AudioItemWidget extends StatelessWidget {
       this.artistStrArr,
       this.singer,
       required this.isChoose,
-      required this.clickCallBack})
+      required this.clickCallBack,
+      required this.moreCallBack})
       : super(key: key);
 
   @override
@@ -36,9 +38,9 @@ class AudioItemWidget extends StatelessWidget {
     String time = TimeFormatUtil.secondToTimeString(duration);
 
     String artistName = singer ?? "";
-    if (artist != null && artist!.isNotEmpty) {
-      artistName = artist!.map((e) => e.name).toList().join(",");
-    }
+    // if (artist != null && artist!.isNotEmpty) {
+    //   artistName = artist!.map((e) => e.name).toList().join(",");
+    // }
 
     // if (artistStrArr != null && artistStrArr!.isNotEmpty) {
     //   artistName = artistStrArr!.map((e) => e).toList().join(",");
@@ -86,7 +88,7 @@ class AudioItemWidget extends StatelessWidget {
             width: 20.dp,
           ),
           Expanded(
-              flex: 1,
+              flex: 2,
               child: Row(
                 children: [
                   CachedNetworkImage(
@@ -124,6 +126,7 @@ class AudioItemWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15.sp,
                         color: const Color(0xFF333333),
+                        fontWeight: FontWeight.w300
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -137,6 +140,7 @@ class AudioItemWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
+                      fontWeight: FontWeight.w200,
                       fontSize: 14.sp, color: const Color(0xFF666666)))),
           Expanded(
             flex: 1,
@@ -144,7 +148,7 @@ class AudioItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Icon(
-                  Icons.access_time,
+                  Icons.access_time_rounded,
                   size: 16.dp,
                   color: const Color(0xFF999999),
                 ),
@@ -156,21 +160,26 @@ class AudioItemWidget extends StatelessWidget {
                     textAlign: TextAlign.end,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
+                        fontWeight: FontWeight.w300,
                         fontSize: 13.sp, color: const Color(0xFF999999)))
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              padding: EdgeInsets.only(left: 15.dp, right: 0.dp),
-              child: const Icon(
-                Icons.more_horiz_rounded,
-                size: 16,
-                color: Color(0xFF999999),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     if (moreCallBack != null) {
+          //       moreCallBack();
+          //     }
+          //   },
+          //   child: Container(
+          //     padding: EdgeInsets.only(left: 15.dp, right: 0.dp),
+          //     child: const Icon(
+          //       Icons.more_horiz_rounded,
+          //       size: 16,
+          //       color: Color(0xFF999999),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             width: 10.dp,
           ),

@@ -102,11 +102,14 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
               SizedBox(
                 height: 20.dp,
               ),
-              Text(
-                name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Text(name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: const Color(0xFF333333),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  )),
               SizedBox(
                 height: 10.dp,
               ),
@@ -162,6 +165,9 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 10.dp,
               ),
               _lyricContainerWidget()
             ],
@@ -327,24 +333,24 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
     String url = controller.state.currentPo.picUrl;
     String name = controller.state.currentPo.artistStr;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.dp),
+      padding: EdgeInsets.symmetric(vertical: 18.dp),
       child: Row(
         children: [
           CachedNetworkImage(
-            width: 40.dp,
-            height: 40.dp,
+            width: 44.dp,
+            height: 44.dp,
             imageUrl: url,
             imageBuilder: (context, image) => CircleAvatar(
               backgroundImage: image,
-              radius: 20.dp,
+              radius: 22.dp,
             ),
             placeholder: (context, url) => CircleAvatar(
               backgroundColor: Colors.blue.shade300,
-              radius: 20.dp,
+              radius: 22.dp,
             ),
             errorWidget: (context, url, error) => CircleAvatar(
               backgroundColor: Colors.blue.shade300,
-              radius: 20.dp,
+              radius: 22.dp,
             ),
             fadeOutDuration: const Duration(seconds: 1),
             fadeInDuration: const Duration(seconds: 1),
@@ -360,7 +366,10 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 Text(
                   name,
                   maxLines: 1,
-                  style: TextStyle(fontSize: 14.sp, color: Color(0xFF333333)),
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      color: Color(0xFF333333),
+                      fontWeight: FontWeight.w300),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
@@ -369,7 +378,10 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 Text(
                   "ta 好像什么也没有留下~",
                   maxLines: 1,
-                  style: TextStyle(fontSize: 11.sp, color: Color(0xFF666666)),
+                  style: TextStyle(
+                      fontSize: 11.sp,
+                      color: Color(0xFF666666),
+                      fontWeight: FontWeight.w300),
                   overflow: TextOverflow.ellipsis,
                 )
               ],

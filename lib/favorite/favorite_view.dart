@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/ball_pulse_footer.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -38,9 +39,26 @@ class FavoriteView extends StatelessWidget {
                       name: item.name,
                       picUrl: item.picUrl,
                       duration: item.duration,
-                      artist: item.artist,
+                      singer: item.artistStr,
                       isChoose: controller.state.selectedIndex == index,
                       clickCallBack: () => controller.chooseSong(item, index),
+                      moreCallBack: () {
+
+                        // showModalBottomSheet(
+                        //     context: ctx,
+                        //     backgroundColor: Colors.white,
+                        //     enableDrag: false,
+                        //     builder: (BuildContext context) {
+                        //       return Container(height: 200,width: 300, color: Colors.white,);
+                        //     });
+
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return Container(height: 50,width: 50, color: Colors.white,);
+                            });
+                      },
                     );
                   },
                   shrinkWrap: true,

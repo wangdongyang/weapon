@@ -70,11 +70,10 @@ class _SongsViewState extends State<SongsView> {
           GetBuilder<SongsController>(builder: (logic) {
             int length = controller.state.songs.length;
             return ScrollConfiguration(
-                behavior: ScrollConfiguration.of(context)
-                    .copyWith(scrollbars: false),
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
                 child: ListView.separated(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                  padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
                   itemBuilder: (ctx, index) {
                     return _itemWidget(index);
                   },
@@ -108,9 +107,10 @@ class _SongsViewState extends State<SongsView> {
       name: item.name,
       picUrl: item.picUrl,
       duration: item.duration,
-      artist: item.artist,
+      singer: item.artistStr,
       isChoose: controller.state.selectedIndex == index,
       clickCallBack: () => controller.chooseSong(item, index),
+      moreCallBack: () {},
     );
   }
 }

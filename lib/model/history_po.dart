@@ -46,7 +46,6 @@ class HistoryPo {
     if (json['artist'] != null) {
       final v = json['artist'];
       final arr0 = <ArtistModel>[];
-      final arr1 = <String>[];
       v.forEach((e) {
         if (e is Map<String, dynamic>) {
           arr0.add(ArtistModel.fromJson(e));
@@ -54,11 +53,13 @@ class HistoryPo {
           if (e.contains("nbsp;")) {
             e = e.replaceAll(RegExp(r'nbsp;'), "");
           }
-          arr1.add(e);
+          // arr1.add(e);
         }
       });
       artist = arr0;
-      artistStr = arr1.join(",");
+      artistStr = arr0.map((e) => e.name).toList().join(",");
+
+      print("artist = $v; artistStr = $artistStr");
     }
     picId = json['pic_id']?.toString() ?? "";
     picUrl = json['pic_url']?.toString() ?? "";

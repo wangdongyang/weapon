@@ -114,11 +114,11 @@ class SideNavigation extends StatelessWidget {
     Image icon = choose
         ? Image.asset("assets/images/${item.icon}.png")
         : Image.asset("assets/images/${item.icon}_normal.png");
-    Color color = choose ? const Color(0xFF0007F6) : const Color(0xFF768295);
+    Color color = choose ? const Color(0xFF0007F6) : const Color(0xFF697380);
     return GestureDetector(
       onTap: () => onItem(index),
       child: Container(
-        height: 64.dp,
+        height: 68.dp,
         color: Colors.transparent,
         child: Stack(
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +141,8 @@ class SideNavigation extends StatelessWidget {
                   ),
                   Text(
                     item.title ?? "",
-                    style: TextStyle(color: color, fontSize: 15.sp),
+                    style: TextStyle(color: color, fontSize: 16.sp, fontWeight: FontWeight.w300,),
+
                   ),
                 ],
               ),

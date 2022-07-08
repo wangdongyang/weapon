@@ -48,9 +48,8 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           sectionHeader("assets/images/stars.png", "热门歌单",
                               callBack: () {
-                                NavigatorUtil.push(
-                                    context, const PlayListView());
-                              }),
+                            NavigatorUtil.push(context, const PlayListView());
+                          }),
                           SizedBox(
                             height: 15.dp,
                           ),
@@ -80,15 +79,13 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           sectionHeader("assets/images/rank.png", "排行榜",
                               callBack: () {
-                                NavigatorUtil.push(
-                                    context, const RankListView());
-                              }),
+                            NavigatorUtil.push(context, const RankListView());
+                          }),
                           ListView.separated(
                             padding: EdgeInsets.symmetric(
                                 vertical: 15.dp, horizontal: 0),
                             itemBuilder: (ctx, index) {
-                              HistoryPo item =
-                              controller.state.ranks[index];
+                              HistoryPo item = controller.state.ranks[index];
                               String url = item.picUrl;
                               return AudioItemWidget(
                                 name: item.name,
@@ -96,9 +93,10 @@ class _HomeViewState extends State<HomeView> {
                                 duration: item.duration,
                                 singer: item.artistStr,
                                 isChoose:
-                                controller.state.selectedIndex == index,
+                                    controller.state.selectedIndex == index,
                                 clickCallBack: () =>
                                     controller.chooseSong(item, index),
+                                moreCallBack: () {},
                               );
                             },
                             shrinkWrap: true,
@@ -131,9 +129,9 @@ class _HomeViewState extends State<HomeView> {
   _playListItemWidget(int index) {
     PlayListItemModel playListItem = controller.state.playList[index];
     double padding =
-    (index == 0 || index == controller.state.playList.length - 1)
-        ? 5.dp
-        : 0.dp;
+        (index == 0 || index == controller.state.playList.length - 1)
+            ? 5.dp
+            : 0.dp;
     return GestureDetector(
       onTap: () {
         NavigatorUtil.push(
@@ -183,33 +181,31 @@ class _HomeViewState extends State<HomeView> {
                         // width: 200.dp,
                         // height: 150.dp,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.dp),
-                          // borderRadius: BorderRadius.only(
-                          //     topLeft: Radius.circular(8.dp),
-                          //     topRight: Radius.circular(8.dp)),
-                          image: DecorationImage(
-                              image: image, fit: BoxFit.cover),
-                          boxShadow: [
-                            BoxShadow(
-                                color: const Color(0xffe0e0e0).withAlpha(120),
-                                offset: const Offset(4, 4),
-                                blurRadius: 5.0,
-                                spreadRadius: 0),
-                            BoxShadow(
-                                color: const Color(0xffe0e0e0).withAlpha(120),
-                                offset: const Offset(-4, -4),
-                                blurRadius: 5.0,
-                                spreadRadius: 0)
-                          ],
-                        ));
+                      borderRadius: BorderRadius.circular(12.dp),
+                      // borderRadius: BorderRadius.only(
+                      //     topLeft: Radius.circular(8.dp),
+                      //     topRight: Radius.circular(8.dp)),
+                      image: DecorationImage(image: image, fit: BoxFit.cover),
+                      boxShadow: [
+                        BoxShadow(
+                            color: const Color(0xffe0e0e0).withAlpha(120),
+                            offset: const Offset(4, 4),
+                            blurRadius: 5.0,
+                            spreadRadius: 0),
+                        BoxShadow(
+                            color: const Color(0xffe0e0e0).withAlpha(120),
+                            offset: const Offset(-4, -4),
+                            blurRadius: 5.0,
+                            spreadRadius: 0)
+                      ],
+                    ));
                   },
-                  placeholder: (context, url) =>
-                      Container(
-                        decoration: BoxDecoration(
-                          color: ColorUtil.randomColor().withAlpha(40),
-                          borderRadius: BorderRadius.circular(8.dp),
-                        ),
-                      ),
+                  placeholder: (context, url) => Container(
+                    decoration: BoxDecoration(
+                      color: ColorUtil.randomColor().withAlpha(40),
+                      borderRadius: BorderRadius.circular(8.dp),
+                    ),
+                  ),
                   //card_place_image.png
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   fadeOutDuration: const Duration(seconds: 1),
@@ -223,9 +219,9 @@ class _HomeViewState extends State<HomeView> {
                 playListItem.name ?? "",
                 maxLines: 1,
                 style: TextStyle(
-                  fontSize: 14.sp,
-                  color: const Color(0xFF404040),
-                ),
+                    fontSize: 14.sp,
+                    color: const Color(0xFF404040),
+                    fontWeight: FontWeight.w400),
                 overflow: TextOverflow.ellipsis,
               ),
               // SizedBox(
@@ -258,9 +254,9 @@ class _HomeViewState extends State<HomeView> {
                 title,
                 maxLines: 1,
                 style: TextStyle(
-                  fontSize: 15.sp,
-                  color: const Color(0xFF404040),
-                ),
+                    fontSize: 15.sp,
+                    color: const Color(0xFF404040),
+                    fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               )
             ],
@@ -277,18 +273,18 @@ class _HomeViewState extends State<HomeView> {
                   "查看更多",
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 14.sp,
-                    color: const Color(0xFFACACAC),
-                  ),
+                      fontSize: 14.sp,
+                      color: const Color(0xFF6F6F6F),
+                      fontWeight: FontWeight.w300),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
                   width: 5.dp,
                 ),
                 Icon(
-                  Icons.arrow_forward,
+                  Icons.arrow_forward_rounded,
                   size: 15.sp,
-                  color: const Color(0xFFACACAC),
+                  color: const Color(0xFF979797),
                 ),
               ],
             ),
