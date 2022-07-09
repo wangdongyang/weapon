@@ -1,28 +1,35 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
+// import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:weapon/db/local_db.dart';
 import 'package:weapon/db/local_storage.dart';
+import 'package:sqflite_common/sqlite_api.dart';
+// import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class DataBaseUtil {
 
   static initDB() async {
     SharedPreferences prefs = await LocalStorage.sp;
-    //数据库不存在，执行拷贝
-    String databasesPath = await getDatabasesPath();
-    String dbPath = path.join(databasesPath, "music.db");
+    if (!kIsWeb) {
+      //数据库不存在，执行拷贝
+      String databasesPath = await getDatabasesPath();
+      String dbPath = path.join(databasesPath, "music.db");
 
-    bool shouldCopy = await _checkShouldCopy(dbPath);
+      bool shouldCopy = await _checkShouldCopy(dbPath);
 
-    if (shouldCopy) {
-      await _doCopyAssetsDb(dbPath);
-    } else {
-      print("=====flutter.db 已存在====");
+      if (shouldCopy) {
+        await _doCopyAssetsDb(dbPath);
+      } else {
+        print("=====flutter.db 已存在====");
+      }
     }
+
     await LocalDb.instance.initDb();
   }
 

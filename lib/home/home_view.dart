@@ -56,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
 
                           /// 歌单
                           Container(
-                            height: 180.dp,
+                            height: 160.dp,
                             // padding: EdgeInsets.only(left: 15.dp),
                             child: ListView.separated(
                               padding: EdgeInsets.symmetric(
@@ -144,7 +144,7 @@ class _HomeViewState extends State<HomeView> {
         // Get.to(()=>SongsView());
       },
       child: Container(
-          width: 250.dp,
+          width: 220.dp,
           // padding: EdgeInsets.only(left: padding),
           // decoration: BoxDecoration(
           //     color: Colors.white,

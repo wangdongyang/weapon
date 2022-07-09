@@ -47,7 +47,8 @@ class SearchBar extends StatelessWidget {
                 route["name"],
                 style: TextStyle(
                   color: Color(0xFF333333),
-                  fontSize: 12.sp,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             );
@@ -83,7 +84,7 @@ class SearchBar extends StatelessWidget {
                 blurRadius: 5.0,
                 spreadRadius: 0)
           ]),
-      height: 44.dp,
+      height: 50.dp,
       // padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 12.dp),
       child: Container(
         // height: SGScreenUtil.w(40),
@@ -136,7 +137,8 @@ class SearchBar extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   style: TextStyle(
                       color: const Color(0xFF333333),
-                      fontSize: 12.sp,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w300,
                       textBaseline: TextBaseline.alphabetic),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(0),
@@ -144,7 +146,10 @@ class SearchBar extends StatelessWidget {
                     border: InputBorder.none,
                     hintText: "请输入...",
                     hintStyle: TextStyle(
-                        color: const Color(0xFFcccccc), fontSize: 12.sp),
+                      color: const Color(0xFFcccccc),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w300,
+                    ),
                   ),
                   textInputAction: TextInputAction.search,
                   onSubmitted: (text) {
@@ -176,7 +181,8 @@ class SearchBar extends StatelessWidget {
                   "搜索",
                   style: TextStyle(
                     color: Color(0xFF333333),
-                    fontSize: 12.sp,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),

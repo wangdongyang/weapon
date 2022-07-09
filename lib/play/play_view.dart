@@ -111,7 +111,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                     fontWeight: FontWeight.w400,
                   )),
               SizedBox(
-                height: 10.dp,
+                height: 15.dp,
               ),
               _progressWidget(),
               SizedBox(
@@ -167,7 +167,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                 ],
               ),
               SizedBox(
-                height: 10.dp,
+                height: 15.dp,
               ),
               _lyricContainerWidget()
             ],

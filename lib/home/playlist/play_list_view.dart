@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/custom/back_button.dart';
-
 import 'package:weapon/home/playlist/play_list_controller.dart';
 import 'package:weapon/home/playlist/play_list_state.dart';
 import 'package:weapon/home/songs_view.dart';
