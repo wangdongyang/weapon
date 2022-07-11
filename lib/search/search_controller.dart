@@ -54,6 +54,15 @@ class SearchController extends GetxController {
 
   search() async {
     String text = state.searchBarController.value.text;
+    if (text.contains("http")){
+      searchFromPlayList();
+    }else{
+      searchFromSong();
+    }
+  }
+
+  searchFromSong() async{
+    String text = state.searchBarController.value.text;
     // print(text);
     if (text.isEmpty) return;
     var dio = Dio();
@@ -62,7 +71,7 @@ class SearchController extends GetxController {
     dio.options.headers = header;
     Map<String, dynamic> param = {
       "word": text,
-      "type":"search",
+      "type": "search",
       "source": state.audioSource.toString().split(".").last
     };
     final response = await dio.get(host, queryParameters: param);
@@ -71,6 +80,62 @@ class SearchController extends GetxController {
     for (var element in mapList) {
       songs.add(HistoryPo.fromSearchJson(element));
     }
+    state.songs = songs;
+    state.selectedIndex = -1;
+    update();
+  }
+
+  searchFromPlayList() async {
+    String text = state.searchBarController.value.text;
+    if (!text.contains("http")) return;
+    var id = "";
+    switch (state.audioSource) {
+      case AudioSource.netease:
+
+        /// https://music.163.com/#/playlist?id=2335673654
+        id = text.split("playlist?id=").last.toString();
+        id = "486899256";
+        break;
+      case AudioSource.tencent:
+
+        /// https://y.qq.com/n/ryqq/playlist/8323382601
+        id = text.split("playlist/").last.toString();
+        break;
+      case AudioSource.kugou:
+
+        /// https://www.kugou.com/yy/special/single/4104096.html
+        id = text
+            .split("special/single/")
+            .last
+            .toString()
+            .split(".html")
+            .first
+            .toString();
+        break;
+      case AudioSource.kuwo:
+
+        /// http://www.kuwo.cn/playlist_detail/3120880453
+        id = text.split("playlist_detail/").last.toString();
+        break;
+      default:
+        break;
+    }
+
+    String source = state.audioSource.toString().split(".").last;
+    var dio = Dio();
+    String host = Api.playlist;
+    Map<String, dynamic> header = AuthUtil.getHeader(host);
+    dio.options.headers = header;
+    Map<String, dynamic> param = {
+      "playlist_id": id,
+      "source": source,
+      "type": "playlist"
+    };
+    print("param = $param");
+    final response = await dio.get(host, queryParameters: param);
+    List<dynamic> mapList = jsonDecode(response.toString());
+    List<HistoryPo> songs =
+        mapList.map((e) => HistoryPo.fromSearchJson(e)).toList();
     state.songs = songs;
     state.selectedIndex = -1;
     update();

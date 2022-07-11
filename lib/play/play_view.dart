@@ -215,6 +215,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
 
     return Expanded(
       child: Container(
+        width: playViewWidth-100,
           child: GestureDetector(
         onTapDown: isDragging
             ? (e) {

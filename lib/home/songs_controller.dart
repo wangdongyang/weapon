@@ -49,6 +49,7 @@ class SongsController extends GetxController {
       "source": "netease",
       "type": "playlist"
     };
+    // print("param = $param");
     final response = await dio.get(host, queryParameters: param);
     List<dynamic> mapList = jsonDecode(response.toString());
     List<HistoryPo> songs =

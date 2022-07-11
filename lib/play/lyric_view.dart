@@ -17,11 +17,14 @@ class LyricView extends CustomPainter with ChangeNotifier {
   late Size canvasSize = Size.zero;
   late int dragLineTime;
 
-  final commonWhiteTextStyle = TextStyle(fontSize: 12.sp, color: Colors.red, overflow: TextOverflow.ellipsis);
-  final commonGrayTextStyle = TextStyle(fontSize: 12.sp, color: Colors.grey, overflow: TextOverflow.ellipsis);
+  final commonWhiteTextStyle = TextStyle(
+      fontSize: 12.sp, color: Colors.red, overflow: TextOverflow.ellipsis);
+  final commonGrayTextStyle = TextStyle(
+      fontSize: 12.sp, color: Colors.grey, overflow: TextOverflow.ellipsis);
   final commonWhite70TextStyle =
       TextStyle(fontSize: 14.sp, color: Colors.white70);
-  final smallGrayTextStyle = TextStyle(fontSize: 10.sp, color: Colors.grey, overflow: TextOverflow.ellipsis);
+  final smallGrayTextStyle = TextStyle(
+      fontSize: 10.sp, color: Colors.grey, overflow: TextOverflow.ellipsis);
 
   double get offsetY => _offsetY;
 
@@ -53,7 +56,8 @@ class LyricView extends CustomPainter with ChangeNotifier {
       lyricPaints.addAll(lyric
           .map((l) => TextPainter(
               text: TextSpan(text: l.lyric, style: commonGrayTextStyle),
-              textDirection: TextDirection.ltr))
+              textDirection: TextDirection.ltr,
+              maxLines: 3))
           .toList());
       // 首先对TextPainter 进行 layout，否则会报错
       _layoutTextPainters();
@@ -62,9 +66,9 @@ class LyricView extends CustomPainter with ChangeNotifier {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvasSize = size;
+    // print("size = $size");
+    // canvasSize = size;
     var y = _offsetY + size.height / 2 + lyricPaints[0].height / 2;
-
     for (int i = 0; i < lyric.length; i++) {
       if (y > size.height || y < (0 - lyricPaints[i].height / 2)) {
       } else {
@@ -88,9 +92,13 @@ class LyricView extends CustomPainter with ChangeNotifier {
           lyricPaints[i].layout();
         }
 
+        lyricPaints[i].maxLines = 3;
+        double begin = (size.width - lyricPaints[i].width) / 2;
+        // if (begin.abs() > size.width*0.5) begin = -size.width*0.5;
+        // print("lyricPaints[i].size: ${lyricPaints[i].size}");
         lyricPaints[i].paint(
           canvas,
-          Offset((size.width - lyricPaints[i].width) / 2, y),
+          Offset(begin, y),
         );
       }
       // 计算偏移量

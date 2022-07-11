@@ -144,7 +144,7 @@ class SearchBar extends StatelessWidget {
                     contentPadding: const EdgeInsets.all(0),
                     //const EdgeInsets.all(0),
                     border: InputBorder.none,
-                    hintText: "请输入...",
+                    hintText: "请输入歌曲名称、歌单链接",
                     hintStyle: TextStyle(
                       color: const Color(0xFFcccccc),
                       fontSize: 13.sp,
