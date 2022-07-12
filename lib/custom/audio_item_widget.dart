@@ -126,7 +126,7 @@ class AudioItemWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15.sp,
                         color: const Color(0xFF333333),
-                        fontWeight: FontWeight.w300
+                        fontWeight: FontWeight.w400
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -140,7 +140,7 @@ class AudioItemWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontWeight: FontWeight.w200,
+                      fontWeight: FontWeight.w300,
                       fontSize: 14.sp, color: const Color(0xFF666666)))),
           Expanded(
             flex: 1,

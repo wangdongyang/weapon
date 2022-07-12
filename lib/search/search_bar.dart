@@ -46,9 +46,9 @@ class SearchBar extends StatelessWidget {
               child: Text(
                 route["name"],
                 style: TextStyle(
-                  color: Color(0xFF333333),
+                  color: const Color(0xFF666666),
                   fontSize: 13.sp,
-                  fontWeight: FontWeight.w300,
+                  // fontWeight: FontWeight.w300,
                 ),
               ),
             );
@@ -138,7 +138,7 @@ class SearchBar extends StatelessWidget {
                   style: TextStyle(
                       color: const Color(0xFF333333),
                       fontSize: 13.sp,
-                      fontWeight: FontWeight.w300,
+                      // fontWeight: FontWeight.w300,
                       textBaseline: TextBaseline.alphabetic),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(0),
@@ -146,9 +146,7 @@ class SearchBar extends StatelessWidget {
                     border: InputBorder.none,
                     hintText: "请输入歌曲名称、歌单链接",
                     hintStyle: TextStyle(
-                      color: const Color(0xFFcccccc),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w300,
+                      color: Color(0xFF999999), fontSize: 12.sp,
                     ),
                   ),
                   textInputAction: TextInputAction.search,

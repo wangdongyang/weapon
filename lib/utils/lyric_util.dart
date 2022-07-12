@@ -13,7 +13,7 @@ class LyricUtil {
       time = s.substring(1, time.length);
       int hourSeparatorIndex = time.indexOf(":");
       int minuteSeparatorIndex = time.indexOf(".");
-      print("time:$time; hourSeparatorIndex:$hourSeparatorIndex; minuteSeparatorIndex:$minuteSeparatorIndex");
+      // print("time:$time; hourSeparatorIndex:$hourSeparatorIndex; minuteSeparatorIndex:$minuteSeparatorIndex");
       if (hourSeparatorIndex > 0 && minuteSeparatorIndex > 0) {
         return Lyric(
           lyric: lyric,

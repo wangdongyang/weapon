@@ -133,7 +133,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                   GestureDetector(
                     onTap: controller.stopAndPlay,
                     child: Container(
-                      child: controller.state.playerState == PlayerState.PLAYING
+                      child: controller.isPlaying
                           ? Icon(
                               Icons.pause_circle_outline_rounded,
                               size: iconSize,
@@ -225,8 +225,8 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                     e.localPosition.dx < 100.dp &&
                     e.localPosition.dy > size.height / 2 - 100.dp &&
                     e.localPosition.dy < size.height / 2 + 100.dp) {
-                  AudioPlayerUtil.instance
-                      .seek(Duration(milliseconds: dragLineTime));
+                  // AudioPlayerUtil.instance
+                  //     .seek(Duration(milliseconds: dragLineTime));
                 }
               }
             : null,
@@ -322,8 +322,8 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
         activeColor: Colors.redAccent,
         onChanged: (v) {
           final curPosition = v * duration;
-          AudioPlayerUtil.instance
-              .seek(Duration(milliseconds: curPosition.round()));
+          // AudioPlayerUtil.instance
+          //     .seek(Duration(milliseconds: curPosition.round()));
         },
         value: value,
       ),

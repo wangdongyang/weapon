@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/base/base_scaffold.dart';
 import 'package:weapon/config/route_config.dart';
 import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
@@ -32,85 +34,77 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) {
-        return Container(
-          color: const Color(0xffF6F8F9),
-          child: Column(
-            children: [
-              _searchWidget(),
-              Expanded(
-                  child: ScrollConfiguration(
-                      behavior: ScrollConfiguration.of(context)
-                          .copyWith(scrollbars: false),
-                      child: ListView(
-                        children: [
-                          SizedBox(
-                            height: 30.dp,
-                          ),
-                          sectionHeader("assets/images/stars.png", "热门歌单",
-                              callBack: () {
-                            NavigatorUtil.push(context, const PlayListView());
-                          }),
-                          SizedBox(
-                            height: 15.dp,
-                          ),
-
-                          /// 歌单
-                          Container(
-                            height: 160.dp,
-                            // padding: EdgeInsets.only(left: 15.dp),
-                            child: ListView.separated(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 20.dp),
-                              itemBuilder: (ctx, index) {
-                                return _playListItemWidget(index);
-                              },
-                              shrinkWrap: true,
-                              itemCount: controller.state.playList.length,
-                              scrollDirection: Axis.horizontal,
-                              separatorBuilder: (ctx, index) {
-                                return SizedBox(
-                                  width: 20.dp,
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30.dp,
-                          ),
-                          sectionHeader("assets/images/rank.png", "排行榜",
-                              callBack: () {
-                            NavigatorUtil.push(context, const RankListView());
-                          }),
-                          ListView.separated(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 15.dp, horizontal: 0),
-                            itemBuilder: (ctx, index) {
-                              HistoryPo item = controller.state.ranks[index];
-                              String url = item.picUrl;
-                              return AudioItemWidget(
-                                name: item.name,
-                                picUrl: url,
-                                duration: item.duration,
-                                singer: item.artistStr,
-                                isChoose:
-                                    controller.state.selectedIndex == index,
-                                clickCallBack: () =>
-                                    controller.chooseSong(item, index),
-                                moreCallBack: () {},
-                              );
-                            },
-                            shrinkWrap: true,
-                            itemCount: controller.state.ranks.length,
-                            separatorBuilder: (ctx, index) {
-                              return const SizedBox(
-                                height: 5,
-                              );
-                            },
-                          )
-                        ],
-                      ))),
-            ],
-          ),
+        return BaseScaffold(
+          appBar: _searchWidget(),
+          backgroundColor: const Color(0xffF6F8F9),
+          body: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: 30.dp,
+                  ),
+                  sectionHeader("assets/images/stars.png", "热门歌单",
+                      callBack: () {
+                    NavigatorUtil.push(context, const PlayListView());
+                  }),
+                  SizedBox(
+                    height: 15.dp,
+                  ),
+                  /// 歌单
+                  Container(
+                    height: 160.dp,
+                    // padding: EdgeInsets.only(left: 15.dp),
+                    child: ListView.separated(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 20.dp),
+                      itemBuilder: (ctx, index) {
+                        return _playListItemWidget(index);
+                      },
+                      shrinkWrap: true,
+                      itemCount: controller.state.playList.length,
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (ctx, index) {
+                        return SizedBox(
+                          width: 20.dp,
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.dp,
+                  ),
+                  sectionHeader("assets/images/rank.png", "排行榜", callBack: () {
+                    NavigatorUtil.push(context, const RankListView());
+                  }),
+                  ListView.separated(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                    itemBuilder: (ctx, index) {
+                      HistoryPo item = controller.state.ranks[index];
+                      String url = item.picUrl;
+                      return AudioItemWidget(
+                        name: item.name,
+                        picUrl: url,
+                        duration: item.duration,
+                        singer: item.artistStr,
+                        isChoose: controller.state.selectedIndex == index,
+                        clickCallBack: () => controller.chooseSong(item, index),
+                        moreCallBack: () {},
+                      );
+                    },
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: controller.state.ranks.length,
+                    separatorBuilder: (ctx, index) {
+                      return const SizedBox(
+                        height: 5,
+                      );
+                    },
+                  )
+                ],
+              )),
         );
       },
     );
@@ -118,10 +112,15 @@ class _HomeViewState extends State<HomeView> {
 
   /// 搜索
   _searchWidget() {
-    return Padding(
-      padding: EdgeInsets.only(left: 15.dp, right: 15.dp, top: 15.dp),
-      child: SearchWidget(
-        start: controller.startSearch,
+    double top = 15.dp;
+    if (Platform.isAndroid || Platform.isIOS) top = kToolbarHeight;
+    return MyAppbar(
+      height: (MyAppbar.appBarHeight + top).dp,
+      child: Padding(
+        padding: EdgeInsets.only(left: 15.dp, right: 15.dp, top: top),
+        child: SearchWidget(
+          start: controller.startSearch,
+        ),
       ),
     );
   }
@@ -234,7 +233,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget sectionHeader(String icon, String title, {Function? callBack}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.only(left: 20.dp, right: 13.dp),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

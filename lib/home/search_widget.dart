@@ -4,6 +4,35 @@ import 'package:weapon/auto_ui.dart';
 typedef OnChanged = Function(String text);
 typedef StartSearch = Function();
 
+// ignore: must_be_immutable
+class MyAppbar extends StatefulWidget implements PreferredSizeWidget {
+  static const double appBarHeight = 66;
+  Widget? child;
+  double height = 66;
+
+  MyAppbar({Key? key, this.child, this.height = 66}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppbarState();
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(height.dp);
+}
+
+class _MyAppbarState extends State<MyAppbar> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child ?? Container();
+  }
+}
+
 class SearchWidget extends StatelessWidget {
   OnChanged? onChanged;
   StartSearch? start;
@@ -34,7 +63,7 @@ class SearchWidget extends StatelessWidget {
                   blurRadius: 5.0,
                   spreadRadius: 0)
             ]),
-        height: 44.dp,
+        height: 50.dp,
         // padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 12.dp),
         child: Container(
           // height: SGScreenUtil.w(40),
@@ -79,7 +108,7 @@ class SearchWidget extends StatelessWidget {
                     contentPadding: const EdgeInsets.fromLTRB(
                         0, 0, 0, 0), //const EdgeInsets.all(0),
                     border: InputBorder.none,
-                    hintText: "请输入...",
+                    hintText: "请输入歌曲名称、歌单链接",
                     hintStyle:
                         TextStyle(color: Color(0xFF999999), fontSize: 12.sp),
                   ),

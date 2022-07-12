@@ -26,6 +26,8 @@ class PlayController extends GetxController {
   late List<HistoryPo> playItems = [];
   late int playIndex = 0;
 
+  bool get isPlaying => state.playerState == PlayerState.PLAYING;
+
   initState(List<HistoryPo>? histories, int index) async {
     if (histories == null || histories.isEmpty) return;
     playItems = histories;
@@ -66,9 +68,11 @@ class PlayController extends GetxController {
   }
 
   initAudioPlayer() {
-    mode = PlayerMode.MEDIA_PLAYER;
-    audioPlayer = AudioPlayer(mode: mode);
+    mode = PlayerMode.LOW_LATENCY;
+    audioPlayer = AudioPlayer();
+    // audioPlayer.setVolume(1);
     state.playerState = audioPlayer.state;
+
 
     audioPlayer.onDurationChanged.listen((duration) {
       state.duration = duration;
@@ -78,6 +82,7 @@ class PlayController extends GetxController {
     //监听进度
     audioPlayer.onAudioPositionChanged.listen((position) {
       state.position = position;
+      // print("position = ${position.inMilliseconds}");
       update();
     });
 
@@ -88,11 +93,11 @@ class PlayController extends GetxController {
     });
 
     //监听报错
-    audioPlayer.onPlayerError.listen((msg) {
-      state.duration = const Duration(seconds: 0);
-      state.position = const Duration(seconds: 0);
-      update();
-    });
+    // audioPlayer.onPlayerError.listen((msg) {
+    //   state.duration = const Duration(seconds: 0);
+    //   state.position = const Duration(seconds: 0);
+    //   update();
+    // });
 
     //播放状态改变
     audioPlayer.onPlayerStateChanged.listen((playerState) {
@@ -102,11 +107,8 @@ class PlayController extends GetxController {
   }
 
   stopAndPlay() async{
-    if (audioPlayer.state == PlayerState.PLAYING) {
-      final result = await audioPlayer.pause();
-      if (result == 1) {
-        // print('pause succes');
-      }
+    if (isPlaying) {
+      await audioPlayer.pause();
       return;
     }
     play();
@@ -137,10 +139,8 @@ class PlayController extends GetxController {
       return;
     }
 
-    final result = await audioPlayer.play(url, position: playPosition);
-    if (result == 1) {
-      print('play succes');
-    }
+    await audioPlayer.play(url, position: playPosition,);
+    print('play succes');
   }
 
   previous() {
