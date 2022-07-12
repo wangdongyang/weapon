@@ -58,8 +58,7 @@ class HistoryPo {
       });
       artist = arr0;
       artistStr = arr0.map((e) => e.name).toList().join(",");
-
-      print("artist = $v; artistStr = $artistStr");
+      // print("artist = $v; artistStr = $artistStr");
     }
     picId = json['pic_id']?.toString() ?? "";
     picUrl = json['pic_url']?.toString() ?? "";
