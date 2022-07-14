@@ -5,6 +5,9 @@ import 'package:weapon/model/rank_list_item_model.dart';
 import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/model/song_rank_model.dart';
 
+
+enum SongSourceType { playList, rankList }
+
 class SongsState {
 
   PlayListItemModel? playListItem;
@@ -17,4 +20,6 @@ class SongsState {
 
   ScrollController scrollController = ScrollController();
   bool haveMore = true;
+
+  late SongSourceType sourceType;
 }

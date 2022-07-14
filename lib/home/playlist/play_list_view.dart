@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/ball_pulse_footer.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/base/base_scaffold.dart';
 import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/playlist/play_list_controller.dart';
 import 'package:weapon/home/playlist/play_list_state.dart';
+import 'package:weapon/home/songs_state.dart';
 import 'package:weapon/home/songs_view.dart';
 import 'package:weapon/model/play_list_item_model.dart';
 import 'package:weapon/utils/color_util.dart';
@@ -24,19 +30,78 @@ class _PlayListViewState extends State<PlayListView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.loadRefresh();
-    controller.addScrollListener();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    controller.state = PlayListState();
+    Get.delete<PlayListController>();
   }
 
   @override
   Widget build(BuildContext context) {
+    // return Container();
+    if (Platform.isAndroid || Platform.isIOS) {
+      return BaseScaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              "热门歌单",
+              style: TextStyle(
+                fontSize: 15.sp,
+                color: const Color(0xFF2d2d2d),
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Color(0xFF2d2d2d),
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+          backgroundColor: const Color(0xffF6F8F9),
+          body: EasyRefresh(
+              controller: EasyRefreshController(),
+              scrollController: ScrollController(),
+              header: BallPulseHeader(color: const Color(0xff8E96FF)),
+              footer:
+                  BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
+              onLoad: null,
+              onRefresh: () => controller.loadRefresh(),
+              child: GetBuilder<PlayListController>(builder: (controller) {
+                return ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: GridView.builder(
+                    padding: EdgeInsets.all(15.dp),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    controller: controller.state.scrollController,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 300,
+                        mainAxisSpacing: 15.dp,
+                        crossAxisSpacing: 15.dp,
+                        childAspectRatio: 1.2),
+                    itemBuilder: (BuildContext context, int index) {
+                      return itemWidget(index);
+                    },
+                    itemCount: controller.state.playList.length,
+                  ),
+                );
+              })));
+    }
     return Container(
       color: const Color(0xffF6F8F9),
       child: Stack(
@@ -61,32 +126,6 @@ class _PlayListViewState extends State<PlayListView> {
                 itemCount: controller.state.playList.length,
               ),
             );
-            // return EasyRefresh(
-            //     controller: EasyRefreshController(),
-            //     scrollController: ScrollController(),
-            //     header: ClassicalHeader(refreshedText: "开始刷新"),
-            //     footer:
-            //         BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
-            //     onLoad: () => controller.loadMore(),
-            //     onRefresh: () => controller.loadRefresh(),
-            //     child: ScrollConfiguration(
-            //       behavior:
-            //           ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            //       child: GridView.builder(
-            //         padding: EdgeInsets.all(20.dp),
-            //         scrollDirection: Axis.vertical,
-            //         shrinkWrap: true,
-            //         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            //             maxCrossAxisExtent: 300,
-            //             mainAxisSpacing: 20.dp,
-            //             crossAxisSpacing: 20.dp,
-            //             childAspectRatio: 1.4),
-            //         itemBuilder: (BuildContext context, int index) {
-            //           return itemWidget(index);
-            //         },
-            //         itemCount: controller.state.playList.length,
-            //       ),
-            //     ));
           }),
           Positioned(
               bottom: 30,
@@ -103,6 +142,7 @@ class _PlayListViewState extends State<PlayListView> {
 
   Widget itemWidget(int index) {
     PlayListItemModel item = controller.state.playList[index];
+    // print(item.coverImgUrl);
     return GestureDetector(
       onTap: () {
         NavigatorUtil.push(
@@ -133,29 +173,35 @@ class _PlayListViewState extends State<PlayListView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: CachedNetworkImage(
-                  imageUrl: item.coverImgUrl ?? "",
-                  imageBuilder: (context, image) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8.dp),
-                            topRight: Radius.circular(8.dp)),
-                        image: DecorationImage(image: image, fit: BoxFit.cover),
-                      ),
-                    );
-                  },
-                  placeholder: (context, url) => Container(
-                    decoration: BoxDecoration(
-                      color: ColorUtil.randomColor().withAlpha(40),
-                      borderRadius: BorderRadius.circular(8.dp),
-                    ),
-                  ),
-                  //card_place_image.png
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  fadeOutDuration: const Duration(seconds: 1),
-                  fadeInDuration: const Duration(seconds: 2),
-                ),
+                child: (item.coverImgUrl?.isNotEmpty ?? false)
+                    ? CachedNetworkImage(
+                        imageUrl: item.coverImgUrl!,
+                        imageBuilder: (context, image) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8.dp),
+                                  topRight: Radius.circular(8.dp)),
+                              image: DecorationImage(
+                                  image: image, fit: BoxFit.cover),
+                            ),
+                          );
+                        },
+                        placeholder: (context, url) => Container(
+                          decoration: BoxDecoration(
+                            color: ColorUtil.randomColor().withAlpha(40),
+                            borderRadius: BorderRadius.circular(8.dp),
+                          ),
+                        ),
+                        //card_place_image.png
+                        errorWidget: (context, url, error) {
+                          print("error = $error");
+                          return const Icon(Icons.error);
+                        },
+                        fadeOutDuration: const Duration(seconds: 1),
+                        fadeInDuration: const Duration(seconds: 2),
+                      )
+                    : Container(),
               ),
               SizedBox(
                 height: 10.dp,
@@ -166,9 +212,7 @@ class _PlayListViewState extends State<PlayListView> {
                   item.name ?? "",
                   maxLines: 1,
                   style: TextStyle(
-                      fontSize: 15.sp,
-                      color: const Color(0xFF404040),
-                      fontWeight: FontWeight.w300),
+                      fontSize: 14.sp, color: const Color(0xFF404040)),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

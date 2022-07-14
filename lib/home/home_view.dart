@@ -13,6 +13,7 @@ import 'package:weapon/home/home_controller.dart';
 import 'package:weapon/home/playlist/play_list_view.dart';
 import 'package:weapon/home/ranklist/rank_list_view.dart';
 import 'package:weapon/home/search_widget.dart';
+import 'package:weapon/home/songs_state.dart';
 import 'package:weapon/home/songs_view.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
@@ -35,7 +36,7 @@ class _HomeViewState extends State<HomeView> {
     return GetBuilder<HomeController>(
       builder: (controller) {
         return BaseScaffold(
-          appBar: _searchWidget(),
+          appBar: _appWidget(),
           backgroundColor: const Color(0xffF6F8F9),
           body: ScrollConfiguration(
               behavior:
@@ -54,11 +55,12 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   /// 歌单
                   Container(
-                    height: 160.dp,
+                    height: 170.dp,
+                    color: Colors.white,
                     // padding: EdgeInsets.only(left: 15.dp),
                     child: ListView.separated(
                       padding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 20.dp),
+                          EdgeInsets.symmetric(vertical: 18.dp, horizontal: 20.dp),
                       itemBuilder: (ctx, index) {
                         return _playListItemWidget(index);
                       },
@@ -78,9 +80,12 @@ class _HomeViewState extends State<HomeView> {
                   sectionHeader("assets/images/rank.png", "排行榜", callBack: () {
                     NavigatorUtil.push(context, const RankListView());
                   }),
+                  SizedBox(
+                    height: 15.dp,
+                  ),
                   ListView.separated(
                     padding:
-                        EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                        EdgeInsets.symmetric(vertical: 0.dp, horizontal: 0),
                     itemBuilder: (ctx, index) {
                       HistoryPo item = controller.state.ranks[index];
                       String url = item.picUrl;
@@ -98,8 +103,8 @@ class _HomeViewState extends State<HomeView> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: controller.state.ranks.length,
                     separatorBuilder: (ctx, index) {
-                      return const SizedBox(
-                        height: 5,
+                      return SizedBox(
+                        height: 1.dp,
                       );
                     },
                   )
@@ -111,7 +116,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   /// 搜索
-  _searchWidget() {
+  _appWidget() {
     double top = 15.dp;
     if (Platform.isAndroid || Platform.isIOS) top = kToolbarHeight;
     return MyAppbar(
@@ -142,8 +147,8 @@ class _HomeViewState extends State<HomeView> {
         // NavigatorUtil.push(context, PlayListView());
         // Get.to(()=>SongsView());
       },
-      child: Container(
-          width: 220.dp,
+      child: SizedBox(
+          width: 180.dp,
           // padding: EdgeInsets.only(left: padding),
           // decoration: BoxDecoration(
           //     color: Colors.white,
@@ -180,7 +185,7 @@ class _HomeViewState extends State<HomeView> {
                         // width: 200.dp,
                         // height: 150.dp,
                         decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.dp),
+                      borderRadius: BorderRadius.circular(8.dp),
                       // borderRadius: BorderRadius.only(
                       //     topLeft: Radius.circular(8.dp),
                       //     topRight: Radius.circular(8.dp)),
@@ -218,9 +223,8 @@ class _HomeViewState extends State<HomeView> {
                 playListItem.name ?? "",
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 15.sp,
-                    color: const Color(0xFF404040),
-                    fontWeight: FontWeight.w300),
+                    fontSize: 14.sp,
+                    color: const Color(0xFF4f4f4f),),
                 overflow: TextOverflow.ellipsis,
               ),
               // SizedBox(
@@ -247,15 +251,14 @@ class _HomeViewState extends State<HomeView> {
                 fit: BoxFit.contain,
               ),
               SizedBox(
-                width: 15.dp,
+                width: 13.dp,
               ),
               Text(
                 title,
                 maxLines: 1,
                 style: TextStyle(
                     fontSize: 15.sp,
-                    color: const Color(0xFF404040),
-                    fontWeight: FontWeight.w300),
+                    color: const Color(0xFF2d2d2d),),
                 overflow: TextOverflow.ellipsis,
               )
             ],
@@ -272,9 +275,8 @@ class _HomeViewState extends State<HomeView> {
                   "查看更多",
                   maxLines: 1,
                   style: TextStyle(
-                      fontSize: 14.sp,
-                      color: const Color(0xFF6F6F6F),
-                      fontWeight: FontWeight.w300),
+                      fontSize: 13.sp,
+                      color: const Color(0xFF979797),),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(

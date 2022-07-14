@@ -10,41 +10,28 @@ import 'package:weapon/model/play_list_item_model.dart';
 class PlayListController extends GetxController {
   PlayListState state = PlayListState();
 
-
-
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
   }
 
-  void addScrollListener(){
-    //监听滚动条的滚动事件
-    state.scrollController.addListener(() {
-      if (state.scrollController.position.pixels ==
-          state.scrollController.position.maxScrollExtent) {
-        if (state.haveMore) {
-          // loadMore();
-        }
-      }
-    });
-  }
 
   @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
+    loadRefresh();
   }
 
   loadMore() async {
     state.offset++;
-    print("state.offset = ${state.offset}");
     var playList = await fetchPlayList();
     state.playList.addAll(playList);
     update();
   }
 
-  loadRefresh() async {
+  Future<void> loadRefresh() async {
     state.offset = 0;
     var playList = await fetchPlayList();
     state.playList = playList;
@@ -55,7 +42,7 @@ class PlayListController extends GetxController {
     final response = await Dio().get(Api.neteasePlayList,
         queryParameters: {"offset": state.offset, "limit": 100});
     Map<String, dynamic> data = jsonDecode(response.toString());
-    print("data = $data");
+    // print("data = ${json.encode(data)}");
     List dataList = data["rows"];
     List<PlayListItemModel> playList =
         dataList.map((e) => PlayListItemModel.fromJson(e)).toList();

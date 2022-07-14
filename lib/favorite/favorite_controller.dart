@@ -42,4 +42,12 @@ class FavoriteController extends GetxController {
     state.selectedIndex = index;
     Get.find<PlayController>().initState(state.histories, index);
   }
+
+  Future<void> loadMore() async {
+    
+  }
+
+  Future<void> loadRefresh() async {
+    fetchData();
+  }
 }

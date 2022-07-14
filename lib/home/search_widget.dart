@@ -85,7 +85,7 @@ class SearchWidget extends StatelessWidget {
                 // color: Colors.blue,
                 child: Image.asset(
                   "assets/images/search_icon.png",
-                  width: 15.sp,
+                  width: 15.dp,
                   fit: BoxFit.contain,
                 ),
               ),

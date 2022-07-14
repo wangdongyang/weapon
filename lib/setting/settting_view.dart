@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/base/base_scaffold.dart';
 
 class SettingView extends StatelessWidget {
   SettingView({Key? key}) : super(key: key);
@@ -32,6 +35,27 @@ class SettingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return BaseScaffold(
+          appBar: PreferredSize(
+              preferredSize: Size.fromHeight(88.0.dp),
+              child: Container(
+                color: Colors.white,
+                height: 84.dp,
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 15.dp, right: 15.dp, top: 32.dp),
+                child: Text(
+                  "设置",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    color: const Color(0xFF2d2d2d),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )),
+          backgroundColor: const Color(0xffF6F8F9),
+          body: Container());
+    }
     return Container(
       color: const Color(0xffF6F8F9),
       child: ScrollConfiguration(

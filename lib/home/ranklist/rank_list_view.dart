@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/ball_pulse_footer.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/base/base_scaffold.dart';
 import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/ranklist/rank_list_controller.dart';
 import 'package:weapon/home/ranklist/rank_list_state.dart';
+import 'package:weapon/home/songs_state.dart';
 import 'package:weapon/home/songs_view.dart';
 import 'package:weapon/model/rank_list_item_model.dart';
 import 'package:weapon/utils/color_util.dart';
@@ -31,11 +37,71 @@ class _RankListViewState extends State<RankListView> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    controller.state = RankListState();
+    Get.delete<RankListController>();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return BaseScaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              "排行榜",
+              style: TextStyle(
+                fontSize: 15.sp,
+                color: const Color(0xFF2d2d2d),
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Color(0xFF2d2d2d),
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+          backgroundColor: const Color(0xffF6F8F9),
+          body: EasyRefresh(
+              controller: EasyRefreshController(),
+              scrollController: ScrollController(),
+              header: BallPulseHeader(color: const Color(0xff8E96FF)),
+              footer:
+              BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
+              onLoad: null,
+              onRefresh: () => controller.loadRefresh(),
+              child: GetBuilder<RankListController>(builder: (controller) {
+                return ScrollConfiguration(
+                  behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                  child: GridView.builder(
+                    padding: EdgeInsets.all(15.dp),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    controller: controller.state.scrollController,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        mainAxisSpacing: 15.dp,
+                        crossAxisSpacing: 15.dp,
+                        childAspectRatio: 1.2),
+                    itemBuilder: (BuildContext context, int index) {
+                      return itemWidget(index);
+                    },
+                    itemCount: controller.state.rankList.length,
+                  ),
+                );
+              })));
+    }
     return Container(
       color: const Color(0xffF6F8F9),
       child: Stack(

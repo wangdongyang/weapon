@@ -106,17 +106,17 @@ class MainMobileView extends StatelessWidget {
           bottom: true,
           //   maintainBottomViewPadding: false,
           child: SizedBox(
-            height:140.dp,
+            height: 140.5.dp,
             child: Card(
                 color: Colors.white,
-                elevation: Platform.isIOS ? 0.0 : 0.1,
+                elevation: 0.0,
                 shape: const RoundedRectangleBorder(),
                 margin: const EdgeInsets.all(0.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      // const Divider(color: Color(0xFFE0E0E0), height: 0.5),
-                      MobilePlayView(),
+                      const Divider(color: Color(0xFFE0E0E0), height: 0.5),
+                      const MobilePlayView(),
                       SizedBox(
                         height: 60.dp,
                         child: Row(

@@ -6,13 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/play/lyric_view.dart';
+import 'package:weapon/play/play_control_view.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/utils/audio_player_util.dart';
 import 'package:weapon/utils/lyric_util.dart';
+import 'package:weapon/utils/navigator_util.dart';
 import 'package:window_size/window_size.dart' as window_size;
 
 class MobilePlayView extends StatefulWidget {
-  MobilePlayView({
+  const MobilePlayView({
     Key? key,
   }) : super(key: key);
 
@@ -25,11 +27,9 @@ class MobilePlayView extends StatefulWidget {
 class _MobilePlayViewState extends State<MobilePlayView>
     with TickerProviderStateMixin {
   final PlayController controller = Get.put(PlayController());
-  double playViewWidth = 0;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -41,12 +41,18 @@ class _MobilePlayViewState extends State<MobilePlayView>
         String name = controller.state.currentPo.name;
         String artist = controller.state.currentPo.artistStr;
         double iconSize = 25.dp;
-        return Padding(
+        return Container(
+          // height: 81.dp,
           padding: EdgeInsets.symmetric(horizontal: 5.dp),
+          // decoration: BoxDecoration(
+          //     border: Border(
+          //   top: BorderSide(width: 0.5, color: Color(0xff999999)),
+          // )),
           child: SizedBox(
             height: 80.dp,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 5.dp,
@@ -57,16 +63,21 @@ class _MobilePlayViewState extends State<MobilePlayView>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: url,
-                              imageBuilder: (context, image) {
-                                return Container(
-                                  // width: playViewWidth,
-                                  height: 54.dp,
-                                  width: 54.dp,
-                                  decoration: BoxDecoration(
+                        GestureDetector(
+                          onTap: () {
+                            NavigatorUtil.push(
+                                context, const PlayControlView());
+                          },
+                          child: Row(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: url,
+                                imageBuilder: (context, image) {
+                                  return Container(
+                                    // width: playViewWidth,
+                                    height: 50.dp,
+                                    width: 50.dp,
+                                    decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8.dp),
                                       image: DecorationImage(
                                           image: image, fit: BoxFit.cover),
@@ -78,46 +89,48 @@ class _MobilePlayViewState extends State<MobilePlayView>
                                       //       blurRadius: 5.0,
                                       //       spreadRadius: 0)
                                       // ]
-                                  ),
-                                );
-                              },
-                              placeholder: (context, url) => CircleAvatar(
-                                backgroundColor: Colors.blue.shade300,
-                                radius: 20.dp,
-                              ),
-                              errorWidget: (context, url, error) => Container(),
-                              fadeOutDuration: const Duration(seconds: 1),
-                              fadeInDuration: const Duration(seconds: 1),
-                            ),
-                            SizedBox(
-                              width: 20.dp,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(name,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: const Color(0xFF333333),
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                                SizedBox(
-                                  height: 10.dp,
+                                    ),
+                                  );
+                                },
+                                placeholder: (context, url) => CircleAvatar(
+                                  backgroundColor: Colors.blue.shade300,
+                                  radius: 20.dp,
                                 ),
-                                Text(artist,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: const Color(0xFF333333),
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                              ],
-                            ),
-                          ],
+                                errorWidget: (context, url, error) =>
+                                    Container(),
+                                fadeOutDuration: const Duration(seconds: 1),
+                                fadeInDuration: const Duration(seconds: 1),
+                              ),
+                              SizedBox(
+                                width: 20.dp,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: const Color(0xFF333333),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                  SizedBox(
+                                    height: 10.dp,
+                                  ),
+                                  Text(artist,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: const Color(0xFF333333),
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w400,
+                                      )),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,29 +197,28 @@ class _MobilePlayViewState extends State<MobilePlayView>
     if (position > 0 && position < duration) {
       value = position / duration;
     }
-    return SliderTheme(
-      data: SliderTheme.of(context).copyWith(
-        //slider modifications
-        thumbColor: const Color(0xFFEB1555),
-        inactiveTrackColor: const Color(0xFF8D8E98),
-        activeTrackColor: Colors.white,
-        overlayColor: const Color(0x99EB1555),
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5.0),
-        overlayShape: const RoundSliderOverlayShape(overlayRadius: 1.0),
-        trackHeight: 2,
-        trackShape: const RectangularSliderTrackShape(),
-      ),
-      child: Slider(
-        // divisions: 5,
-        inactiveColor: Colors.black87,
-        activeColor: Colors.redAccent,
-        onChanged: (v) {
-          final curPosition = v * duration;
-          // AudioPlayerUtil.instance
-          //     .seek(Duration(milliseconds: curPosition.round()));
-        },
-        value: value,
-      ),
+
+    value = value * (MediaQuery.of(context).size.width - 10);
+    // print("duration:$duration; position:$position; value:$value");
+    // background-image: linear-gradient(90deg, #8E96FF 0%, #2C33F9 57%, #C145DB 100%);
+    return Container(
+      width: value,
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(2),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color(0xff8E96FF),
+              Color(0xff2C33F9),
+              Color(0xffC145DB),
+            ],
+            stops: [0.0, 0.57, 1],
+            tileMode: TileMode.repeated,
+          )),
+      height: 2,
     );
   }
 }

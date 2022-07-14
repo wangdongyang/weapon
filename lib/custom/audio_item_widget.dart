@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
@@ -30,25 +32,156 @@ class AudioItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return _itemWidgetForMobile();
+    }
     return _itemWidget();
+  }
+
+  _itemWidgetForMobile() {
+    String url = picUrl;
+    String time = TimeFormatUtil.secondToTimeString(duration);
+    String artistName = singer ?? "";
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 10.dp),
+      height: 80.dp,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        // borderRadius: const BorderRadius.all(
+        //   Radius.circular(14),
+        // ),
+        // boxShadow: [
+        //   BoxShadow(
+        //       color: const Color(0xFFF1F1F1).withAlpha(188),
+        //       offset: const Offset(0, 6),
+        //       blurRadius: 5.0,
+        //       spreadRadius: 0)
+        // ]
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 10.dp,
+          ),
+          GestureDetector(
+            onTap: () {
+              clickCallBack();
+            },
+            child: Icon(
+              isChoose ? Icons.pause_circle_rounded : Icons.play_arrow_rounded,
+              size: 22.sp,
+              color: const Color(0xffc9c9c9),
+            ),
+          ),
+          SizedBox(
+            width: 14.dp,
+          ),
+          CachedNetworkImage(
+            width: 45.dp,
+            height: 45.dp,
+            imageUrl: url,
+            imageBuilder: (context, image) => Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(image: image),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(45.dp),
+                ),
+                border: Border.all(width: 1.5.dp, color: Colors.white),
+              ),
+            ),
+            placeholder: (context, url) => Image.asset(
+              "assets/images/album.png",
+              width: 45.dp,
+              height: 45.dp,
+            ),
+            errorWidget: (context, url, error) => const Icon(
+              Icons.error,
+              color: Color(0xFFcccccc),
+            ),
+            fadeOutDuration: const Duration(seconds: 1),
+            fadeInDuration: const Duration(seconds: 1),
+          ),
+          SizedBox(
+            width: 16.dp,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontSize: 15.sp,
+                      color: const Color(0xFF2d2d2d),
+                      fontWeight: FontWeight.w400),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  height: 6.dp,
+                ),
+                Text(artistName,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.sp,
+                        color: const Color(0xFF666666))),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Icon(
+                Icons.access_time_rounded,
+                size: 16.dp,
+                color: const Color(0xffc9c9c9),
+              ),
+              SizedBox(
+                width: 5.dp,
+              ),
+              Text(time,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14.sp,
+                      color: const Color(0xFF999999)))
+            ],
+          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     if (moreCallBack != null) {
+          //       moreCallBack();
+          //     }
+          //   },
+          //   child: Container(
+          //     padding: EdgeInsets.only(left: 15.dp, right: 0.dp),
+          //     child: const Icon(
+          //       Icons.more_horiz_rounded,
+          //       size: 16,
+          //       color: Color(0xFF999999),
+          //     ),
+          //   ),
+          // ),
+          SizedBox(
+            width: 10.dp,
+          ),
+        ],
+      ),
+    );
   }
 
   _itemWidget() {
     String url = picUrl;
     String time = TimeFormatUtil.secondToTimeString(duration);
-
     String artistName = singer ?? "";
-    // if (artist != null && artist!.isNotEmpty) {
-    //   artistName = artist!.map((e) => e.name).toList().join(",");
-    // }
-
-    // if (artistStrArr != null && artistStrArr!.isNotEmpty) {
-    //   artistName = artistStrArr!.map((e) => e).toList().join(",");
-    // }
-
     return Container(
       margin: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 10.dp),
-      height: 70.dp,
+      height: 76.dp,
       decoration: isChoose
           ? BoxDecoration(
               color: Colors.white,
@@ -92,22 +225,22 @@ class AudioItemWidget extends StatelessWidget {
               child: Row(
                 children: [
                   CachedNetworkImage(
-                    width: 42.dp,
-                    height: 42.dp,
+                    width: 45.dp,
+                    height: 45.dp,
                     imageUrl: url,
                     imageBuilder: (context, image) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(image: image),
                         borderRadius: BorderRadius.all(
-                          Radius.circular(21.dp),
+                          Radius.circular(45.dp),
                         ),
                         border: Border.all(width: 1.5.dp, color: Colors.white),
                       ),
                     ),
                     placeholder: (context, url) => Image.asset(
                       "assets/images/album.png",
-                      width: 42.dp,
-                      height: 42.dp,
+                      width: 45.dp,
+                      height: 45.dp,
                     ),
                     errorWidget: (context, url, error) => const Icon(
                       Icons.error,
@@ -124,10 +257,9 @@ class AudioItemWidget extends StatelessWidget {
                       name,
                       maxLines: 1,
                       style: TextStyle(
-                        fontSize: 15.sp,
-                        color: const Color(0xFF333333),
-                        fontWeight: FontWeight.w400
-                      ),
+                          fontSize: 16.sp,
+                          color: const Color(0xFF2d2d2d),
+                          fontWeight: FontWeight.w400),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -140,8 +272,9 @@ class AudioItemWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 14.sp, color: const Color(0xFF666666)))),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.sp,
+                      color: const Color(0xFF666666)))),
           Expanded(
             flex: 1,
             child: Row(
@@ -150,7 +283,7 @@ class AudioItemWidget extends StatelessWidget {
                 Icon(
                   Icons.access_time_rounded,
                   size: 16.dp,
-                  color: const Color(0xFF999999),
+                  color: const Color(0xFFc9c9c9),
                 ),
                 SizedBox(
                   width: 5.dp,
@@ -161,7 +294,8 @@ class AudioItemWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w300,
-                        fontSize: 13.sp, color: const Color(0xFF999999)))
+                        fontSize: 13.sp,
+                        color: const Color(0xFF999999)))
               ],
             ),
           ),

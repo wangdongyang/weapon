@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/base/base_scaffold.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
 import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/songs_controller.dart';
@@ -13,7 +17,6 @@ import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/utils/navigator_util.dart';
 
-enum SongSourceType { playList, rankList }
 
 class SongsView extends StatefulWidget {
   PlayListItemModel? playListItem;
@@ -40,29 +43,79 @@ class _SongsViewState extends State<SongsView> {
 
     controller.state.playListItem = widget.playListItem;
     controller.state.rankListItem = widget.rankListItem;
-    switch (widget.sourceType) {
-      case SongSourceType.playList:
-        controller.loadData();
-        break;
-      case SongSourceType.rankList:
-        controller.state.offset = 0;
-        controller.loadDataFromRank();
-        // controller.addScrollListener();
-        break;
-    }
+    controller.state.sourceType = widget.sourceType;
+
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-
-    /// 因为要在中间部分做页面跳转，没有用到Getx.toName, 所以SongsController没有销毁，需手动清除数据。
-    controller.state = SongsState();
+    Get.delete<SongsController>();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return BaseScaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              widget.sourceType == SongSourceType.playList?"歌单歌曲":"榜单歌曲",
+              style: TextStyle(
+                fontSize: 15.sp,
+                color: const Color(0xFF2d2d2d),
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Color(0xFF2d2d2d),
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+          backgroundColor: const Color(0xffF6F8F9),
+          body: EasyRefresh(
+              controller: EasyRefreshController(),
+              scrollController: ScrollController(),
+              header: BallPulseHeader(color: const Color(0xff8E96FF)),
+              footer:
+              BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
+              onLoad: null,
+              onRefresh: () => controller.loadRefresh(widget.sourceType),
+              child: GetBuilder<SongsController>(builder: (logic) {
+                int length = controller.state.songs.length;
+                return ScrollConfiguration(
+                    behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                    child: ListView.separated(
+                      // padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                      itemBuilder: (ctx, index) {
+                        return _itemWidget(index);
+                      },
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: length,
+                      controller: controller.state.scrollController,
+                      separatorBuilder: (ctx, index) {
+                        return SizedBox(
+                          height: 1.dp,
+                        );
+                      },
+                    ));
+              })));
+    }
     return Container(
       color: const Color(0xffF6F8F9),
       child: Stack(

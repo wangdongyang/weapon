@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/home/songs_state.dart';
+import 'package:weapon/home/songs_view.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/model/song_rank_model.dart';
@@ -23,6 +24,22 @@ class SongsController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+
+    switch (state.sourceType) {
+      case SongSourceType.playList:
+        loadData();
+        break;
+      case SongSourceType.rankList:
+        state.offset = 0;
+        loadDataFromRank();
+        break;
+    }
   }
 
   void addScrollListener() {
@@ -95,8 +112,19 @@ class SongsController extends GetxController {
 
   chooseRankSong(SongRankModel item, int index) {
     state.selectedIndex = index;
-    Get.find<PlayController>()
-        .initState(state.songs, index);
+    Get.find<PlayController>().initState(state.songs, index);
     update();
+  }
+
+  Future<void> loadRefresh(SongSourceType sourceType) async {
+    switch (sourceType) {
+      case SongSourceType.playList:
+        loadData();
+        break;
+      case SongSourceType.rankList:
+        state.offset = 0;
+        loadDataFromRank();
+        break;
+    }
   }
 }

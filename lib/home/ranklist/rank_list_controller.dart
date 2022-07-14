@@ -19,6 +19,8 @@ class RankListController extends GetxController {
   void onReady() {
     // TODO: implement onReady
     super.onReady();
+
+    // fetchList();
   }
 
   fetchList() async {
@@ -32,5 +34,9 @@ class RankListController extends GetxController {
         dataList.map((e) => RankListItemModel.fromJson(e)).toList();
     state.rankList = rankList;
     update();
+  }
+
+  Future<void> loadRefresh() async{
+    fetchList();
   }
 }

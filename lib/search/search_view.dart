@@ -46,8 +46,8 @@ class SearchView extends StatelessWidget {
                 primary: false,
                 itemCount: controller.state.songs.length,
                 separatorBuilder: (ctx, index) {
-                  return const SizedBox(
-                    height: 5,
+                  return SizedBox(
+                    height: 1.dp,
                   );
                 },
               )),
