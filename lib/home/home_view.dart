@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
-import 'package:weapon/config/route_config.dart';
-import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
 import 'package:weapon/home/home_controller.dart';
 import 'package:weapon/home/playlist/play_list_view.dart';
@@ -17,7 +15,6 @@ import 'package:weapon/home/songs_state.dart';
 import 'package:weapon/home/songs_view.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
-import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/utils/color_util.dart';
 import 'package:weapon/utils/navigator_util.dart';
 
@@ -247,7 +244,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               Image.asset(
                 icon,
-                width: 22.sp,
+                width: 24.sp,
                 fit: BoxFit.contain,
               ),
               SizedBox(
@@ -280,7 +277,7 @@ class _HomeViewState extends State<HomeView> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
-                  width: 5.dp,
+                  width: 2.dp,
                 ),
                 Icon(
                   Icons.arrow_forward_rounded,

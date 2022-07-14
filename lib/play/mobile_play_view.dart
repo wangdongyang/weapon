@@ -40,7 +40,7 @@ class _MobilePlayViewState extends State<MobilePlayView>
         String url = controller.state.currentPo.picUrl;
         String name = controller.state.currentPo.name;
         String artist = controller.state.currentPo.artistStr;
-        double iconSize = 25.dp;
+        double iconSize = 22.dp;
         return Container(
           // height: 81.dp,
           padding: EdgeInsets.symmetric(horizontal: 5.dp),
@@ -74,21 +74,12 @@ class _MobilePlayViewState extends State<MobilePlayView>
                                 imageUrl: url,
                                 imageBuilder: (context, image) {
                                   return Container(
-                                    // width: playViewWidth,
                                     height: 50.dp,
                                     width: 50.dp,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8.dp),
                                       image: DecorationImage(
                                           image: image, fit: BoxFit.cover),
-                                      // boxShadow: [
-                                      //   BoxShadow(
-                                      //       color: const Color(0xffd2d2d2)
-                                      //           .withAlpha(166),
-                                      //       offset: const Offset(4, 4),
-                                      //       blurRadius: 5.0,
-                                      //       spreadRadius: 0)
-                                      // ]
                                     ),
                                   );
                                 },
@@ -138,15 +129,14 @@ class _MobilePlayViewState extends State<MobilePlayView>
                           children: [
                             GestureDetector(
                               onTap: controller.previous,
-                              child: Container(
-                                child: Icon(
-                                  Icons.skip_previous_rounded,
-                                  size: iconSize,
-                                ),
+                              child: Icon(
+                                Icons.skip_previous_rounded,
+                                size: iconSize,
+                                color: const Color(0xff2d2d2d),
                               ),
                             ),
                             SizedBox(
-                              width: 20.dp,
+                              width: 24.dp,
                             ),
                             GestureDetector(
                               onTap: controller.stopAndPlay,
@@ -155,15 +145,17 @@ class _MobilePlayViewState extends State<MobilePlayView>
                                     ? Icon(
                                         Icons.pause_circle_outline_rounded,
                                         size: iconSize,
+                                        color: const Color(0xff2d2d2d),
                                       )
                                     : Icon(
                                         Icons.play_arrow_rounded,
                                         size: iconSize,
+                                        color: const Color(0xff2d2d2d),
                                       ),
                               ),
                             ),
                             SizedBox(
-                              width: 20.dp,
+                              width: 24.dp,
                             ),
                             GestureDetector(
                               onTap: controller.next,
@@ -171,6 +163,7 @@ class _MobilePlayViewState extends State<MobilePlayView>
                                 child: Icon(
                                   Icons.skip_next_rounded,
                                   size: iconSize,
+                                  color: const Color(0xff2d2d2d),
                                 ),
                               ),
                             ),

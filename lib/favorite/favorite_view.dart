@@ -98,14 +98,14 @@ class FavoriteView extends StatelessWidget {
           GetBuilder<FavoriteController>(builder: (logic) {
             return ScrollConfiguration(
                 behavior: ScrollConfiguration.of(context).copyWith(
-                  scrollbars: true,
+                  scrollbars: false,
                   dragDevices: {
                     PointerDeviceKind.touch,
                     PointerDeviceKind.mouse,
                   },
                 ),
                 child: ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                  padding: EdgeInsets.symmetric(vertical: 1.dp, horizontal: 0),
                   itemBuilder: (ctx, index) {
                     HistoryPo item = controller.state.histories[index];
                     return AudioItemWidget(
@@ -141,8 +141,8 @@ class FavoriteView extends StatelessWidget {
                   primary: false,
                   itemCount: controller.state.histories.length,
                   separatorBuilder: (ctx, index) {
-                    return const SizedBox(
-                      height: 5,
+                    return SizedBox(
+                      height: 1.dp,
                     );
                   },
                 ));

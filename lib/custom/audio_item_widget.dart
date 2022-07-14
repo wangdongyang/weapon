@@ -133,24 +133,26 @@ class AudioItemWidget extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Icon(
-                Icons.access_time_rounded,
-                size: 16.dp,
-                color: const Color(0xffc9c9c9),
-              ),
-              SizedBox(
-                width: 5.dp,
-              ),
-              Text(time,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 14.sp,
-                      color: const Color(0xFF999999)))
-            ],
+          Container(
+            width: 60.dp,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.access_time_rounded,
+                  size: 16.dp,
+                  color: const Color(0xFFAAAAAA),
+                ),
+                SizedBox(
+                  width: 5.dp,
+                ),
+                Text(time,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        color: const Color(0xFFAAAAAA)))
+              ],
+            ),
           ),
           // GestureDetector(
           //   onTap: () {
@@ -180,22 +182,9 @@ class AudioItemWidget extends StatelessWidget {
     String time = TimeFormatUtil.secondToTimeString(duration);
     String artistName = singer ?? "";
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 10.dp),
+      padding: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 15.dp),
       height: 76.dp,
-      decoration: isChoose
-          ? BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(14),
-              ),
-              boxShadow: [
-                  BoxShadow(
-                      color: const Color(0xFFF1F1F1).withAlpha(188),
-                      offset: const Offset(0, 6),
-                      blurRadius: 5.0,
-                      spreadRadius: 0)
-                ])
-          : const BoxDecoration(color: Color(0xffF6F8F9)),
+      decoration: const BoxDecoration(color: Color(0xffF6F8F9)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

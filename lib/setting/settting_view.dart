@@ -71,6 +71,7 @@ class SettingView extends StatelessWidget {
               crossAxisSpacing: 1.dp,
               childAspectRatio: 1.4),
           itemBuilder: (BuildContext context, int index) {
+            return Container();
             if (index == 1) {
               return _darkWidget();
             }
