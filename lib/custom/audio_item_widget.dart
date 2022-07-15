@@ -134,7 +134,7 @@ class AudioItemWidget extends StatelessWidget {
             ),
           ),
           Container(
-            width: 60.dp,
+            width: 64.dp,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
