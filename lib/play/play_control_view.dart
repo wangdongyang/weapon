@@ -204,15 +204,13 @@ class _PlayControlViewState extends State<PlayControlView>
                                   children: [
                                     Text(position,
                                         style: TextStyle(
-                                          color: const Color(0xFF666666),
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xFFffffff),
+                                          fontSize: 12.sp,
                                         )),
                                     Text(duration,
                                         style: TextStyle(
-                                          color: const Color(0xFF666666),
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xFFffffff),
+                                          fontSize: 12.sp,
                                         ))
                                   ]),
                               SizedBox(
@@ -266,7 +264,7 @@ class _PlayControlViewState extends State<PlayControlView>
                                 ],
                               ),
                               SizedBox(
-                                height: 60.dp,
+                                height: 70.dp,
                               ),
                             ],
                           ),
