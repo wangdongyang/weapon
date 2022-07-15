@@ -31,6 +31,9 @@ class PlayState {
 
   String get sourceStr => source.toString().split(".").last;
 
+  AnimationController? animationController;
+  Animation<double>? animation;
+
   PlayState() {
     duration = const Duration();
     position = const Duration();

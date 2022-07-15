@@ -131,8 +131,9 @@ class SearchController extends GetxController {
       "source": source,
       "type": "playlist"
     };
-    print("param = $param");
+    // print("param = $param");
     final response = await dio.get(host, queryParameters: param);
+    // print("response = $response");
     List<dynamic> mapList = jsonDecode(response.toString());
     List<HistoryPo> songs =
         mapList.map((e) => HistoryPo.fromSearchJson(e)).toList();

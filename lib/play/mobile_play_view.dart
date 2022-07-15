@@ -57,13 +57,13 @@ class _MobilePlayViewState extends State<MobilePlayView>
                 SizedBox(
                   height: 5.dp,
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.dp),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.dp),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
                           onTap: () {
                             NavigatorUtil.push(
                                 context, const PlayControlView());
@@ -93,84 +93,88 @@ class _MobilePlayViewState extends State<MobilePlayView>
                                 fadeInDuration: const Duration(seconds: 1),
                               ),
                               SizedBox(
-                                width: 20.dp,
+                                width: 15.dp,
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: const Color(0xFF333333),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                  SizedBox(
-                                    height: 10.dp,
-                                  ),
-                                  Text(artist,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: const Color(0xFF333333),
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.w400,
-                                      )),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(name,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: const Color(0xFF333333),
+                                          fontSize: 15.sp,
+                                        )),
+                                    SizedBox(
+                                      height: 10.dp,
+                                    ),
+                                    Text(artist,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: const Color(0xFF333333),
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w400,
+                                        )),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: controller.previous,
+                      ),
+                      SizedBox(
+                        width: 5.dp,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: controller.previous,
+                            child: Icon(
+                              Icons.skip_previous_rounded,
+                              size: iconSize,
+                              color: const Color(0xff2d2d2d),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20.dp,
+                          ),
+                          GestureDetector(
+                            onTap: controller.stopAndPlay,
+                            child: Container(
+                              child: controller.isPlaying
+                                  ? Icon(
+                                      Icons.pause_circle_outline_rounded,
+                                      size: iconSize,
+                                      color: const Color(0xff2d2d2d),
+                                    )
+                                  : Icon(
+                                      Icons.play_arrow_rounded,
+                                      size: iconSize,
+                                      color: const Color(0xff2d2d2d),
+                                    ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20.dp,
+                          ),
+                          GestureDetector(
+                            onTap: controller.next,
+                            child: Container(
                               child: Icon(
-                                Icons.skip_previous_rounded,
+                                Icons.skip_next_rounded,
                                 size: iconSize,
                                 color: const Color(0xff2d2d2d),
                               ),
                             ),
-                            SizedBox(
-                              width: 24.dp,
-                            ),
-                            GestureDetector(
-                              onTap: controller.stopAndPlay,
-                              child: Container(
-                                child: controller.isPlaying
-                                    ? Icon(
-                                        Icons.pause_circle_outline_rounded,
-                                        size: iconSize,
-                                        color: const Color(0xff2d2d2d),
-                                      )
-                                    : Icon(
-                                        Icons.play_arrow_rounded,
-                                        size: iconSize,
-                                        color: const Color(0xff2d2d2d),
-                                      ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 24.dp,
-                            ),
-                            GestureDetector(
-                              onTap: controller.next,
-                              child: Container(
-                                child: Icon(
-                                  Icons.skip_next_rounded,
-                                  size: iconSize,
-                                  color: const Color(0xff2d2d2d),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 _progressWidget(),

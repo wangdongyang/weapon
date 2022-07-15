@@ -29,7 +29,6 @@ class FavoriteController extends GetxController {
 
     List<HistoryPo> histories = [];
     List<Map<String, dynamic>> result = await LocalDb.instance.historyDao.queryAll();
-    print("result: " + result.toString());
     for (var json in result) {
       var historyPo = HistoryPo.fromHistoryJson(json);
       histories.add(historyPo);

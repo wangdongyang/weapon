@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/db/local_db.dart';
@@ -73,7 +74,6 @@ class PlayController extends GetxController {
     // audioPlayer.setVolume(1);
     state.playerState = audioPlayer.state;
 
-
     audioPlayer.onDurationChanged.listen((duration) {
       state.duration = duration;
       update();
@@ -106,12 +106,13 @@ class PlayController extends GetxController {
     });
   }
 
-  stopAndPlay() async{
+  stopAndPlay() async {
     if (isPlaying) {
       await audioPlayer.pause();
+      state.animationController?.stop();
       return;
     }
-    play();
+    await play();
   }
 
   play() async {
@@ -139,8 +140,14 @@ class PlayController extends GetxController {
       return;
     }
 
-    await audioPlayer.play(url, position: playPosition,);
-    print('play succes');
+    var result = await audioPlayer.play(
+      url,
+      position: playPosition,
+    );
+    if (result == 1) {
+      state.animationController?.forward();
+      print('play succes');
+    }
   }
 
   previous() {
@@ -173,5 +180,11 @@ class PlayController extends GetxController {
     var result =
         await LocalDb.instance.historyDao.queryByPlayId(state.currentPo.playId);
     return result.isNotEmpty;
+  }
+
+  void initAnimation() {
+    // if (state.animationController != null) {
+    //   state.animationController.forward();
+    // }
   }
 }
