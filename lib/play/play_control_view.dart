@@ -13,8 +13,11 @@ import 'package:weapon/custom/background_shower.dart';
 import 'package:weapon/custom/play_view_app_bar.dart';
 import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/play/play_controller.dart';
+import 'package:weapon/utils/lyric_util.dart';
 import 'package:weapon/utils/navigator_util.dart';
 import 'package:weapon/utils/time_format_util.dart';
+
+import 'lyric_view.dart';
 
 class PlayControlView extends StatefulWidget {
   const PlayControlView({
@@ -28,7 +31,7 @@ class PlayControlView extends StatefulWidget {
 }
 
 class _PlayControlViewState extends State<PlayControlView>
-    with TickerProviderStateMixin, SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   PlayController controller = Get.find<PlayController>();
 
   @override
@@ -59,6 +62,7 @@ class _PlayControlViewState extends State<PlayControlView>
   @override
   void dispose() {
     controller.state.animationController?.dispose();
+    controller.state.lyricOffsetYController?.dispose();
     super.dispose();
   }
 
@@ -96,10 +100,11 @@ class _PlayControlViewState extends State<PlayControlView>
         elevation: 0.0,
         leading: Builder(builder: (BuildContext context) {
           return IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Color(0xffffffff),
-              size: 24,
+            icon: Image.asset(
+              "assets/images/play_back.png",
+              width: 23.dp,
+              height: 23.dp,
+              fit: BoxFit.contain,
             ),
             onPressed: () {
               NavigatorUtil.pop(context, returnData: {});
@@ -179,7 +184,7 @@ class _PlayControlViewState extends State<PlayControlView>
                 children: [
                   _headerWidget(),
                   SizedBox(
-                    height: 60.dp,
+                    height: 20.dp,
                   ),
                   Expanded(
                     child: Column(
@@ -187,8 +192,9 @@ class _PlayControlViewState extends State<PlayControlView>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         _albumPictureWidget(),
+                        _lyricContainerWidget(),
                         SizedBox(
-                          height: 50.dp,
+                          height: 30.dp,
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15.dp),
@@ -199,72 +205,87 @@ class _PlayControlViewState extends State<PlayControlView>
                                 height: 6.dp,
                               ),
                               Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(position,
                                         style: TextStyle(
-                                          color: const Color(0xFFffffff),
-                                          fontSize: 12.sp,
+                                          color: const Color(0xffc2c2c2),
+                                          fontSize: 11.sp,
                                         )),
                                     Text(duration,
                                         style: TextStyle(
-                                          color: const Color(0xFFffffff),
-                                          fontSize: 12.sp,
+                                          color: const Color(0xffc2c2c2),
+                                          fontSize: 11.sp,
                                         ))
                                   ]),
                               SizedBox(
                                 height: 20.dp,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: controller.previous,
-                                    child: Image.asset(
-                                      "assets/images/last.png",
-                                      width: 40.dp,
-                                      height: 40.dp,
-                                      fit: BoxFit.contain,
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 10.dp),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // GestureDetector(
+                                    //   onTap: controller.previous,
+                                    //   child: Image.asset(
+                                    //     "assets/images/one_prs.png",
+                                    //     width: 44.dp,
+                                    //     height: 44.dp,
+                                    //     fit: BoxFit.contain,
+                                    //   ),
+                                    // ),
+                                    GestureDetector(
+                                      onTap: controller.previous,
+                                      child: Image.asset(
+                                        "assets/images/last.png",
+                                        width: 40.dp,
+                                        height: 40.dp,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      controller.stopAndPlay();
-                                    },
-                                    child: Image.asset(
-                                      controller.isPlaying
-                                          ? "assets/images/pause.png"
-                                          : "assets/images/play.png",
-                                      width: 55.dp,
-                                      fit: BoxFit.contain,
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.stopAndPlay();
+                                      },
+                                      child: Image.asset(
+                                        controller.isPlaying
+                                            ? "assets/images/pause.png"
+                                            : "assets/images/play.png",
+                                        width: 46.dp,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: controller.next,
-                                    child: Image.asset(
-                                      "assets/images/next.png",
-                                      width: 40.dp,
-                                      height: 40.dp,
-                                      fit: BoxFit.contain,
+                                    GestureDetector(
+                                      onTap: controller.next,
+                                      child: Image.asset(
+                                        "assets/images/next.png",
+                                        width: 40.dp,
+                                        height: 40.dp,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: controller.collect,
-                                    child: Image.asset(
-                                      controller.state.isSaved
-                                          ? "assets/images/loved.png"
-                                          : "assets/images/love.png",
-                                      width: 40.dp,
-                                      height: 40.dp,
-                                      fit: BoxFit.contain,
+                                    GestureDetector(
+                                      onTap: controller.collect,
+                                      child: Image.asset(
+                                        controller.state.isSaved
+                                            ? "assets/images/loved.png"
+                                            : "assets/images/love.png",
+                                        width: 40.dp,
+                                        height: 40.dp,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                               SizedBox(
-                                height: 70.dp,
+                                height: 40.dp,
                               ),
                             ],
                           ),
@@ -370,5 +391,113 @@ class _PlayControlViewState extends State<PlayControlView>
         value: value,
       ),
     );
+  }
+
+  _lyricContainerWidget() {
+    if (controller.state.currentPo.lyrics.isEmpty) {
+      return Container(
+        alignment: Alignment.center,
+        child: Text(
+          '歌词加载中...',
+          style: TextStyle(fontSize: 16.sp, color: Colors.white),
+        ),
+      );
+    }
+    int position = controller.state.position.inMilliseconds;
+    int duration = controller.state.duration.inMilliseconds;
+    var p = position > duration ? duration : position;
+    int curLine = LyricUtil.findLyricIndex(
+        p.toDouble(), controller.state.currentPo.lyrics);
+
+    // print("_lyricContainerWidget curLine = $curLine");
+    bool isDragging = controller.state.lyricWidget?.isDragging ?? true;
+    if (controller.state.lyricWidget != null) {
+      if (!isDragging) {
+        startLineAnim(curLine);
+      }
+      controller.state.lyricWidget?.curLine = curLine;
+    }
+
+    Size size = controller.state.lyricWidget?.canvasSize ?? const Size(0, 0);
+
+    return Container(
+        width: 400,
+        height: 200,
+        child: GestureDetector(
+      onTapDown: isDragging
+          ? (e) {
+              int dragLineTime =
+                  controller.state.lyricWidget?.dragLineTime ?? 0;
+              if (e.localPosition.dx > 0 &&
+                  e.localPosition.dx < 100.dp &&
+                  e.localPosition.dy > size.height / 2 - 100.dp &&
+                  e.localPosition.dy < size.height / 2 + 100.dp) {
+                controller.seek(Duration(milliseconds: dragLineTime));
+              }
+            }
+          : null,
+      onVerticalDragUpdate: (e) {
+        if (!isDragging) {
+          setState(() {
+            controller.state.lyricWidget?.isDragging = true;
+          });
+        }
+        controller.state.lyricWidget?.offsetY += e.delta.dy;
+      },
+      onVerticalDragEnd: (e) {
+        cancelDragTimer();
+      },
+      child: CustomPaint(
+        // size: Size(50, 0),
+        painter: controller.state.lyricWidget,
+      ),
+    ));
+  }
+
+  void cancelDragTimer() {
+    if (controller.state.dragEndTimer != null) {
+      if (controller.state.dragEndTimer!.isActive) {
+        controller.state.dragEndTimer!.cancel();
+        // controller.state.dragEndTimer.;
+      }
+    }
+    // dragEndTimer = Timer(dragEndDuration, dragEndFunc);
+  }
+
+  /// 开始下一行动画
+  void startLineAnim(int curLine) {
+    // 判断当前行和 customPaint 里的当前行是否一致，不一致才做动画
+    if (controller.state.lyricWidget == null) return;
+    LyricView lyricView = controller.state.lyricWidget!;
+    if (lyricView.curLine != curLine) {
+      var lyricOffsetYController = controller.state.lyricOffsetYController;
+      // 如果动画控制器不是空，那么则证明上次的动画未完成，
+      // 未完成的情况下直接 stop 当前动画，做下一次的动画
+      if (lyricOffsetYController != null) {
+        lyricOffsetYController.stop();
+      }
+
+      // 初始化动画控制器，切换歌词时间为300ms，并且添加状态监听，
+      // 如果为 completed，则消除掉当前controller，并且置为空。
+      lyricOffsetYController = AnimationController(
+          vsync: this, duration: const Duration(milliseconds: 300))
+        ..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            lyricOffsetYController?.dispose();
+          }
+        });
+      // 计算出来当前行的偏移量
+      var end = lyricView.computeScrollY(curLine) * -1;
+      // 起始为当前偏移量，结束点为计算出来的偏移量
+
+      Animation animation = Tween<double>(begin: lyricView.offsetY, end: end)
+          .animate(lyricOffsetYController);
+      // 添加监听，在动画做效果的时候给 offsetY 赋值
+      lyricOffsetYController.addListener(() {
+        lyricView.offsetY = animation.value;
+      });
+      // 启动动画
+      lyricOffsetYController.forward();
+    }
   }
 }

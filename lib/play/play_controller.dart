@@ -7,6 +7,7 @@ import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/db/local_db.dart';
+import 'package:weapon/favorite/favorite_controller.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_detail.dart';
 import 'package:weapon/model/song_list_item.dart';
@@ -172,7 +173,15 @@ class PlayController extends GetxController {
       LocalDb.instance.historyDao.insert(state.currentPo);
     }
     state.isSaved = await isSaved();
+
+    FavoriteController favoriteController = Get.find<FavoriteController>();
+    if (!favoriteController.isClosed) favoriteController.fetchData();
+
     update();
+  }
+
+  seek(Duration duration){
+
   }
 
   Future<bool> isSaved() async {

@@ -45,51 +45,55 @@ class FavoriteView extends StatelessWidget {
                   BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
               onLoad: null,
               onRefresh: () => controller.loadRefresh(),
-              child: ScrollConfiguration(
-                behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                child: ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 1.dp, horizontal: 0),
-                  itemBuilder: (ctx, index) {
-                    HistoryPo item = controller.state.histories[index];
-                    return AudioItemWidget(
-                      name: item.name,
-                      picUrl: item.picUrl,
-                      duration: item.duration,
-                      singer: item.artistStr,
-                      isChoose: controller.state.selectedIndex == index,
-                      clickCallBack: () => controller.chooseSong(item, index),
-                      moreCallBack: () {
-                        // showModalBottomSheet(
-                        //     context: ctx,
-                        //     backgroundColor: Colors.white,
-                        //     enableDrag: false,
-                        //     builder: (BuildContext context) {
-                        //       return Container(height: 200,width: 300, color: Colors.white,);
-                        //     });
-                        showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return Container(
-                                height: 50,
-                                width: 50,
-                                color: Colors.white,
-                              );
-                            });
-                      },
-                    );
-                  },
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: controller.state.histories.length,
-                  separatorBuilder: (ctx, index) {
-                    return SizedBox(
-                      height: 1.dp,
-                    );
-                  },
-                ),
-              )));
+              child: GetBuilder<FavoriteController>(builder: (logic) {
+                return ScrollConfiguration(
+                  behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                  child: ListView.separated(
+                    padding: EdgeInsets.symmetric(vertical: 1.dp, horizontal: 0),
+                    itemBuilder: (ctx, index) {
+                      HistoryPo item = controller.state.histories[index];
+                      return AudioItemWidget(
+                        name: item.name,
+                        picUrl: item.picUrl,
+                        duration: item.duration,
+                        singer: item.artistStr,
+                        isChoose: controller.state.selectedIndex == index,
+                        clickCallBack: () => controller.chooseSong(item, index),
+                        moreCallBack: () {
+                          // showModalBottomSheet(
+                          //     context: ctx,
+                          //     backgroundColor: Colors.white,
+                          //     enableDrag: false,
+                          //     builder: (BuildContext context) {
+                          //       return Container(height: 200,width: 300, color: Colors.white,);
+                          //     });
+                          showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: 50,
+                                  width: 50,
+                                  color: Colors.white,
+                                );
+                              });
+                        },
+                      );
+                    },
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: controller.state.histories.length,
+                    separatorBuilder: (ctx, index) {
+                      return SizedBox(
+                        height: 1.dp,
+                      );
+                    },
+                  ),
+                );
+              })
+
+          ));
     }
     return Container(
       color: const Color(0xffF6F8F9),
