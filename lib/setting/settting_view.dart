@@ -4,105 +4,117 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
+import 'package:weapon/config/theme_config.dart';
 
 class SettingView extends StatelessWidget {
   SettingView({Key? key}) : super(key: key);
   ScrollController scrollController = ScrollController();
 
-  //创建Dark ThemeData对象
-  final ThemeData appDarkThemeData = ThemeData(
-      brightness: Brightness.dark,
-      primaryColor: Colors.red,
-      // 主要部分背景颜色（导航和tabBar等）
-      scaffoldBackgroundColor: Colors.red,
-      //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
-      textTheme: const TextTheme(
-          headline1: TextStyle(color: Colors.yellow, fontSize: 15)),
-      appBarTheme:
-      const AppBarTheme(iconTheme: IconThemeData(color: Colors.yellow)));
-
-//创建light ThemeData对象
-  final ThemeData appLightThemeData = ThemeData(
-      brightness: Brightness.light,
-      primaryColor: Colors.white,
-      // 主要部分背景颜色（导航和tabBar等）
-      scaffoldBackgroundColor: Colors.white,
-      //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
-      textTheme: const TextTheme(
-          headline1: TextStyle(color: Colors.blue, fontSize: 15)),
-      appBarTheme:
-      const AppBarTheme(iconTheme: IconThemeData(color: Colors.black)));
-
   @override
   Widget build(BuildContext context) {
     if (Platform.isAndroid || Platform.isIOS) {
       return BaseScaffold(
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(88.0.dp),
-              child: Container(
-                color: Colors.white,
-                height: 84.dp,
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(left: 15.dp, right: 15.dp, top: 32.dp),
-                child: Text(
-                  "设置",
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    color: const Color(0xFF2d2d2d),
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )),
-          backgroundColor: const Color(0xffF6F8F9),
-          body: Container());
+          appBar: AppBar(
+            centerTitle: ThemeConfig.theme.appBarTheme.centerTitle,
+            title: Text(
+              "设置",
+              style: ThemeConfig.theme.appBarTheme.titleTextStyle,
+              overflow: TextOverflow.ellipsis,
+            ),
+            backgroundColor: ThemeConfig.theme.appBarTheme.backgroundColor,
+            systemOverlayStyle:
+                ThemeConfig.theme.appBarTheme.systemOverlayStyle,
+            elevation: ThemeConfig.theme.appBarTheme.elevation,
+          ),
+          // backgroundColor: const Color(0xffF6F8F9),
+          backgroundColor: ThemeConfig.theme.scaffoldBackgroundColor,
+          body: ListView.separated(
+            // padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+            itemBuilder: (ctx, index) {
+              return _itemWidget();
+            },
+            // shrinkWrap: false,
+            // primary: false,
+            itemCount: 1,
+            // controller: controller.state.scrollController,
+            separatorBuilder: (ctx, index) {
+              return SizedBox(
+                height: 1.dp,
+              );
+            },
+          ));
     }
     return Container(
-      color: const Color(0xffF6F8F9),
+      color: ThemeConfig.theme.primaryColor,
       child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        child: GridView.builder(
-          // padding: EdgeInsets.all(20.dp),
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          controller: scrollController,
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300,
-              mainAxisSpacing: 1.dp,
-              crossAxisSpacing: 1.dp,
-              childAspectRatio: 1.4),
-          itemBuilder: (BuildContext context, int index) {
-            return Container();
-            if (index == 1) {
-              return _darkWidget();
-            }
-            if (index == 2) {
-              return _fontItemWidget();
-            }
-            if (index == 3) {
-              return _font2ItemWidget();
-            }
-            return _itemWidget();
-          },
-          itemCount: 4,
-        ),
-      ),
+          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+          child: ListView.separated(
+            // padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+            itemBuilder: (ctx, index) {
+              return _itemWidget();
+            },
+            shrinkWrap: true,
+            primary: false,
+            itemCount: 1,
+            // controller: controller.state.scrollController,
+            separatorBuilder: (ctx, index) {
+              return SizedBox(
+                height: 1.dp,
+              );
+            },
+          )),
     );
   }
 
   Widget _itemWidget() {
-    return Container(
-      color: const Color(0xffffffff),
-      height: double.infinity,
-      alignment: Alignment.center,
-      child: Text(
-        "LIGHT",
-        maxLines: 4,
-        textAlign: TextAlign.start,
-        style: TextStyle(
-            fontSize: 25.sp,
-            fontWeight: FontWeight.w300,
-            color: const Color(0xFF9C9C9C),),
-    ),);
+    return GestureDetector(
+      onTap: () {
+        Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
+        Future.delayed(Duration(milliseconds: 250), () {
+          Get.forceAppUpdate();
+        });
+      },
+      child: Container(
+        color: ThemeConfig.theme.cardColor,
+        height: 68.dp,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 20.dp),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  "assets/images/theme.png",
+                  width: 22.dp,
+                  height: 22.dp,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(
+                  width: 10.dp,
+                ),
+                Text(
+                  "换主题",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: ThemeConfig.theme.textTheme.headline1?.color,
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              ThemeConfig.isDark ? "浅色" : "深色",
+              maxLines: 4,
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: ThemeConfig.theme.textTheme.subtitle1?.color,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _darkWidget() {
@@ -116,7 +128,8 @@ class SettingView extends StatelessWidget {
         textAlign: TextAlign.start,
         style: TextStyle(
             fontSize: 25.sp,
-            color: const Color(0xFF9C9C9C), fontWeight: FontWeight.w300),
+            color: const Color(0xFF9C9C9C),
+            fontWeight: FontWeight.w300),
       ),
     );
   }
@@ -137,7 +150,8 @@ class SettingView extends StatelessWidget {
           letterSpacing: 1.1,
           wordSpacing: 1.2,
           height: 1.4,
-          fontStyle: FontStyle.normal,),
+          fontStyle: FontStyle.normal,
+        ),
         overflow: TextOverflow.ellipsis,
       ),
     );
@@ -157,33 +171,8 @@ class SettingView extends StatelessWidget {
           fontFamily: 'JasonHandwriting2',
           letterSpacing: 1.1,
           wordSpacing: 1.2,
-          height: 1.4,),
-      ),
-    );
-  }
-
-  button() {
-    return TextButton(
-      onPressed: () {
-        //直接设置Theme
-        Get.changeTheme(Get.isDarkMode ? appLightThemeData : appDarkThemeData);
-        //设置ThemeMode
-        Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
-        //这里要设置个延迟,在调用切换主题后并不能立刻生效,会有点延迟,
-        // 如果不设置延迟会导致取的还是上个主题状态
-        Future.delayed(Duration(milliseconds: 250), () {
-          //强制触发 build
-          Get.forceAppUpdate();
-          if (Get.isDarkMode) {
-            print("转换后 darkMode");
-          } else {
-            print("转换后 lightMode");
-          }
-        });
-      },
-      child: Text(
-        "更换主题",
-        style: Get.textTheme.headline1, //这里有个问题,就是主题切换,这里的Text并不会更新
+          height: 1.4,
+        ),
       ),
     );
   }

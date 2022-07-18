@@ -3,9 +3,11 @@ import 'dart:io';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
 import 'package:weapon/home/home_controller.dart';
 import 'package:weapon/home/playlist/play_list_view.dart';
@@ -30,85 +32,102 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      builder: (controller) {
-        return BaseScaffold(
-          appBar: _appWidget(),
-          backgroundColor: const Color(0xffF6F8F9),
-          body: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: ListView(
-                children: [
-                  SizedBox(
-                    height: 30.dp,
-                  ),
-                  sectionHeader("assets/images/stars.png", "热门歌单",
-                      callBack: () {
-                    NavigatorUtil.push(context, const PlayListView());
-                  }),
-                  SizedBox(
-                    height: 15.dp,
-                  ),
-                  /// 歌单
-                  Container(
-                    height: 170.dp,
-                    color: Colors.white,
-                    // padding: EdgeInsets.only(left: 15.dp),
-                    child: ListView.separated(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 18.dp, horizontal: 20.dp),
-                      itemBuilder: (ctx, index) {
-                        return _playListItemWidget(index);
-                      },
-                      shrinkWrap: true,
-                      itemCount: controller.state.playList.length,
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (ctx, index) {
-                        return SizedBox(
-                          width: 20.dp,
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.dp,
-                  ),
-                  sectionHeader("assets/images/rank.png", "排行榜", callBack: () {
-                    NavigatorUtil.push(context, const RankListView());
-                  }),
-                  SizedBox(
-                    height: 15.dp,
-                  ),
-                  ListView.separated(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 0.dp, horizontal: 0),
-                    itemBuilder: (ctx, index) {
-                      HistoryPo item = controller.state.ranks[index];
-                      String url = item.picUrl;
-                      return AudioItemWidget(
-                        name: item.name,
-                        picUrl: url,
-                        duration: item.duration,
-                        singer: item.artistStr,
-                        isChoose: controller.state.selectedIndex == index,
-                        clickCallBack: () => controller.chooseSong(item, index),
-                        moreCallBack: () {},
-                      );
-                    },
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: controller.state.ranks.length,
-                    separatorBuilder: (ctx, index) {
-                      return SizedBox(
-                        height: 1.dp,
-                      );
-                    },
-                  )
-                ],
-              )),
-        );
-      },
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: ThemeConfig.theme.appBarTheme.systemOverlayStyle ??
+          SystemUiOverlayStyle.light,
+      child: OrientationBuilder(
+        builder: (context, orientation) {
+          return GetBuilder<HomeController>(
+            builder: (controller) {
+              return BaseScaffold(
+                appBar: _appWidget(),
+                backgroundColor: ThemeConfig.theme.scaffoldBackgroundColor,
+                body: ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context)
+                        .copyWith(scrollbars: false),
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          height: 30.dp,
+                        ),
+                        sectionHeader("assets/images/stars.png", "热门歌单",
+                            callBack: () {
+                          NavigatorUtil.push(context, const PlayListView());
+                        }),
+                        SizedBox(
+                          height: 15.dp,
+                        ),
+
+                        /// 歌单
+                        Container(
+                          height: 170.dp,
+                          color: ThemeConfig.theme.cardColor,
+                          // padding: EdgeInsets.only(left: 15.dp),
+                          child: ListView.separated(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 18.dp, horizontal: 20.dp),
+                            itemBuilder: (ctx, index) {
+                              return _playListItemWidget(index);
+                            },
+                            shrinkWrap: true,
+                            itemCount: controller.state.playList.length,
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (ctx, index) {
+                              return SizedBox(
+                                width: 20.dp,
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.dp,
+                        ),
+                        sectionHeader("assets/images/rank.png", "排行榜",
+                            callBack: () {
+                          NavigatorUtil.push(context, const RankListView());
+                        }),
+                        SizedBox(
+                          height: 15.dp,
+                        ),
+                        ListView.separated(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.dp, horizontal: 0),
+                          itemBuilder: (ctx, index) {
+                            HistoryPo item = controller.state.ranks[index];
+                            String url = item.picUrl;
+                            return AudioItemWidget(
+                              name: item.name,
+                              picUrl: url,
+                              duration: item.duration,
+                              singer: item.artistStr,
+                              isChoose: controller.state.selectedIndex == index,
+                              clickCallBack: () =>
+                                  controller.chooseSong(item, index),
+                              moreCallBack: () {},
+                            );
+                          },
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.state.ranks.length,
+                          separatorBuilder: (ctx, index) {
+                            if (ThemeConfig.isDark) {
+                              return Divider(
+                                height: 0.1,
+                                color: ThemeConfig.theme.dividerColor,
+                              );
+                            }
+                            return SizedBox(
+                              height: 1.dp,
+                            );
+                          },
+                        )
+                      ],
+                    )),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -189,12 +208,12 @@ class _HomeViewState extends State<HomeView> {
                       image: DecorationImage(image: image, fit: BoxFit.cover),
                       boxShadow: [
                         BoxShadow(
-                            color: const Color(0xffe0e0e0).withAlpha(120),
+                            color: ThemeConfig.theme.shadowColor,
                             offset: const Offset(4, 4),
                             blurRadius: 5.0,
                             spreadRadius: 0),
                         BoxShadow(
-                            color: const Color(0xffe0e0e0).withAlpha(120),
+                            color: ThemeConfig.theme.shadowColor,
                             offset: const Offset(-4, -4),
                             blurRadius: 5.0,
                             spreadRadius: 0)
@@ -220,8 +239,9 @@ class _HomeViewState extends State<HomeView> {
                 playListItem.name ?? "",
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 14.sp,
-                    color: const Color(0xFF4f4f4f),),
+                  fontSize: 14.sp,
+                  color: ThemeConfig.theme.textTheme.headline1?.color,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
               // SizedBox(
@@ -254,8 +274,9 @@ class _HomeViewState extends State<HomeView> {
                 title,
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 15.sp,
-                    color: const Color(0xFF2d2d2d),),
+                  fontSize: 15.sp,
+                  color: ThemeConfig.theme.textTheme.headline1?.color,
+                ),
                 overflow: TextOverflow.ellipsis,
               )
             ],
@@ -272,8 +293,9 @@ class _HomeViewState extends State<HomeView> {
                   "查看更多",
                   maxLines: 1,
                   style: TextStyle(
-                      fontSize: 13.sp,
-                      color: const Color(0xFF979797),),
+                    fontSize: 13.sp,
+                    color: ThemeConfig.theme.textTheme.subtitle1?.color,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
@@ -282,7 +304,7 @@ class _HomeViewState extends State<HomeView> {
                 Icon(
                   Icons.arrow_forward_rounded,
                   size: 15.sp,
-                  color: const Color(0xFF979797),
+                  color: ThemeConfig.theme.textTheme.subtitle1?.color,
                 ),
               ],
             ),

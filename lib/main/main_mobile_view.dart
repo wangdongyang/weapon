@@ -7,6 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/main/main_controller.dart';
 import 'package:weapon/model/btn_info.dart';
 import 'package:weapon/play/mobile_play_view.dart';
@@ -65,9 +66,12 @@ class MainMobileView extends StatelessWidget {
             width: iconWH);
     String title = btnInfo.title ?? "";
     return Expanded(
-      child: FlatButton(
-          highlightColor: Colors.white,
-          splashColor: Colors.white,
+      child: GestureDetector(
+        onTap: () {
+          controller.state.pageController.jumpToPage(index);
+        },
+        child: Container(
+          color: Colors.transparent,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,9 +93,11 @@ class MainMobileView extends StatelessWidget {
                   ),
                 ),
               ]),
-          onPressed: () {
-            controller.state.pageController.jumpToPage(index);
-          }),
+        ),
+        // onPressed: () {
+        //   controller.state.pageController.jumpToPage(index);
+        // }
+      ),
     );
   }
 
@@ -101,21 +107,20 @@ class MainMobileView extends StatelessWidget {
       tabs.add(_buildBottomItem(i));
     }
     return Container(
-      color: Colors.white,
+      color: ThemeConfig.theme.primaryColor,
       child: SafeArea(
           bottom: true,
           //   maintainBottomViewPadding: false,
           child: SizedBox(
             height: 140.5.dp,
             child: Card(
-                color: Colors.white,
                 elevation: 0.0,
                 shape: const RoundedRectangleBorder(),
                 margin: const EdgeInsets.all(0.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Divider(color: Color(0xFFE0E0E0), height: 0.5),
+                      Divider(color: ThemeConfig.theme.dividerColor, height: 0.5),
                       const MobilePlayView(),
                       SizedBox(
                         height: 60.dp,

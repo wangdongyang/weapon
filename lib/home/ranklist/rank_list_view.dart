@@ -7,6 +7,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/ranklist/rank_list_controller.dart';
 import 'package:weapon/home/ranklist/rank_list_state.dart';
@@ -45,24 +46,26 @@ class _RankListViewState extends State<RankListView> {
     if (Platform.isAndroid || Platform.isIOS) {
       return BaseScaffold(
           appBar: AppBar(
-            centerTitle: true,
+            centerTitle: ThemeConfig.theme.appBarTheme.centerTitle,
+            backgroundColor: ThemeConfig.theme.appBarTheme.backgroundColor,
+            systemOverlayStyle:
+            ThemeConfig.theme.appBarTheme.systemOverlayStyle,
+            elevation: ThemeConfig.theme.appBarTheme.elevation,
+            // centerTitle: true,
             title: Text(
               "排行榜",
-              style: TextStyle(
-                fontSize: 15.sp,
-                color: const Color(0xFF2d2d2d),
-              ),
+              style: ThemeConfig.theme.appBarTheme.titleTextStyle,
               overflow: TextOverflow.ellipsis,
             ),
-            backgroundColor: Colors.white,
-            elevation: 0.0,
+            // backgroundColor: ThemeConfig.theme.primaryColor,
+            // elevation: 0.0,
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back_ios_rounded,
-                    color: Color(0xFF2d2d2d),
-                    size: 20,
+                    color: ThemeConfig.theme.appBarTheme.iconTheme?.color,
+                    size: ThemeConfig.theme.appBarTheme.iconTheme?.size,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -71,7 +74,7 @@ class _RankListViewState extends State<RankListView> {
               },
             ),
           ),
-          backgroundColor: const Color(0xffF6F8F9),
+          backgroundColor: ThemeConfig.theme.scaffoldBackgroundColor,
           body: EasyRefresh(
               controller: EasyRefreshController(),
               scrollController: ScrollController(),
@@ -103,7 +106,7 @@ class _RankListViewState extends State<RankListView> {
               })));
     }
     return Container(
-      color: const Color(0xffF6F8F9),
+      color: ThemeConfig.theme.scaffoldBackgroundColor,
       child: Stack(
         children: [
           GetBuilder<RankListController>(builder: (controller) {
@@ -179,11 +182,11 @@ class _RankListViewState extends State<RankListView> {
       },
       child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: ThemeConfig.theme.cardColor,
               borderRadius: BorderRadius.circular(8.dp),
               boxShadow: [
                 BoxShadow(
-                    color: const Color(0xffe2e2e2).withAlpha(120),
+                    color: ThemeConfig.theme.shadowColor,
                     offset: const Offset(6, 6),
                     blurRadius: 7.0,
                     spreadRadius: 0)
@@ -225,10 +228,7 @@ class _RankListViewState extends State<RankListView> {
                 child: Text(
                   item.rankname ?? "",
                   maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: const Color(0xFF404040),
-                  ),
+                  style: ThemeConfig.theme.textTheme.headline1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

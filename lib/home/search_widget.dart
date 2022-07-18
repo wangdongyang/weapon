@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/config/theme_config.dart';
 
 typedef OnChanged = Function(String text);
 typedef StartSearch = Function();
@@ -47,18 +48,18 @@ class SearchWidget extends StatelessWidget {
       onTap: start,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: ThemeConfig.theme.cardColor,
             borderRadius: BorderRadius.all(
               Radius.circular(22.dp),
             ),
             boxShadow: [
               BoxShadow(
-                  color: const Color(0xFFF1F1F1).withAlpha(188),
+                  color: ThemeConfig.theme.shadowColor,
                   offset: const Offset(6, 6),
                   blurRadius: 5.0,
                   spreadRadius: 0),
               BoxShadow(
-                  color: const Color(0xFFF1F1F1).withAlpha(188),
+                  color: ThemeConfig.theme.shadowColor,
                   offset: const Offset(-6, -6),
                   blurRadius: 5.0,
                   spreadRadius: 0)

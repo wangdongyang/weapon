@@ -6,6 +6,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
 import 'package:weapon/custom/back_button.dart';
 import 'package:weapon/home/songs_controller.dart';
@@ -16,7 +17,6 @@ import 'package:weapon/model/rank_list_item_model.dart';
 import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/model/song_rank_model.dart';
 import 'package:weapon/utils/navigator_util.dart';
-
 
 class SongsView extends StatefulWidget {
   PlayListItemModel? playListItem;
@@ -44,7 +44,6 @@ class _SongsViewState extends State<SongsView> {
     controller.state.playListItem = widget.playListItem;
     controller.state.rankListItem = widget.rankListItem;
     controller.state.sourceType = widget.sourceType;
-
   }
 
   @override
@@ -59,24 +58,24 @@ class _SongsViewState extends State<SongsView> {
     if (Platform.isAndroid || Platform.isIOS) {
       return BaseScaffold(
           appBar: AppBar(
-            centerTitle: true,
+            centerTitle: ThemeConfig.theme.appBarTheme.centerTitle,
+            backgroundColor: ThemeConfig.theme.appBarTheme.backgroundColor,
+            systemOverlayStyle:
+                ThemeConfig.theme.appBarTheme.systemOverlayStyle,
+            elevation: ThemeConfig.theme.appBarTheme.elevation,
+            // centerTitle: true,
             title: Text(
-              widget.sourceType == SongSourceType.playList?"歌单歌曲":"榜单歌曲",
-              style: TextStyle(
-                fontSize: 15.sp,
-                color: const Color(0xFF2d2d2d),
-              ),
+              widget.sourceType == SongSourceType.playList ? "歌单歌曲" : "榜单歌曲",
+              style: ThemeConfig.theme.appBarTheme.titleTextStyle,
               overflow: TextOverflow.ellipsis,
             ),
-            backgroundColor: Colors.white,
-            elevation: 0.0,
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back_ios_rounded,
-                    color: Color(0xFF2d2d2d),
-                    size: 20,
+                    color: ThemeConfig.theme.appBarTheme.iconTheme?.color,
+                    size: ThemeConfig.theme.appBarTheme.iconTheme?.size,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -85,20 +84,20 @@ class _SongsViewState extends State<SongsView> {
               },
             ),
           ),
-          backgroundColor: const Color(0xffF6F8F9),
+          backgroundColor: ThemeConfig.theme.scaffoldBackgroundColor,
           body: EasyRefresh(
               controller: EasyRefreshController(),
               scrollController: ScrollController(),
               header: BallPulseHeader(color: const Color(0xff8E96FF)),
               footer:
-              BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
+                  BallPulseFooter(color: Colors.red, enableInfiniteLoad: false),
               onLoad: null,
               onRefresh: () => controller.loadRefresh(widget.sourceType),
               child: GetBuilder<SongsController>(builder: (logic) {
                 int length = controller.state.songs.length;
                 return ScrollConfiguration(
-                    behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                    behavior: ScrollConfiguration.of(context)
+                        .copyWith(scrollbars: false),
                     child: ListView.separated(
                       // padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
                       itemBuilder: (ctx, index) {
@@ -109,6 +108,12 @@ class _SongsViewState extends State<SongsView> {
                       itemCount: length,
                       controller: controller.state.scrollController,
                       separatorBuilder: (ctx, index) {
+                        if (ThemeConfig.isDark) {
+                          return Divider(
+                            height: 0.1,
+                            color: ThemeConfig.theme.dividerColor,
+                          );
+                        }
                         return SizedBox(
                           height: 1.dp,
                         );

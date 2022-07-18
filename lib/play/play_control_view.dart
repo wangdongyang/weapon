@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,14 +7,10 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
-import 'package:weapon/custom/background_shower.dart';
-import 'package:weapon/custom/play_view_app_bar.dart';
-import 'package:weapon/home/search_widget.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/utils/lyric_util.dart';
 import 'package:weapon/utils/navigator_util.dart';
 import 'package:weapon/utils/time_format_util.dart';
-
 import 'lyric_view.dart';
 
 class PlayControlView extends StatefulWidget {

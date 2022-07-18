@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/config/theme_config.dart';
 
 typedef OnChanged = Function(String text);
 typedef StartSearch = Function();
@@ -68,18 +69,18 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: ThemeConfig.theme.cardColor,
           borderRadius: BorderRadius.all(
             Radius.circular(22.dp),
           ),
           boxShadow: [
             BoxShadow(
-                color: const Color(0xFFF1F1F1).withAlpha(168),
+                color: ThemeConfig.theme.shadowColor,
                 offset: const Offset(6, 6),
                 blurRadius: 5.0,
                 spreadRadius: 0),
             BoxShadow(
-                color: const Color(0xFFF1F1F1).withAlpha(168),
+                color: ThemeConfig.theme.shadowColor,
                 offset: const Offset(-6, -6),
                 blurRadius: 5.0,
                 spreadRadius: 0)
@@ -169,7 +170,7 @@ class SearchBar extends StatelessWidget {
                 height: double.infinity,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Color(0xFFE8EFF9),
+                  color: ThemeConfig.theme.primaryColor,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(22.dp),
                     bottomRight: Radius.circular(22.dp),
@@ -177,11 +178,7 @@ class SearchBar extends StatelessWidget {
                 ),
                 child: Text(
                   "搜索",
-                  style: TextStyle(
-                    color: Color(0xFF333333),
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: ThemeConfig.theme.textTheme.headline1,
                 ),
               ),
             )

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/utils/time_format_util.dart';
 
@@ -45,8 +46,8 @@ class AudioItemWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 10.dp),
       height: 80.dp,
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: ThemeConfig.theme.cardColor,
         // borderRadius: const BorderRadius.all(
         //   Radius.circular(14),
         // ),
@@ -113,10 +114,7 @@ class AudioItemWidget extends StatelessWidget {
                 Text(
                   name,
                   maxLines: 1,
-                  style: TextStyle(
-                      fontSize: 15.sp,
-                      color: const Color(0xFF2d2d2d),
-                      fontWeight: FontWeight.w400),
+                  style: ThemeConfig.theme.textTheme.headline1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
@@ -126,14 +124,11 @@ class AudioItemWidget extends StatelessWidget {
                     maxLines: 1,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12.sp,
-                        color: const Color(0xFF666666))),
+                    style: ThemeConfig.theme.textTheme.subtitle1),
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: 64.dp,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
