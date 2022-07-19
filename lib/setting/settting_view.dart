@@ -45,7 +45,7 @@ class SettingView extends StatelessWidget {
           ));
     }
     return Container(
-      color: ThemeConfig.theme.primaryColor,
+      color: ThemeConfig.theme.scaffoldBackgroundColor,
       child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: ListView.separated(

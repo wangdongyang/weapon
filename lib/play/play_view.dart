@@ -128,6 +128,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                       child: Icon(
                         Icons.skip_previous_rounded,
                         size: iconSize,
+
                       ),
                     ),
                   ),

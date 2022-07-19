@@ -27,7 +27,7 @@ class ThemeConfig {
       backgroundColor: const Color(0xffF6F8F9),
       dividerColor: const Color(0xffF6F8F9),
       iconTheme: const IconThemeData(
-        color: Colors.red,
+        color: Color(0xFF2d2d2d),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.blue,

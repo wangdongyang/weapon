@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/config/theme_config.dart';
 
 class BackButtonWidget extends StatelessWidget {
   Function clickCallBack;
@@ -17,11 +18,11 @@ class BackButtonWidget extends StatelessWidget {
         height: 60.dp,
         width: 60.dp,
         decoration: BoxDecoration(
-            color: const Color(0xffFFFFFF),
+            color: ThemeConfig.theme.scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(60.dp),
             boxShadow: [
               BoxShadow(
-                  color: const Color(0xffd2d2d2).withAlpha(120),
+                  color: ThemeConfig.theme.shadowColor,
                   offset: const Offset(4, 4),
                   blurRadius: 5.0,
                   spreadRadius: 0)
