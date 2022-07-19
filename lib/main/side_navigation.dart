@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
 import 'package:weapon/config/api_config.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/model/btn_info.dart';
 import 'package:weapon/model/one_word_model.dart';
 import 'package:weapon/typedef/function.dart';
@@ -43,7 +44,7 @@ class SideNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     // getOneWord();
     return Container(
-      color: Colors.white,
+      color: ThemeConfig.theme.cardColor,
       child: Column(
         children: [
           Expanded(

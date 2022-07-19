@@ -49,7 +49,7 @@ class _PlayListViewState extends State<PlayListView> {
             centerTitle: ThemeConfig.theme.appBarTheme.centerTitle,
             backgroundColor: ThemeConfig.theme.appBarTheme.backgroundColor,
             systemOverlayStyle:
-            ThemeConfig.theme.appBarTheme.systemOverlayStyle,
+                ThemeConfig.theme.appBarTheme.systemOverlayStyle,
             elevation: ThemeConfig.theme.appBarTheme.elevation,
             // centerTitle: true,
             title: Text(
@@ -85,6 +85,31 @@ class _PlayListViewState extends State<PlayListView> {
               onRefresh: () => controller.loadRefresh(),
               child: GetBuilder<PlayListController>(builder: (controller) {
                 return ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context)
+                        .copyWith(scrollbars: false),
+                    child: ListView.separated(
+                      // padding: EdgeInsets.symmetric(vertical: 15.dp, horizontal: 0),
+                      itemBuilder: (ctx, index) {
+                        return _horizontalItemWidget(index);
+                      },
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: controller.state.playList.length,
+                      controller: controller.state.scrollController,
+                      // padding: EdgeInsets.symmetric(horizontal: 15.dp, vertical: 15.dp),
+                      separatorBuilder: (ctx, index) {
+                        if (ThemeConfig.isDark) {
+                          return Divider(
+                            height: 0.1,
+                            color: ThemeConfig.theme.dividerColor,
+                          );
+                        }
+                        return SizedBox(
+                          height: 1.dp,
+                        );
+                      },
+                    ));
+                return ScrollConfiguration(
                   behavior: ScrollConfiguration.of(context)
                       .copyWith(scrollbars: false),
                   child: GridView.builder(
@@ -98,7 +123,7 @@ class _PlayListViewState extends State<PlayListView> {
                         crossAxisSpacing: 15.dp,
                         childAspectRatio: 1.2),
                     itemBuilder: (BuildContext context, int index) {
-                      return itemWidget(index);
+                      return _horizontalItemWidget(index);
                     },
                     itemCount: controller.state.playList.length,
                   ),
@@ -140,6 +165,91 @@ class _PlayListViewState extends State<PlayListView> {
               )),
         ],
       ),
+    );
+  }
+
+  Widget _horizontalItemWidget(int index) {
+    PlayListItemModel item = controller.state.playList[index];
+    return GestureDetector(
+      onTap: () {
+        NavigatorUtil.push(
+            context,
+            SongsView(
+              playListItem: item,
+              sourceType: SongSourceType.playList,
+            ));
+      },
+      child: Container(
+          height: 126.dp,
+          padding: EdgeInsets.symmetric(horizontal: 15.dp, vertical: 10.dp),
+          decoration: BoxDecoration(
+            color: ThemeConfig.theme.cardColor,
+            borderRadius: BorderRadius.circular(8.dp),
+            // boxShadow: [
+            //   BoxShadow(
+            //       color: ThemeConfig.theme.shadowColor,
+            //       offset: const Offset(6, 6),
+            //       blurRadius: 7.0,
+            //       spreadRadius: 0),
+            //   BoxShadow(
+            //       color: ThemeConfig.theme.shadowColor,
+            //       offset: const Offset(-6, -6),
+            //       blurRadius: 7.0,
+            //       spreadRadius: 0),
+            // ]
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              (item.coverImgUrl?.isNotEmpty ?? false)
+                  ? CachedNetworkImage(
+                      imageUrl: item.coverImgUrl!,
+                      imageBuilder: (context, image) {
+                        return Container(
+                          width: 170.dp,
+                          decoration: BoxDecoration(
+                            // borderRadius: BorderRadius.only(
+                            //     topLeft: Radius.circular(8.dp),
+                            //     bottomLeft: Radius.circular(8.dp)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.dp)),
+                            image: DecorationImage(
+                                image: image, fit: BoxFit.cover),
+                          ),
+                        );
+                      },
+                      placeholder: (context, url) => Container(
+                        decoration: BoxDecoration(
+                          color: ColorUtil.randomColor().withAlpha(40),
+                          borderRadius: BorderRadius.circular(8.dp),
+                        ),
+                      ),
+                      //card_place_image.png
+                      errorWidget: (context, url, error) {
+                        print("error = $error");
+                        return const Icon(Icons.error);
+                      },
+                      fadeOutDuration: const Duration(seconds: 1),
+                      fadeInDuration: const Duration(seconds: 2),
+                    )
+                  : Container(),
+              SizedBox(
+                width: 10.dp,
+              ),
+              Expanded(
+                child: Text(
+                  item.name ?? "",
+                  maxLines: 2,
+                  style: ThemeConfig.theme.textTheme.headline1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(
+                height: 15.dp,
+              ),
+            ],
+          )),
     );
   }
 

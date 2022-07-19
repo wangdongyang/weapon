@@ -132,6 +132,12 @@ class FavoriteView extends StatelessWidget {
                   primary: false,
                   itemCount: controller.state.histories.length,
                   separatorBuilder: (ctx, index) {
+                    if (ThemeConfig.isDark) {
+                      return Divider(
+                        height: 0.1,
+                        color: ThemeConfig.theme.dividerColor,
+                      );
+                    }
                     return SizedBox(
                       height: 1.dp,
                     );

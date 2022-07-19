@@ -47,7 +47,7 @@ class SearchBar extends StatelessWidget {
               child: Text(
                 route["name"],
                 style: TextStyle(
-                  color: const Color(0xFF666666),
+                  color: ThemeConfig.theme.textTheme.headline1?.color,
                   fontSize: 13.sp,
                   // fontWeight: FontWeight.w300,
                 ),
@@ -137,7 +137,7 @@ class SearchBar extends StatelessWidget {
                   onChanged: onChanged,
                   keyboardType: TextInputType.text,
                   style: TextStyle(
-                      color: const Color(0xFF333333),
+                      color: ThemeConfig.theme.textTheme.headline1?.color,
                       fontSize: 13.sp,
                       // fontWeight: FontWeight.w300,
                       textBaseline: TextBaseline.alphabetic),

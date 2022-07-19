@@ -42,7 +42,7 @@ class PlayListController extends GetxController {
     final response = await Dio().get(Api.neteasePlayList,
         queryParameters: {"offset": state.offset, "limit": 100});
     Map<String, dynamic> data = jsonDecode(response.toString());
-    // print("data = ${json.encode(data)}");
+    print("data = ${json.encode(data)}");
     List dataList = data["rows"];
     List<PlayListItemModel> playList =
         dataList.map((e) => PlayListItemModel.fromJson(e)).toList();

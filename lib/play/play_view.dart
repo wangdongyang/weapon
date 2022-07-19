@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weapon/auto_ui.dart';
+import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/play/lyric_view.dart';
 import 'package:weapon/play/play_controller.dart';
 import 'package:weapon/utils/audio_player_util.dart';
@@ -42,13 +43,13 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
         double iconSize = 22.dp;
         return Container(
           padding: EdgeInsets.symmetric(vertical: 10.dp, horizontal: 15.dp),
-          decoration: BoxDecoration(color: Colors.white,
+          decoration: BoxDecoration(color: ThemeConfig.theme.cardColor,
               // borderRadius: const BorderRadius.all(
               //   Radius.circular(40),
               // ),
               boxShadow: [
                 BoxShadow(
-                    color: const Color(0xFFF5F5F5).withAlpha(255),
+                    color: ThemeConfig.theme.shadowColor,
                     offset: const Offset(-4, 0.0),
                     blurRadius: 5.0,
                     spreadRadius: 0)

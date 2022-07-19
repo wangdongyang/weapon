@@ -109,16 +109,8 @@ class _PlayControlViewState extends State<PlayControlView>
 
   @override
   Widget build(BuildContext context) {
-    SystemUiOverlayStyle style = const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xffFFFFFF),
-      systemNavigationBarDividerColor: Color(0xffFFFFFF),
-      systemNavigationBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.light,
-    );
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: style,
+      value: SystemUiOverlayStyle.light,
       child: BaseScaffold(
           // backgroundColor: const Color(0xffd41313), //const Color(0xffF6F8F9),
           body: GetBuilder<PlayController>(
@@ -418,34 +410,34 @@ class _PlayControlViewState extends State<PlayControlView>
         width: 400,
         height: 200,
         child: GestureDetector(
-      onTapDown: isDragging
-          ? (e) {
-              int dragLineTime =
-                  controller.state.lyricWidget?.dragLineTime ?? 0;
-              if (e.localPosition.dx > 0 &&
-                  e.localPosition.dx < 100.dp &&
-                  e.localPosition.dy > size.height / 2 - 100.dp &&
-                  e.localPosition.dy < size.height / 2 + 100.dp) {
-                controller.seek(Duration(milliseconds: dragLineTime));
-              }
+          onTapDown: isDragging
+              ? (e) {
+                  int dragLineTime =
+                      controller.state.lyricWidget?.dragLineTime ?? 0;
+                  if (e.localPosition.dx > 0 &&
+                      e.localPosition.dx < 100.dp &&
+                      e.localPosition.dy > size.height / 2 - 100.dp &&
+                      e.localPosition.dy < size.height / 2 + 100.dp) {
+                    controller.seek(Duration(milliseconds: dragLineTime));
+                  }
+                }
+              : null,
+          onVerticalDragUpdate: (e) {
+            if (!isDragging) {
+              setState(() {
+                controller.state.lyricWidget?.isDragging = true;
+              });
             }
-          : null,
-      onVerticalDragUpdate: (e) {
-        if (!isDragging) {
-          setState(() {
-            controller.state.lyricWidget?.isDragging = true;
-          });
-        }
-        controller.state.lyricWidget?.offsetY += e.delta.dy;
-      },
-      onVerticalDragEnd: (e) {
-        cancelDragTimer();
-      },
-      child: CustomPaint(
-        // size: Size(50, 0),
-        painter: controller.state.lyricWidget,
-      ),
-    ));
+            controller.state.lyricWidget?.offsetY += e.delta.dy;
+          },
+          onVerticalDragEnd: (e) {
+            cancelDragTimer();
+          },
+          child: CustomPaint(
+            // size: Size(50, 0),
+            painter: controller.state.lyricWidget,
+          ),
+        ));
   }
 
   void cancelDragTimer() {

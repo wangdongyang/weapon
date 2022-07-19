@@ -179,7 +179,7 @@ class AudioItemWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 0.dp, horizontal: 15.dp),
       height: 76.dp,
-      decoration: const BoxDecoration(color: Color(0xffF6F8F9)),
+      decoration: BoxDecoration(color: ThemeConfig.theme.cardColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -240,10 +240,7 @@ class AudioItemWidget extends StatelessWidget {
                     child: Text(
                       name,
                       maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          color: const Color(0xFF2d2d2d),
-                          fontWeight: FontWeight.w400),
+                      style: ThemeConfig.theme.textTheme.headline1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -255,10 +252,7 @@ class AudioItemWidget extends StatelessWidget {
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.sp,
-                      color: const Color(0xFF666666)))),
+                  style: ThemeConfig.theme.textTheme.subtitle1)),
           Expanded(
             flex: 1,
             child: Row(
