@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:crypto/crypto.dart';
 
 class AuthUtil {
-  static String secretId = "AKIDlL2a1TIpq1gweqw2GpIc64Sx4U2l0bptXN5F";
-  static String secretKey = "es8iQqgExi70arGZi9x7ciYuI0wxh0343jS6R3ml";
+  static String secretId = "";
+  static String secretKey = "";
 
   static String sign(String s, String k) {
     var key = utf8.encode(k);
