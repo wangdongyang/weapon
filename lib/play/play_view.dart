@@ -85,7 +85,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                         image: DecorationImage(image: image, fit: BoxFit.cover),
                         boxShadow: [
                           BoxShadow(
-                              color: const Color(0xffd2d2d2).withAlpha(166),
+                              color: ThemeConfig.theme.shadowColor,
                               offset: const Offset(4, 4),
                               blurRadius: 5.0,
                               spreadRadius: 0)
@@ -107,7 +107,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: const Color(0xFF333333),
+                    color: ThemeConfig.theme.textTheme.headline1?.color,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                   )),
@@ -320,7 +320,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
       ),
       child: Slider(
         // divisions: 5,
-        inactiveColor: Colors.black87,
+        inactiveColor: ThemeConfig.theme.textTheme.subtitle1?.color,
         activeColor: Colors.redAccent,
         onChanged: (v) {
           final curPosition = v * duration;
@@ -371,7 +371,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                   maxLines: 1,
                   style: TextStyle(
                       fontSize: 14.sp,
-                      color: Color(0xFF333333),
+                      color: ThemeConfig.theme.textTheme.headline1?.color,
                       fontWeight: FontWeight.w300),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -383,7 +383,7 @@ class _PlayViewState extends State<PlayView> with TickerProviderStateMixin {
                   maxLines: 1,
                   style: TextStyle(
                       fontSize: 11.sp,
-                      color: Color(0xFF666666),
+                      color: ThemeConfig.theme.textTheme.subtitle1?.color,
                       fontWeight: FontWeight.w300),
                   overflow: TextOverflow.ellipsis,
                 )
