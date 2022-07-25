@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:weapon/home/home_view.dart';
-import 'package:weapon/home/songs_view.dart';
+import 'package:weapon/home/songlist/songs_view.dart';
 import 'package:weapon/main/main_controller.dart';
 import 'package:weapon/main/main_mobile_view.dart';
 import 'package:weapon/main/main_state.dart';

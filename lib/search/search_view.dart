@@ -8,7 +8,7 @@ import 'package:weapon/auto_ui.dart';
 import 'package:weapon/base/base_scaffold.dart';
 import 'package:weapon/config/theme_config.dart';
 import 'package:weapon/custom/audio_item_widget.dart';
-import 'package:weapon/home/search_widget.dart';
+import 'package:weapon/custom/search_widget.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/song_list_item.dart';
 import 'package:weapon/search/search_bar.dart';

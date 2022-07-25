@@ -48,7 +48,6 @@ class PlayController extends GetxController {
       final lyricResponse =
           await dio.get(Api.lyric, queryParameters: lyricParam);
       var lyricMap = jsonDecode(lyricResponse.toString());
-      // print("\nlyricParam = $lyricParam;\nlyricMap = $lyricMap");
       historyPo.lyrics = LyricUtil.formatLyric(lyricMap["lyric"]);
     }
 

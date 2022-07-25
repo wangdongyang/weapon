@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weapon/auto_ui.dart';
-import 'package:weapon/home/search_widget.dart';
+import 'package:weapon/custom/search_widget.dart';
 
 class PlayViewAppBar extends StatelessWidget {
   const PlayViewAppBar({Key? key}) : super(key: key);

@@ -7,7 +7,7 @@ import 'package:leancloud_storage/leancloud.dart';
 import 'package:weapon/config/api_config.dart';
 import 'package:weapon/config/route_config.dart';
 import 'package:weapon/home/home_state.dart';
-import 'package:weapon/home/songs_view.dart';
+import 'package:weapon/home/songlist/songs_view.dart';
 import 'package:weapon/main/main_controller.dart';
 import 'package:weapon/model/history_po.dart';
 import 'package:weapon/model/play_list_item_model.dart';
