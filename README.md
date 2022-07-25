@@ -50,4 +50,4 @@ PC端效果
 
 微信公众号：nnxkcloud，关注后有更多有意思的内容哦！
 
-<img src="https://s2.loli.net/2022/07/25/OZh2nqwxVdraLtR.jpg" alt="qrcode_for_gh_a83f08fc43d0_860" style="zoom: 33%;float:left" />
+<img src="https://s2.loli.net/2022/07/25/OZh2nqwxVdraLtR.jpg" alt="qrcode_for_gh_a83f08fc43d0_860" width="180px" />
