@@ -48,3 +48,6 @@ PC端效果
 
 [v1.hitokoto.cn](https://v1.hitokoto.cn/)
 
+微信公众号：nnxkcloud，关注后有更多有意思的内容哦！
+
+<img src="/Users/yunxi/Downloads/qrcode_for_gh_a83f08fc43d0_860.jpg" alt="qrcode_for_gh_a83f08fc43d0_860" style="zoom: 33%;float:left" />

@@ -131,6 +131,10 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+
+
+
+
   /// 搜索
   _appWidget() {
     double top = 15.dp;

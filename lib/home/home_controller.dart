@@ -19,11 +19,9 @@ import 'package:weapon/utils/leancloud_util.dart';
 class HomeController extends GetxController {
   HomeState state = HomeState();
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
 
+  @override
+  void onReady(){
     fetchPlayList();
     fetchTopSongs();
   }
